@@ -21,8 +21,13 @@
             --muted: #9aa4b2;
         }
         body {
-            background-color: #0a0a0a;
-            background-image: radial-gradient(1200px 600px at 50% -10%, rgba(59,130,246,0.12), transparent 60%);
+            background-color: #0a0c10;
+            background-image:
+                linear-gradient(rgba(10, 12, 16, 0.92), rgba(10, 12, 16, 0.92)),
+                url('public/background_page.jpg');
+            background-repeat: repeat;
+            background-size: 110%;
+            background-attachment: fixed;
             color: var(--text);
             color: #d4d4d4;
             font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
@@ -1375,6 +1380,21 @@ kbd {
             grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
             gap: 0.75rem;
         }
+
+
+
+        .pickup-card {
+            background-color: #121929 !important;
+            border-color: #1e2a40 !important;
+        }
+        .pickup-card .text-\[10px\], .pickup-card div[title] {
+            color: #d1d5db !important;
+        }
+        .pickup-select {
+            background-color: #080c14 !important;
+            border-color: #1f2b42 !important;
+            color: #ffffff !important;
+        }
     </style>
 </head>
 <body class="p-4 md:p-8 max-w-7xl mx-auto">
@@ -1403,7 +1423,7 @@ kbd {
     </section>
 
     <section class="bg-slate-900 border border-slate-700 rounded p-4 mb-6">
-        <h2 class="text-sm font-semibold text-slate-400 uppercase tracking-wider mb-3">Pickups Disponibles</h2>
+        <h2 class="text-sm font-semibold uppercase tracking-wider mb-3" style="color:#8a99ad;">Pickups Disponibles</h2>
         <div id="pickupsGrid" class="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-12 gap-2"></div>
     </section>
 
