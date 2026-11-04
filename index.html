@@ -2314,7 +2314,7 @@ onmessage = function(event){
         function renderResults(data) {
             state.lastResultData = data;
             const container = document.getElementById('recipesContainer');
-            const totalCountSpan = document.getElementById('countSynthesized');
+            const totalCountSpan = document.getElementById('countSynthesized'); // may be null (removed)
             const resultsCountSpan = document.getElementById('resultsCount');
             const items = data.items || {};
             const qualities = data.qualities || {};
@@ -2332,8 +2332,8 @@ onmessage = function(event){
                     const name = (ITEM_NAMES[id] || '').toLowerCase();
                     return String(id).includes(query) || name.includes(query);
                 });
-                totalCountSpan.textContent = filtered.length;
-                resultsCountSpan.textContent = filtered.length + ' Sintetizables';
+                if (totalCountSpan) totalCountSpan.textContent = filtered.length;
+                if (resultsCountSpan) resultsCountSpan.textContent = filtered.length + ' Sintetizables';
                 container.innerHTML = '';
                 if (filtered.length === 0) {
                     container.innerHTML = '<div class="text-center py-8 text-slate-500 text-sm">No hay items sintetizables con el inventario actual.</div>';
@@ -2363,8 +2363,8 @@ onmessage = function(event){
                 return String(r.id).includes(query) || name.includes(query);
             });
 
-            totalCountSpan.textContent = filtered.length;
-            resultsCountSpan.textContent = filtered.length + ' Encontrados';
+            if (totalCountSpan) totalCountSpan.textContent = filtered.length;
+            if (resultsCountSpan) resultsCountSpan.textContent = filtered.length + ' Encontrados';
             container.innerHTML = '';
 
             if (recipes.length === 0) {
@@ -2386,7 +2386,7 @@ onmessage = function(event){
                     return '<span class="bg-slate-950 border border-slate-600 px-1.5 py-0.5 rounded text-xs inline-flex items-center justify-center" title="' + (p ? p.name : ingId) + '"><img src="https://bindingofisaacrebirth.wiki.gg/images/Collectible_Bag_of_Crafting_component_' + ingId + '.png" style="width:16px;height:16px;image-rendering:pixelated;" /></span>';
                 }).join(' ');
                 const iconHtml = '<a class="icons collectibles" id="collectibles_' + String(r.id).padStart(3,'0') + '" style="transform:scale(1.5);image-rendering:pixelated;"></a>';
-                row.innerHTML = '<div class="flex items-center space-x-3">' + iconHtml + '<div><div class="font-bold text-sm text-slate-100">' + (ITEM_NAMES[r.id] || ('Objeto ' + r.id)) + '</div><div class="text-xs text-yellow-400">Calidad: ' + stars + '</div></div></div><div class="flex items-center space-x-2">' + ingredientsIcons + '<button class="btn-done ml-2 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold px-2 py-1 rounded transition">Hecho</button></div>';
+                row.innerHTML = '<div class="flex items-center space-x-3">' + iconHtml + '<div><div class="font-bold text-sm text-slate-100">' + (ITEM_NAMES[r.id] || ('Objeto ' + r.id)) + '</div><div class="text-xs text-yellow-400">QUALITY: ' + quality + '</div></div></div><div class="flex items-center space-x-2">' + ingredientsIcons + '<button class="btn-done ml-2 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold px-2 py-1 rounded transition">Hecho</button></div>';
                 const btn = row.querySelector('.btn-done');
                 if (btn) {
                     btn.addEventListener('click', function() {
