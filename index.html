@@ -1,0 +1,2563 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sintetiza la Sacabolsas / Bag of Crafting - TBOI Repentance+</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0f1419;
+            --panel: #1a2028;
+            --panel-2: #222b36;
+            --border: #2f3a47;
+            --accent: #d4af37;
+            --accent-2: #f59e0b;
+            --text: #e8eaed;
+            --muted: #9aa4b2;
+        }
+        body {
+            background-color: var(--bg);
+            background-image: radial-gradient(1200px 600px at 50% -10%, rgba(212,175,55,0.08), transparent 60%);
+            color: var(--text);
+            color: #d4d4d4;
+            font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+        }
+        .pickup-card {
+            background-color: #2d2d2d;
+            border: 1px solid #444;
+            transition: all 0.2s ease;
+        }
+        .pickup-card:hover {
+            border-color: #3b82f6;
+            background-color: #363636;
+        }
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #1e1e1e; }
+        ::-webkit-scrollbar-thumb { background: #444; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #666; }
+        .icons { display: inline-block; width: 32px; height: 32px; vertical-align: middle; }
+        .collectibles { background-image: url(public/Collectibles_sprite.png); }
+        .icons {
+    display: inline-block;
+    width: 32px;
+    height: 32px;
+    vertical-align: middle
+}
+
+.trinket {
+    background-image: url(https://huiji-public.huijistatic.com/isaac/uploads/8/89/Trinket_sprite.png);
+    background-position: -608px -288px
+}
+
+.Achievement {
+    background-image: url(https://huiji-public.huijistatic.com/isaac/uploads/0/04/Achievement_sprite.jpg);
+    width: 64px !important;
+    height: 64px !important;
+    background-position: -1216px -1984px
+}
+
+.collectibles {
+    background-image: url(public/Collectibles_sprite.png)
+}
+
+.cards {
+    background-image: url(https://huiji-public.huijistatic.com/isaac/uploads/b/be/Cards_sprite.png);
+    background-position: -608px -128px
+}
+
+#cards_032, #cards_033, #cards_034, #cards_035, #cards_036, #cards_037, #cards_038, #cards_039 {
+    background-image: url(https://huiji-public.huijistatic.com/isaac/uploads/2/22/Runes_sprite.png);
+    background-size: 288px, 32px;
+    background-position: -256px -0px
+}
+
+.skin-bootstrapmediawiki td.diff-addedline .diffchange {
+    background: #005057;
+    border: none;
+    color: #00eaff;
+    display: inline
+}
+
+.skin-bootstrapmediawiki td.diff-deletedline .diffchange {
+    background: #6f2b10;
+    border: none;
+    color: #ffb496;
+    display: inline
+}
+
+kbd {
+    border: 1px solid #AAAAAA;
+    background-color: #F9F9F9;
+    color: #222222;
+    border-radius: 0.2em;
+    box-shadow: 0.1em 0.1em 0.2em rgba(0, 0, 0, 0.1);
+    padding: 0.1em 0.3em;
+    font-family: inherit
+}
+
+.panel-group {
+    margin-bottom: 0
+}
+
+.box-outer {
+    background: #000000;
+    border: solid 3px #000000;
+    border-radius: 16px;
+    margin-top: 1em;
+    display: inline-block;
+    width: 100%
+}
+
+.box-banner {
+    color: #CCB9B9;
+    text-align: center
+}
+
+.box-inner {
+    background: #726C69;
+    border: solid 3px #000000;
+    border-radius: 16px;
+    padding: 5px
+}
+
+.itemNav {
+    text-align: center;
+    margin: 0 auto;
+    background: rgba(42, 41, 40, 0.79)
+}
+
+.itemNav td {
+    width: 48x;
+    height: 48px;
+    padding: 1px 3px;
+    text-align: center
+}
+
+.nav-pool {
+    margin: auto;
+    width: 100%;
+    text-align: center
+}
+
+.nav-pool th {
+    width: 65px;
+    text-align: right
+}
+
+.nav-trinket {
+    list-style: none;
+    margin-left: 0;
+    text-align: justify
+}
+
+.nav-trinket li {
+    display: inline-block;
+    height: 48px;
+    margin: 0 6px 0 2px
+}
+
+.nav-chara-achi {
+    margin: auto;
+    text-align: center;
+    border-collapse: separate
+}
+
+.nav-chara-achi td {
+    background: #726C69;
+    border: 3px solid #726C69
+}
+
+.nav-character {
+    margin: auto;
+    text-align: center
+}
+
+.nav-character div {
+    width: 144px;
+    margin: 10px auto;
+    display: inline-block;
+    text-align: center;
+    image-rendering: pixelated
+}
+
+.nav-character-t {
+    width: 96px;
+    height: 96px;
+    background-repeat: no-repeat;
+    background-size: 96px 96px;
+    background-position-x: center
+}
+
+.nav-character-t-isaac {
+    background-image: url(https://huiji-public.huijistatic.com/isaac/uploads/2/2f/Character_Menu_Tainted_Isaac_Locked.png)
+}
+
+.nav-character-t-isaac:hover {
+    background-image: url(https://huiji-public.huijistatic.com/isaac/uploads/4/46/Character_Menu_Tainted_Isaac.png)
+}
+
+.nav-character-t-magdalene {
+    background-image: url(https://huiji-public.huijistatic.com/isaac/uploads/7/72/Character_Menu_Tainted_Magdalene_Locked.png)
+}
+
+.nav-character-t-magdalene:hover {
+    background-image: url(https://huiji-public.huijistatic.com/isaac/uploads/b/b3/Character_Menu_Tainted_Magdalene.png)
+}
+
+.nav-character-t-cain {
+    background-image: url(https://huiji-public.huijistatic.com/isaac/uploads/1/18/Character_Menu_Tainted_Cain_Locked.png)
+}
+
+.nav-character-t-cain:hover {
+    background-image: url(https://huiji-public.huijistatic.com/isaac/uploads/a/a4/Character_Menu_Tainted_Cain.png)
+}
+
+.nav-character-t-judas {
+    background-image: url(https://huiji-public.huijistatic.com/isaac/uploads/c/c4/Character_Menu_Tainted_Judas_Locked.png)
+}
+
+.nav-character-t-judas:hover {
+    background-image: url(https://huiji-public.huijistatic.com/isaac/uploads/9/96/Character_Menu_Tainted_Judas.png)
+}
+
+.nav-character-t-bluebaby {
+    background-image: url(https://huiji-public.huijistatic.com/isaac/uploads/5/58/Character_Menu_Tainted_Blue_Baby_Locked.png)
+}
+
+.nav-character-t-bluebaby:hover {
+    background-image: url(https://huiji-public.huijistatic.com/isaac/uploads/d/dd/Character_Menu_Tainted_Blue_Baby.png)
+}
+
+.nav-character-t-eve {
+    background-image: url(https://huiji-public.huijistatic.com/isaac/uploads/d/d2/Character_Menu_Tainted_Eve_Locked.png)
+}
+
+.nav-character-t-eve:hover {
+    background-image: url(https://huiji-public.huijistatic.com/isaac/uploads/e/e8/Character_Menu_Tainted_Eve.png)
+}
+
+.nav-character-t-samson {
+    background-image: url(https://huiji-public.huijistatic.com/isaac/uploads/9/98/Character_Menu_Tainted_Samson_Locked.png)
+}
+
+.nav-character-t-samson:hover {
+    background-image: url(https://huiji-public.huijistatic.com/isaac/uploads/c/cb/Character_Menu_Tainted_Samson.png)
+}
+
+.nav-character-t-azazel {
+    background-image: url(https://huiji-public.huijistatic.com/isaac/uploads/f/fa/Character_Menu_Tainted_Azazel_Locked.png)
+}
+
+.nav-character-t-azazel:hover {
+    background-image: url(https://huiji-public.huijistatic.com/isaac/uploads/7/73/Character_Menu_Tainted_Azazel.png)
+}
+
+.nav-character-t-lazarus {
+    background-image: url(https://huiji-public.huijistatic.com/isaac/uploads/7/7b/Character_Menu_Tainted_Lazarus_Locked.png)
+}
+
+.nav-character-t-lazarus:hover {
+    background-image: url(https://huiji-public.huijistatic.com/isaac/uploads/7/70/Character_Menu_Tainted_Lazarus.png)
+}
+
+.nav-character-t-eden {
+    background-image: url(https://huiji-public.huijistatic.com/isaac/uploads/3/36/Character_Menu_Tainted_Eden_Locked.png)
+}
+
+.nav-character-t-eden:hover {
+    background-image: url(https://huiji-public.huijistatic.com/isaac/uploads/2/27/Character_Menu_Tainted_Eden.png)
+}
+
+.nav-character-t-lost {
+    background-image: url(https://huiji-public.huijistatic.com/isaac/uploads/1/16/Character_Menu_Tainted_Lost_Locked.png)
+}
+
+.nav-character-t-lost:hover {
+    background-image: url(https://huiji-public.huijistatic.com/isaac/uploads/f/f3/Character_Menu_Tainted_Lost.png)
+}
+
+.nav-character-t-lilith {
+    background-image: url(https://huiji-public.huijistatic.com/isaac/uploads/7/76/Character_Menu_Tainted_Lilith_Locked.png)
+}
+
+.nav-character-t-lilith:hover {
+    background-image: url(https://huiji-public.huijistatic.com/isaac/uploads/c/c8/Character_Menu_Tainted_Lilith.png)
+}
+
+.nav-character-t-keeper {
+    background-image: url(https://huiji-public.huijistatic.com/isaac/uploads/8/8e/Character_Menu_Tainted_Keeper_Locked.png)
+}
+
+.nav-character-t-keeper:hover {
+    background-image: url(https://huiji-public.huijistatic.com/isaac/uploads/c/c5/Character_Menu_Tainted_Keeper.png)
+}
+
+.nav-character-t-apollyon {
+    background-image: url(https://huiji-public.huijistatic.com/isaac/uploads/2/2c/Character_Menu_Tainted_Apollyon_Locked.png)
+}
+
+.nav-character-t-apollyon:hover {
+    background-image: url(https://huiji-public.huijistatic.com/isaac/uploads/2/24/Character_Menu_Tainted_Apollyon.png)
+}
+
+.nav-character-t-forgotten {
+    background-image: url(https://huiji-public.huijistatic.com/isaac/uploads/6/6f/Character_Menu_Tainted_Forgotten_Locked.png)
+}
+
+.nav-character-t-forgotten:hover {
+    background-image: url(https://huiji-public.huijistatic.com/isaac/uploads/6/6f/Character_Menu_Tainted_Forgotten.png)
+}
+
+.nav-character-t-bethany {
+    background-image: url(https://huiji-public.huijistatic.com/isaac/uploads/5/54/Character_Menu_Tainted_Bethany_Locked.png)
+}
+
+.nav-character-t-bethany:hover {
+    background-image: url(https://huiji-public.huijistatic.com/isaac/uploads/7/73/Character_Menu_Tainted_Bethany.png)
+}
+
+.nav-character-t-jacob {
+    background-image: url(https://huiji-public.huijistatic.com/isaac/uploads/4/4c/Character_Menu_Tainted_Jacob_Locked.png)
+}
+
+.nav-character-t-jacob:hover {
+    background-image: url(https://huiji-public.huijistatic.com/isaac/uploads/2/28/Character_Menu_Tainted_Jacob.png)
+}
+
+.nav-item-subtype {
+    margin: auto;
+    text-align: center
+}
+
+.nav-item-subtype div {
+    display: inline-block;
+    text-align: center
+}
+
+.nav-astrology {
+    margin: auto;
+    text-align: center;
+    background-image: url(https://huiji-public.huijistatic.com/isaac/uploads/0/07/Astrology_background.svg)
+}
+
+.achievement-box {
+    width: 300px;
+    background: #333;
+    border: 2px solid #000;
+    display: inline-block;
+    margin: 2px 4px;
+    border-top-right-radius: 10px;
+    vertical-align: top
+}
+
+.achievement-image-outer {
+    display: inline-block;
+    position: relative;
+    text-align: center;
+    padding: 0px 0em
+}
+
+.achievement-image-inner {
+    position: absolute;
+    z-index: 1;
+    top: 0px;
+    left: 0px;
+    text-align: center;
+    padding: 0px 0em;
+    width: 100%
+}
+
+.icon-pencil {
+    display: none
+}
+
+.mw-editsection-visualeditor {
+    display: none
+}
+
+#ca-huiji-ve-edit {
+    display: none
+}
+
+#ca-huiji-ve-edit a {
+    display: none
+}
+
+.dif {
+    display: inline-block;
+    vertical-align: middle;
+    margin: 0 5px;
+    border-left: 2px solid #FFFFFF;
+    border-radius: 10px;
+    padding: 0 5px
+}
+
+.dif-cell {
+    display: block;
+    width: 100%;
+    margin: 1px
+}
+
+.flow-post {
+    color: #D2D2D2
+}
+
+.nav-challenge {
+    margin: auto;
+    width: 100%
+}
+
+.nav-challenge th {
+    width: 4%;
+    text-align: right
+}
+
+.nav-challenge td {
+    width: 16%;
+    text-align: center
+}
+
+.bg-planetarium {
+    background-image: url(https://huiji-public.huijistatic.com/isaac/uploads/8/87/Planetarium_Background.png);
+    background-repeat: repeat;
+    background-attachment: fixed
+}
+
+.charge-bar-base {
+    display: inline-block;
+    width: 16px;
+    margin: 8px;
+    height: 32px;
+    vertical-align: middle;
+    position: relative;
+    image-rendering: pixelated;
+    background: url(https://huiji-public.huijistatic.com/isaac/uploads/2/28/Charge_Bar.png);
+    transform: scale(1.5)
+}
+
+.charge-bar {
+    display: block;
+    width: 16px;
+    image-rendering: pixelated;
+    position: absolute;
+    background: url(https://huiji-public.huijistatic.com/isaac/uploads/2/28/Charge_Bar.png)
+}
+
+.charge-bar-white {
+    filter: hue-rotate(234deg) saturate(0%) brightness(174%)
+}
+
+.charge-bar-blue {
+    filter: hue-rotate(90deg) saturate(50%) brightness(87%)
+}
+
+.charge-bar-red {
+    filter: hue-rotate(234deg) saturate(80%) brightness(73%)
+}
+
+.charge-bar-yellow {
+    width: 4px;
+    left: 5px;
+    background-image: linear-gradient(#FF0000, #FF0000), url(https://huiji-public.huijistatic.com/isaac/uploads/2/28/Charge_Bar.png);
+    background-blend-mode: screen
+}
+
+#collectibles_001{background-position:-32px -0px;}
+#collectibles_002{background-position:-64px -0px;}
+#collectibles_003{background-position:-96px -0px;}
+#collectibles_004{background-position:-128px -0px;}
+#collectibles_005{background-position:-160px -0px;}
+#collectibles_006{background-position:-192px -0px;}
+#collectibles_007{background-position:-224px -0px;}
+#collectibles_008{background-position:-256px -0px;}
+#collectibles_009{background-position:-288px -0px;}
+#collectibles_010{background-position:-320px -0px;}
+#collectibles_011{background-position:-352px -0px;}
+#collectibles_012{background-position:-384px -0px;}
+#collectibles_013{background-position:-416px -0px;}
+#collectibles_014{background-position:-448px -0px;}
+#collectibles_015{background-position:-480px -0px;}
+#collectibles_016{background-position:-512px -0px;}
+#collectibles_017{background-position:-544px -0px;}
+#collectibles_018{background-position:-576px -0px;}
+#collectibles_019{background-position:-608px -0px;}
+#collectibles_020{background-position:-0px -32px;}
+#collectibles_021{background-position:-32px -32px;}
+#collectibles_022{background-position:-64px -32px;}
+#collectibles_023{background-position:-96px -32px;}
+#collectibles_024{background-position:-128px -32px;}
+#collectibles_025{background-position:-160px -32px;}
+#collectibles_026{background-position:-192px -32px;}
+#collectibles_027{background-position:-224px -32px;}
+#collectibles_028{background-position:-256px -32px;}
+#collectibles_029{background-position:-288px -32px;}
+#collectibles_030{background-position:-320px -32px;}
+#collectibles_031{background-position:-352px -32px;}
+#collectibles_032{background-position:-384px -32px;}
+#collectibles_033{background-position:-416px -32px;}
+#collectibles_034{background-position:-448px -32px;}
+#collectibles_035{background-position:-480px -32px;}
+#collectibles_036{background-position:-512px -32px;}
+#collectibles_037{background-position:-544px -32px;}
+#collectibles_038{background-position:-576px -32px;}
+#collectibles_039{background-position:-608px -32px;}
+#collectibles_040{background-position:-0px -64px;}
+#collectibles_041{background-position:-32px -64px;}
+#collectibles_042{background-position:-64px -64px;}
+#collectibles_044{background-position:-96px -64px;}
+#collectibles_045{background-position:-128px -64px;}
+#collectibles_046{background-position:-160px -64px;}
+#collectibles_047{background-position:-192px -64px;}
+#collectibles_048{background-position:-224px -64px;}
+#collectibles_049{background-position:-256px -64px;}
+#collectibles_050{background-position:-288px -64px;}
+#collectibles_051{background-position:-320px -64px;}
+#collectibles_052{background-position:-352px -64px;}
+#collectibles_053{background-position:-384px -64px;}
+#collectibles_054{background-position:-416px -64px;}
+#collectibles_055{background-position:-448px -64px;}
+#collectibles_056{background-position:-480px -64px;}
+#collectibles_057{background-position:-512px -64px;}
+#collectibles_058{background-position:-544px -64px;}
+#collectibles_059{background-position:-576px -64px;}
+#collectibles_060{background-position:-608px -64px;}
+#collectibles_062{background-position:-0px -96px;}
+#collectibles_063{background-position:-32px -96px;}
+#collectibles_064{background-position:-64px -96px;}
+#collectibles_065{background-position:-96px -96px;}
+#collectibles_066{background-position:-128px -96px;}
+#collectibles_067{background-position:-160px -96px;}
+#collectibles_068{background-position:-192px -96px;}
+#collectibles_069{background-position:-224px -96px;}
+#collectibles_070{background-position:-256px -96px;}
+#collectibles_071{background-position:-288px -96px;}
+#collectibles_072{background-position:-320px -96px;}
+#collectibles_073{background-position:-352px -96px;}
+#collectibles_074{background-position:-384px -96px;}
+#collectibles_075{background-position:-416px -96px;}
+#collectibles_076{background-position:-448px -96px;}
+#collectibles_077{background-position:-480px -96px;}
+#collectibles_078{background-position:-512px -96px;}
+#collectibles_079{background-position:-544px -96px;}
+#collectibles_080{background-position:-576px -96px;}
+#collectibles_081{background-position:-608px -96px;}
+#collectibles_082{background-position:-0px -128px;}
+#collectibles_083{background-position:-32px -128px;}
+#collectibles_084{background-position:-64px -128px;}
+#collectibles_085{background-position:-96px -128px;}
+#collectibles_086{background-position:-128px -128px;}
+#collectibles_087{background-position:-160px -128px;}
+#collectibles_088{background-position:-192px -128px;}
+#collectibles_089{background-position:-224px -128px;}
+#collectibles_090{background-position:-256px -128px;}
+#collectibles_091{background-position:-288px -128px;}
+#collectibles_092{background-position:-320px -128px;}
+#collectibles_093{background-position:-352px -128px;}
+#collectibles_094{background-position:-384px -128px;}
+#collectibles_095{background-position:-416px -128px;}
+#collectibles_096{background-position:-448px -128px;}
+#collectibles_097{background-position:-480px -128px;}
+#collectibles_098{background-position:-512px -128px;}
+#collectibles_099{background-position:-544px -128px;}
+#collectibles_100{background-position:-576px -128px;}
+#collectibles_101{background-position:-608px -128px;}
+#collectibles_102{background-position:-0px -160px;}
+#collectibles_103{background-position:-32px -160px;}
+#collectibles_104{background-position:-64px -160px;}
+#collectibles_105{background-position:-96px -160px;}
+#collectibles_106{background-position:-128px -160px;}
+#collectibles_107{background-position:-160px -160px;}
+#collectibles_108{background-position:-192px -160px;}
+#collectibles_109{background-position:-224px -160px;}
+#collectibles_110{background-position:-256px -160px;}
+#collectibles_111{background-position:-288px -160px;}
+#collectibles_112{background-position:-320px -160px;}
+#collectibles_113{background-position:-352px -160px;}
+#collectibles_114{background-position:-384px -160px;}
+#collectibles_115{background-position:-416px -160px;}
+#collectibles_116{background-position:-448px -160px;}
+#collectibles_117{background-position:-480px -160px;}
+#collectibles_118{background-position:-512px -160px;}
+#collectibles_119{background-position:-544px -160px;}
+#collectibles_120{background-position:-576px -160px;}
+#collectibles_121{background-position:-608px -160px;}
+#collectibles_122{background-position:-0px -192px;}
+#collectibles_123{background-position:-32px -192px;}
+#collectibles_124{background-position:-64px -192px;}
+#collectibles_125{background-position:-96px -192px;}
+#collectibles_126{background-position:-128px -192px;}
+#collectibles_127{background-position:-160px -192px;}
+#collectibles_128{background-position:-192px -192px;}
+#collectibles_129{background-position:-224px -192px;}
+#collectibles_130{background-position:-256px -192px;}
+#collectibles_131{background-position:-288px -192px;}
+#collectibles_132{background-position:-320px -192px;}
+#collectibles_133{background-position:-352px -192px;}
+#collectibles_134{background-position:-384px -192px;}
+#collectibles_135{background-position:-416px -192px;}
+#collectibles_136{background-position:-448px -192px;}
+#collectibles_137{background-position:-480px -192px;}
+#collectibles_138{background-position:-512px -192px;}
+#collectibles_139{background-position:-544px -192px;}
+#collectibles_140{background-position:-576px -192px;}
+#collectibles_141{background-position:-608px -192px;}
+#collectibles_142{background-position:-0px -224px;}
+#collectibles_143{background-position:-32px -224px;}
+#collectibles_144{background-position:-64px -224px;}
+#collectibles_145{background-position:-96px -224px;}
+#collectibles_146{background-position:-128px -224px;}
+#collectibles_147{background-position:-160px -224px;}
+#collectibles_148{background-position:-192px -224px;}
+#collectibles_149{background-position:-224px -224px;}
+#collectibles_150{background-position:-256px -224px;}
+#collectibles_151{background-position:-288px -224px;}
+#collectibles_152{background-position:-320px -224px;}
+#collectibles_153{background-position:-352px -224px;}
+#collectibles_154{background-position:-384px -224px;}
+#collectibles_155{background-position:-416px -224px;}
+#collectibles_156{background-position:-448px -224px;}
+#collectibles_157{background-position:-480px -224px;}
+#collectibles_158{background-position:-512px -224px;}
+#collectibles_159{background-position:-544px -224px;}
+#collectibles_160{background-position:-576px -224px;}
+#collectibles_161{background-position:-608px -224px;}
+#collectibles_162{background-position:-0px -256px;}
+#collectibles_163{background-position:-32px -256px;}
+#collectibles_164{background-position:-64px -256px;}
+#collectibles_165{background-position:-96px -256px;}
+#collectibles_166{background-position:-128px -256px;}
+#collectibles_167{background-position:-160px -256px;}
+#collectibles_168{background-position:-192px -256px;}
+#collectibles_169{background-position:-224px -256px;}
+#collectibles_170{background-position:-256px -256px;}
+#collectibles_171{background-position:-288px -256px;}
+#collectibles_172{background-position:-320px -256px;}
+#collectibles_173{background-position:-352px -256px;}
+#collectibles_174{background-position:-384px -256px;}
+#collectibles_175{background-position:-416px -256px;}
+#collectibles_176{background-position:-448px -256px;}
+#collectibles_177{background-position:-480px -256px;}
+#collectibles_178{background-position:-512px -256px;}
+#collectibles_179{background-position:-544px -256px;}
+#collectibles_180{background-position:-576px -256px;}
+#collectibles_181{background-position:-608px -256px;}
+#collectibles_182{background-position:-0px -288px;}
+#collectibles_183{background-position:-32px -288px;}
+#collectibles_184{background-position:-64px -288px;}
+#collectibles_185{background-position:-96px -288px;}
+#collectibles_186{background-position:-128px -288px;}
+#collectibles_187{background-position:-160px -288px;}
+#collectibles_188{background-position:-192px -288px;}
+#collectibles_189{background-position:-224px -288px;}
+#collectibles_190{background-position:-256px -288px;}
+#collectibles_191{background-position:-288px -288px;}
+#collectibles_192{background-position:-320px -288px;}
+#collectibles_193{background-position:-352px -288px;}
+#collectibles_194{background-position:-384px -288px;}
+#collectibles_195{background-position:-416px -288px;}
+#collectibles_196{background-position:-448px -288px;}
+#collectibles_197{background-position:-480px -288px;}
+#collectibles_198{background-position:-512px -288px;}
+#collectibles_199{background-position:-544px -288px;}
+#collectibles_200{background-position:-576px -288px;}
+#collectibles_201{background-position:-608px -288px;}
+#collectibles_202{background-position:-0px -320px;}
+#collectibles_203{background-position:-32px -320px;}
+#collectibles_204{background-position:-64px -320px;}
+#collectibles_205{background-position:-96px -320px;}
+#collectibles_206{background-position:-128px -320px;}
+#collectibles_207{background-position:-160px -320px;}
+#collectibles_208{background-position:-192px -320px;}
+#collectibles_209{background-position:-224px -320px;}
+#collectibles_210{background-position:-256px -320px;}
+#collectibles_211{background-position:-288px -320px;}
+#collectibles_212{background-position:-320px -320px;}
+#collectibles_213{background-position:-352px -320px;}
+#collectibles_214{background-position:-384px -320px;}
+#collectibles_215{background-position:-416px -320px;}
+#collectibles_216{background-position:-448px -320px;}
+#collectibles_217{background-position:-480px -320px;}
+#collectibles_218{background-position:-512px -320px;}
+#collectibles_219{background-position:-544px -320px;}
+#collectibles_220{background-position:-576px -320px;}
+#collectibles_221{background-position:-608px -320px;}
+#collectibles_222{background-position:-0px -352px;}
+#collectibles_223{background-position:-32px -352px;}
+#collectibles_224{background-position:-64px -352px;}
+#collectibles_225{background-position:-96px -352px;}
+#collectibles_226{background-position:-128px -352px;}
+#collectibles_227{background-position:-160px -352px;}
+#collectibles_228{background-position:-192px -352px;}
+#collectibles_229{background-position:-224px -352px;}
+#collectibles_230{background-position:-256px -352px;}
+#collectibles_231{background-position:-288px -352px;}
+#collectibles_232{background-position:-320px -352px;}
+#collectibles_233{background-position:-352px -352px;}
+#collectibles_234{background-position:-384px -352px;}
+#collectibles_236{background-position:-416px -352px;}
+#collectibles_237{background-position:-448px -352px;}
+#collectibles_238{background-position:-480px -352px;}
+#collectibles_239{background-position:-512px -352px;}
+#collectibles_240{background-position:-544px -352px;}
+#collectibles_241{background-position:-576px -352px;}
+#collectibles_242{background-position:-608px -352px;}
+#collectibles_243{background-position:-0px -384px;}
+#collectibles_244{background-position:-32px -384px;}
+#collectibles_245{background-position:-64px -384px;}
+#collectibles_246{background-position:-96px -384px;}
+#collectibles_247{background-position:-128px -384px;}
+#collectibles_248{background-position:-160px -384px;}
+#collectibles_249{background-position:-192px -384px;}
+#collectibles_250{background-position:-224px -384px;}
+#collectibles_251{background-position:-256px -384px;}
+#collectibles_252{background-position:-288px -384px;}
+#collectibles_253{background-position:-320px -384px;}
+#collectibles_254{background-position:-352px -384px;}
+#collectibles_255{background-position:-384px -384px;}
+#collectibles_256{background-position:-416px -384px;}
+#collectibles_257{background-position:-448px -384px;}
+#collectibles_258{background-position:-480px -384px;}
+#collectibles_259{background-position:-512px -384px;}
+#collectibles_260{background-position:-544px -384px;}
+#collectibles_261{background-position:-576px -384px;}
+#collectibles_262{background-position:-608px -384px;}
+#collectibles_263{background-position:-0px -416px;}
+#collectibles_264{background-position:-32px -416px;}
+#collectibles_265{background-position:-64px -416px;}
+#collectibles_266{background-position:-96px -416px;}
+#collectibles_267{background-position:-128px -416px;}
+#collectibles_268{background-position:-160px -416px;}
+#collectibles_269{background-position:-192px -416px;}
+#collectibles_270{background-position:-224px -416px;}
+#collectibles_271{background-position:-256px -416px;}
+#collectibles_272{background-position:-288px -416px;}
+#collectibles_273{background-position:-320px -416px;}
+#collectibles_274{background-position:-352px -416px;}
+#collectibles_275{background-position:-384px -416px;}
+#collectibles_276{background-position:-416px -416px;}
+#collectibles_277{background-position:-448px -416px;}
+#collectibles_278{background-position:-480px -416px;}
+#collectibles_279{background-position:-512px -416px;}
+#collectibles_280{background-position:-544px -416px;}
+#collectibles_281{background-position:-576px -416px;}
+#collectibles_282{background-position:-608px -416px;}
+#collectibles_283{background-position:-0px -448px;}
+#collectibles_284{background-position:-32px -448px;}
+#collectibles_285{background-position:-64px -448px;}
+#collectibles_286{background-position:-96px -448px;}
+#collectibles_287{background-position:-128px -448px;}
+#collectibles_288{background-position:-160px -448px;}
+#collectibles_289{background-position:-192px -448px;}
+#collectibles_290{background-position:-224px -448px;}
+#collectibles_291{background-position:-256px -448px;}
+#collectibles_292{background-position:-288px -448px;}
+#collectibles_293{background-position:-320px -448px;}
+#collectibles_294{background-position:-352px -448px;}
+#collectibles_295{background-position:-384px -448px;}
+#collectibles_296{background-position:-416px -448px;}
+#collectibles_297{background-position:-448px -448px;}
+#collectibles_298{background-position:-480px -448px;}
+#collectibles_299{background-position:-512px -448px;}
+#collectibles_300{background-position:-544px -448px;}
+#collectibles_301{background-position:-576px -448px;}
+#collectibles_302{background-position:-608px -448px;}
+#collectibles_303{background-position:-0px -480px;}
+#collectibles_304{background-position:-32px -480px;}
+#collectibles_305{background-position:-64px -480px;}
+#collectibles_306{background-position:-96px -480px;}
+#collectibles_307{background-position:-128px -480px;}
+#collectibles_308{background-position:-160px -480px;}
+#collectibles_309{background-position:-192px -480px;}
+#collectibles_310{background-position:-224px -480px;}
+#collectibles_311{background-position:-256px -480px;}
+#collectibles_312{background-position:-288px -480px;}
+#collectibles_313{background-position:-320px -480px;}
+#collectibles_314{background-position:-352px -480px;}
+#collectibles_315{background-position:-384px -480px;}
+#collectibles_316{background-position:-416px -480px;}
+#collectibles_317{background-position:-448px -480px;}
+#collectibles_318{background-position:-480px -480px;}
+#collectibles_319{background-position:-512px -480px;}
+#collectibles_320{background-position:-544px -480px;}
+#collectibles_321{background-position:-576px -480px;}
+#collectibles_322{background-position:-608px -480px;}
+#collectibles_323{background-position:-0px -512px;}
+#collectibles_324{background-position:-32px -512px;}
+#collectibles_325{background-position:-64px -512px;}
+#collectibles_326{background-position:-96px -512px;}
+#collectibles_327{background-position:-128px -512px;}
+#collectibles_328{background-position:-160px -512px;}
+#collectibles_329{background-position:-192px -512px;}
+#collectibles_330{background-position:-224px -512px;}
+#collectibles_331{background-position:-256px -512px;}
+#collectibles_332{background-position:-288px -512px;}
+#collectibles_333{background-position:-320px -512px;}
+#collectibles_334{background-position:-352px -512px;}
+#collectibles_335{background-position:-384px -512px;}
+#collectibles_336{background-position:-416px -512px;}
+#collectibles_337{background-position:-448px -512px;}
+#collectibles_338{background-position:-480px -512px;}
+#collectibles_339{background-position:-512px -512px;}
+#collectibles_340{background-position:-544px -512px;}
+#collectibles_341{background-position:-576px -512px;}
+#collectibles_342{background-position:-608px -512px;}
+#collectibles_343{background-position:-0px -544px;}
+#collectibles_344{background-position:-32px -544px;}
+#collectibles_345{background-position:-64px -544px;}
+#collectibles_346{background-position:-96px -544px;}
+#collectibles_347{background-position:-128px -544px;}
+#collectibles_348{background-position:-160px -544px;}
+#collectibles_349{background-position:-192px -544px;}
+#collectibles_350{background-position:-224px -544px;}
+#collectibles_351{background-position:-256px -544px;}
+#collectibles_352{background-position:-288px -544px;}
+#collectibles_353{background-position:-320px -544px;}
+#collectibles_354{background-position:-352px -544px;}
+#collectibles_355{background-position:-384px -544px;}
+#collectibles_356{background-position:-416px -544px;}
+#collectibles_357{background-position:-448px -544px;}
+#collectibles_358{background-position:-480px -544px;}
+#collectibles_359{background-position:-512px -544px;}
+#collectibles_360{background-position:-544px -544px;}
+#collectibles_361{background-position:-576px -544px;}
+#collectibles_362{background-position:-608px -544px;}
+#collectibles_363{background-position:-0px -576px;}
+#collectibles_364{background-position:-32px -576px;}
+#collectibles_365{background-position:-64px -576px;}
+#collectibles_366{background-position:-96px -576px;}
+#collectibles_367{background-position:-128px -576px;}
+#collectibles_368{background-position:-160px -576px;}
+#collectibles_369{background-position:-192px -576px;}
+#collectibles_370{background-position:-224px -576px;}
+#collectibles_371{background-position:-256px -576px;}
+#collectibles_372{background-position:-288px -576px;}
+#collectibles_373{background-position:-320px -576px;}
+#collectibles_374{background-position:-352px -576px;}
+#collectibles_375{background-position:-384px -576px;}
+#collectibles_376{background-position:-416px -576px;}
+#collectibles_377{background-position:-448px -576px;}
+#collectibles_378{background-position:-480px -576px;}
+#collectibles_379{background-position:-512px -576px;}
+#collectibles_380{background-position:-544px -576px;}
+#collectibles_381{background-position:-576px -576px;}
+#collectibles_382{background-position:-608px -576px;}
+#collectibles_383{background-position:-0px -608px;}
+#collectibles_384{background-position:-32px -608px;}
+#collectibles_385{background-position:-64px -608px;}
+#collectibles_386{background-position:-96px -608px;}
+#collectibles_387{background-position:-128px -608px;}
+#collectibles_388{background-position:-160px -608px;}
+#collectibles_389{background-position:-192px -608px;}
+#collectibles_390{background-position:-224px -608px;}
+#collectibles_391{background-position:-256px -608px;}
+#collectibles_392{background-position:-288px -608px;}
+#collectibles_393{background-position:-320px -608px;}
+#collectibles_394{background-position:-352px -608px;}
+#collectibles_395{background-position:-384px -608px;}
+#collectibles_396{background-position:-416px -608px;}
+#collectibles_397{background-position:-448px -608px;}
+#collectibles_398{background-position:-480px -608px;}
+#collectibles_399{background-position:-512px -608px;}
+#collectibles_400{background-position:-544px -608px;}
+#collectibles_401{background-position:-576px -608px;}
+#collectibles_402{background-position:-608px -608px;}
+#collectibles_403{background-position:-0px -640px;}
+#collectibles_404{background-position:-32px -640px;}
+#collectibles_405{background-position:-64px -640px;}
+#collectibles_406{background-position:-96px -640px;}
+#collectibles_407{background-position:-128px -640px;}
+#collectibles_408{background-position:-160px -640px;}
+#collectibles_409{background-position:-192px -640px;}
+#collectibles_410{background-position:-224px -640px;}
+#collectibles_411{background-position:-256px -640px;}
+#collectibles_412{background-position:-288px -640px;}
+#collectibles_413{background-position:-320px -640px;}
+#collectibles_414{background-position:-352px -640px;}
+#collectibles_415{background-position:-384px -640px;}
+#collectibles_416{background-position:-416px -640px;}
+#collectibles_417{background-position:-448px -640px;}
+#collectibles_418{background-position:-480px -640px;}
+#collectibles_419{background-position:-512px -640px;}
+#collectibles_420{background-position:-544px -640px;}
+#collectibles_421{background-position:-576px -640px;}
+#collectibles_422{background-position:-608px -640px;}
+#collectibles_423{background-position:-0px -672px;}
+#collectibles_424{background-position:-32px -672px;}
+#collectibles_425{background-position:-64px -672px;}
+#collectibles_426{background-position:-96px -672px;}
+#collectibles_427{background-position:-128px -672px;}
+#collectibles_428{background-position:-160px -672px;}
+#collectibles_429{background-position:-192px -672px;}
+#collectibles_430{background-position:-224px -672px;}
+#collectibles_431{background-position:-256px -672px;}
+#collectibles_432{background-position:-288px -672px;}
+#collectibles_433{background-position:-320px -672px;}
+#collectibles_434{background-position:-352px -672px;}
+#collectibles_435{background-position:-384px -672px;}
+#collectibles_436{background-position:-416px -672px;}
+#collectibles_437{background-position:-448px -672px;}
+#collectibles_438{background-position:-480px -672px;}
+#collectibles_439{background-position:-512px -672px;}
+#collectibles_440{background-position:-544px -672px;}
+#collectibles_441{background-position:-576px -672px;}
+#collectibles_442{background-position:-608px -672px;}
+#collectibles_443{background-position:-0px -704px;}
+#collectibles_444{background-position:-32px -704px;}
+#collectibles_445{background-position:-64px -704px;}
+#collectibles_446{background-position:-96px -704px;}
+#collectibles_447{background-position:-128px -704px;}
+#collectibles_448{background-position:-160px -704px;}
+#collectibles_449{background-position:-192px -704px;}
+#collectibles_450{background-position:-224px -704px;}
+#collectibles_451{background-position:-256px -704px;}
+#collectibles_452{background-position:-288px -704px;}
+#collectibles_453{background-position:-320px -704px;}
+#collectibles_454{background-position:-352px -704px;}
+#collectibles_455{background-position:-384px -704px;}
+#collectibles_456{background-position:-416px -704px;}
+#collectibles_457{background-position:-448px -704px;}
+#collectibles_458{background-position:-480px -704px;}
+#collectibles_459{background-position:-512px -704px;}
+#collectibles_460{background-position:-544px -704px;}
+#collectibles_461{background-position:-576px -704px;}
+#collectibles_462{background-position:-608px -704px;}
+#collectibles_463{background-position:-0px -736px;}
+#collectibles_464{background-position:-32px -736px;}
+#collectibles_465{background-position:-64px -736px;}
+#collectibles_466{background-position:-96px -736px;}
+#collectibles_467{background-position:-128px -736px;}
+#collectibles_468{background-position:-160px -736px;}
+#collectibles_469{background-position:-192px -736px;}
+#collectibles_470{background-position:-224px -736px;}
+#collectibles_471{background-position:-256px -736px;}
+#collectibles_472{background-position:-288px -736px;}
+#collectibles_473{background-position:-320px -736px;}
+#collectibles_474{background-position:-352px -736px;}
+#collectibles_475{background-position:-384px -736px;}
+#collectibles_476{background-position:-416px -736px;}
+#collectibles_477{background-position:-448px -736px;}
+#collectibles_478{background-position:-480px -736px;}
+#collectibles_479{background-position:-512px -736px;}
+#collectibles_480{background-position:-544px -736px;}
+#collectibles_481{background-position:-576px -736px;}
+#collectibles_482{background-position:-608px -736px;}
+#collectibles_483{background-position:-0px -768px;}
+#collectibles_484{background-position:-32px -768px;}
+#collectibles_485{background-position:-64px -768px;}
+#collectibles_486{background-position:-96px -768px;}
+#collectibles_487{background-position:-128px -768px;}
+#collectibles_488{background-position:-160px -768px;}
+#collectibles_489{background-position:-192px -768px;}
+#collectibles_490{background-position:-224px -768px;}
+#collectibles_491{background-position:-256px -768px;}
+#collectibles_492{background-position:-288px -768px;}
+#collectibles_493{background-position:-320px -768px;}
+#collectibles_494{background-position:-352px -768px;}
+#collectibles_495{background-position:-384px -768px;}
+#collectibles_496{background-position:-416px -768px;}
+#collectibles_497{background-position:-448px -768px;}
+#collectibles_498{background-position:-480px -768px;}
+#collectibles_499{background-position:-512px -768px;}
+#collectibles_500{background-position:-544px -768px;}
+#collectibles_501{background-position:-576px -768px;}
+#collectibles_502{background-position:-608px -768px;}
+#collectibles_503{background-position:-0px -800px;}
+#collectibles_504{background-position:-32px -800px;}
+#collectibles_505{background-position:-64px -800px;}
+#collectibles_506{background-position:-96px -800px;}
+#collectibles_507{background-position:-128px -800px;}
+#collectibles_508{background-position:-160px -800px;}
+#collectibles_509{background-position:-192px -800px;}
+#collectibles_510{background-position:-224px -800px;}
+#collectibles_511{background-position:-256px -800px;}
+#collectibles_512{background-position:-288px -800px;}
+#collectibles_513{background-position:-320px -800px;}
+#collectibles_514{background-position:-352px -800px;}
+#collectibles_515{background-position:-384px -800px;}
+#collectibles_516{background-position:-416px -800px;}
+#collectibles_517{background-position:-448px -800px;}
+#collectibles_518{background-position:-480px -800px;}
+#collectibles_519{background-position:-512px -800px;}
+#collectibles_520{background-position:-544px -800px;}
+#collectibles_521{background-position:-576px -800px;}
+#collectibles_522{background-position:-608px -800px;}
+#collectibles_523{background-position:-0px -832px;}
+#collectibles_524{background-position:-32px -832px;}
+#collectibles_525{background-position:-64px -832px;}
+#collectibles_526{background-position:-96px -832px;}
+#collectibles_527{background-position:-128px -832px;}
+#collectibles_528{background-position:-160px -832px;}
+#collectibles_529{background-position:-192px -832px;}
+#collectibles_530{background-position:-224px -832px;}
+#collectibles_531{background-position:-256px -832px;}
+#collectibles_532{background-position:-288px -832px;}
+#collectibles_533{background-position:-320px -832px;}
+#collectibles_534{background-position:-352px -832px;}
+#collectibles_535{background-position:-384px -832px;}
+#collectibles_536{background-position:-416px -832px;}
+#collectibles_537{background-position:-448px -832px;}
+#collectibles_538{background-position:-480px -832px;}
+#collectibles_539{background-position:-512px -832px;}
+#collectibles_540{background-position:-544px -832px;}
+#collectibles_541{background-position:-576px -832px;}
+#collectibles_542{background-position:-608px -832px;}
+#collectibles_543{background-position:-0px -864px;}
+#collectibles_544{background-position:-32px -864px;}
+#collectibles_545{background-position:-64px -864px;}
+#collectibles_546{background-position:-96px -864px;}
+#collectibles_547{background-position:-128px -864px;}
+#collectibles_548{background-position:-160px -864px;}
+#collectibles_549{background-position:-192px -864px;}
+#collectibles_550{background-position:-224px -864px;}
+#collectibles_551{background-position:-256px -864px;}
+#collectibles_552{background-position:-288px -864px;}
+#collectibles_553{background-position:-320px -864px;}
+#collectibles_554{background-position:-352px -864px;}
+#collectibles_555{background-position:-384px -864px;}
+#collectibles_556{background-position:-416px -864px;}
+#collectibles_557{background-position:-448px -864px;}
+#collectibles_558{background-position:-480px -864px;}
+#collectibles_559{background-position:-512px -864px;}
+#collectibles_560{background-position:-544px -864px;}
+#collectibles_561{background-position:-576px -864px;}
+#collectibles_562{background-position:-608px -864px;}
+#collectibles_563{background-position:-0px -896px;}
+#collectibles_564{background-position:-32px -896px;}
+#collectibles_565{background-position:-64px -896px;}
+#collectibles_566{background-position:-96px -896px;}
+#collectibles_567{background-position:-128px -896px;}
+#collectibles_568{background-position:-160px -896px;}
+#collectibles_569{background-position:-192px -896px;}
+#collectibles_570{background-position:-224px -896px;}
+#collectibles_571{background-position:-256px -896px;}
+#collectibles_572{background-position:-288px -896px;}
+#collectibles_573{background-position:-320px -896px;}
+#collectibles_574{background-position:-352px -896px;}
+#collectibles_575{background-position:-384px -896px;}
+#collectibles_576{background-position:-416px -896px;}
+#collectibles_577{background-position:-448px -896px;}
+#collectibles_578{background-position:-480px -896px;}
+#collectibles_579{background-position:-512px -896px;}
+#collectibles_580{background-position:-544px -896px;}
+#collectibles_581{background-position:-576px -896px;}
+#collectibles_582{background-position:-608px -896px;}
+#collectibles_583{background-position:-0px -928px;}
+#collectibles_584{background-position:-32px -928px;}
+#collectibles_585{background-position:-64px -928px;}
+#collectibles_586{background-position:-96px -928px;}
+#collectibles_588{background-position:-128px -928px;}
+#collectibles_589{background-position:-160px -928px;}
+#collectibles_590{background-position:-192px -928px;}
+#collectibles_591{background-position:-224px -928px;}
+#collectibles_592{background-position:-256px -928px;}
+#collectibles_593{background-position:-288px -928px;}
+#collectibles_594{background-position:-320px -928px;}
+#collectibles_595{background-position:-352px -928px;}
+#collectibles_596{background-position:-384px -928px;}
+#collectibles_597{background-position:-416px -928px;}
+#collectibles_598{background-position:-448px -928px;}
+#collectibles_599{background-position:-480px -928px;}
+#collectibles_600{background-position:-512px -928px;}
+#collectibles_601{background-position:-544px -928px;}
+#collectibles_602{background-position:-576px -928px;}
+#collectibles_603{background-position:-608px -928px;}
+#collectibles_604{background-position:-0px -960px;}
+#collectibles_605{background-position:-32px -960px;}
+#collectibles_606{background-position:-64px -960px;}
+#collectibles_607{background-position:-96px -960px;}
+#collectibles_608{background-position:-128px -960px;}
+#collectibles_609{background-position:-160px -960px;}
+#collectibles_610{background-position:-192px -960px;}
+#collectibles_611{background-position:-224px -960px;}
+#collectibles_612{background-position:-256px -960px;}
+#collectibles_614{background-position:-288px -960px;}
+#collectibles_615{background-position:-320px -960px;}
+#collectibles_616{background-position:-352px -960px;}
+#collectibles_617{background-position:-384px -960px;}
+#collectibles_618{background-position:-416px -960px;}
+#collectibles_619{background-position:-448px -960px;}
+#collectibles_621{background-position:-480px -960px;}
+#collectibles_622{background-position:-512px -960px;}
+#collectibles_623{background-position:-544px -960px;}
+#collectibles_624{background-position:-576px -960px;}
+#collectibles_625{background-position:-608px -960px;}
+#collectibles_626{background-position:-0px -992px;}
+#collectibles_627{background-position:-32px -992px;}
+#collectibles_628{background-position:-64px -992px;}
+#collectibles_629{background-position:-96px -992px;}
+#collectibles_631{background-position:-128px -992px;}
+#collectibles_632{background-position:-160px -992px;}
+#collectibles_633{background-position:-192px -992px;}
+#collectibles_634{background-position:-224px -992px;}
+#collectibles_635{background-position:-256px -992px;}
+#collectibles_636{background-position:-288px -992px;}
+#collectibles_637{background-position:-320px -992px;}
+#collectibles_638{background-position:-352px -992px;}
+#collectibles_639{background-position:-384px -992px;}
+#collectibles_640{background-position:-416px -992px;}
+#collectibles_641{background-position:-448px -992px;}
+#collectibles_642{background-position:-480px -992px;}
+#collectibles_643{background-position:-512px -992px;}
+#collectibles_644{background-position:-544px -992px;}
+#collectibles_645{background-position:-576px -992px;}
+#collectibles_646{background-position:-608px -992px;}
+#collectibles_647{background-position:-0px -1024px;}
+#collectibles_649{background-position:-32px -1024px;}
+#collectibles_650{background-position:-64px -1024px;}
+#collectibles_651{background-position:-96px -1024px;}
+#collectibles_652{background-position:-128px -1024px;}
+#collectibles_653{background-position:-160px -1024px;}
+#collectibles_654{background-position:-192px -1024px;}
+#collectibles_655{background-position:-224px -1024px;}
+#collectibles_656{background-position:-256px -1024px;}
+#collectibles_657{background-position:-288px -1024px;}
+#collectibles_658{background-position:-320px -1024px;}
+#collectibles_659{background-position:-352px -1024px;}
+#collectibles_660{background-position:-384px -1024px;}
+#collectibles_661{background-position:-416px -1024px;}
+#collectibles_663{background-position:-448px -1024px;}
+#collectibles_664{background-position:-480px -1024px;}
+#collectibles_665{background-position:-512px -1024px;}
+#collectibles_667{background-position:-544px -1024px;}
+#collectibles_668{background-position:-576px -1024px;}
+#collectibles_669{background-position:-608px -1024px;}
+#collectibles_670{background-position:-0px -1056px;}
+#collectibles_671{background-position:-32px -1056px;}
+#collectibles_672{background-position:-64px -1056px;}
+#collectibles_673{background-position:-96px -1056px;}
+#collectibles_674{background-position:-128px -1056px;}
+#collectibles_675{background-position:-160px -1056px;}
+#collectibles_676{background-position:-192px -1056px;}
+#collectibles_677{background-position:-224px -1056px;}
+#collectibles_678{background-position:-256px -1056px;}
+#collectibles_679{background-position:-288px -1056px;}
+#collectibles_680{background-position:-320px -1056px;}
+#collectibles_681{background-position:-352px -1056px;}
+#collectibles_682{background-position:-384px -1056px;}
+#collectibles_683{background-position:-416px -1056px;}
+#collectibles_684{background-position:-448px -1056px;}
+#collectibles_685{background-position:-480px -1056px;}
+#collectibles_686{background-position:-512px -1056px;}
+#collectibles_687{background-position:-544px -1056px;}
+#collectibles_688{background-position:-576px -1056px;}
+#collectibles_689{background-position:-608px -1056px;}
+#collectibles_690{background-position:-0px -1088px;}
+#collectibles_691{background-position:-32px -1088px;}
+#collectibles_692{background-position:-64px -1088px;}
+#collectibles_693{background-position:-96px -1088px;}
+#collectibles_694{background-position:-128px -1088px;}
+#collectibles_695{background-position:-160px -1088px;}
+#collectibles_696{background-position:-192px -1088px;}
+#collectibles_697{background-position:-224px -1088px;}
+#collectibles_698{background-position:-256px -1088px;}
+#collectibles_699{background-position:-288px -1088px;}
+#collectibles_700{background-position:-320px -1088px;}
+#collectibles_701{background-position:-352px -1088px;}
+#collectibles_702{background-position:-384px -1088px;}
+#collectibles_703{background-position:-416px -1088px;}
+#collectibles_704{background-position:-448px -1088px;}
+#collectibles_705{background-position:-480px -1088px;}
+#collectibles_706{background-position:-512px -1088px;}
+#collectibles_707{background-position:-544px -1088px;}
+#collectibles_708{background-position:-576px -1088px;}
+#collectibles_709{background-position:-608px -1088px;}
+#collectibles_710{background-position:-0px -1120px;}
+#collectibles_711{background-position:-32px -1120px;}
+#collectibles_712{background-position:-64px -1120px;}
+#collectibles_713{background-position:-96px -1120px;}
+#collectibles_714{background-position:-128px -1120px;}
+#collectibles_715{background-position:-160px -1120px;}
+#collectibles_716{background-position:-192px -1120px;}
+#collectibles_717{background-position:-224px -1120px;}
+#collectibles_719{background-position:-256px -1120px;}
+#collectibles_720{background-position:-288px -1120px;}
+#collectibles_721{background-position:-320px -1120px;}
+#collectibles_722{background-position:-352px -1120px;}
+#collectibles_723{background-position:-384px -1120px;}
+#collectibles_724{background-position:-416px -1120px;}
+#collectibles_725{background-position:-448px -1120px;}
+#collectibles_726{background-position:-480px -1120px;}
+#collectibles_727{background-position:-512px -1120px;}
+#collectibles_728{background-position:-544px -1120px;}
+#collectibles_729{background-position:-576px -1120px;}
+#collectibles_730{background-position:-608px -1120px;}
+#collectibles_731{background-position:-0px -1152px;}
+#collectibles_732{background-position:-32px -1152px;}
+        .decrafting_recipe {
+  image-rendering: pixelated;
+  transform: scale(2);
+  width: 16px;
+  height: 16px;
+  display: inline-block;
+  margin: 4px;
+  background-image: url("https://huiji-public.huijistatic.com/isaac/uploads/8/89/Crafting_ui_sprite.png");
+}
+.decrafting_recipe_result {
+  transform: scale(1.5) !important;
+  width: 16px;
+  height: 16px;
+  display: inline-block;
+  margin: 1.5px;
+}
+.decrafting_recipe_0 {
+  background-position: -0px -0px;
+}
+.decrafting_recipe_1 {
+  background-position: -16px -0px;
+}
+.decrafting_recipe_2 {
+  background-position: -32px -0px;
+}
+.decrafting_recipe_3 {
+  background-position: -48px -0px;
+}
+.decrafting_recipe_4 {
+  background-position: -64px -0px;
+}
+.decrafting_recipe_5 {
+  background-position: -80px -0px;
+}
+.decrafting_recipe_6 {
+  background-position: -96px -0px;
+}
+.decrafting_recipe_7 {
+  background-position: -112px -0px;
+}
+.decrafting_recipe_8 {
+  background-position: -0px -16px;
+}
+.decrafting_recipe_9 {
+  background-position: -16px -16px;
+}
+.decrafting_recipe_10 {
+  background-position: -32px -16px;
+}
+.decrafting_recipe_11 {
+  background-position: -48px -16px;
+}
+.decrafting_recipe_12 {
+  background-position: -64px -16px;
+}
+.decrafting_recipe_13 {
+  background-position: -80px -16px;
+}
+.decrafting_recipe_14 {
+  background-position: -96px -16px;
+}
+.decrafting_recipe_15 {
+  background-position: -112px -16px;
+}
+.decrafting_recipe_16 {
+  background-position: -0px -32px;
+}
+.decrafting_recipe_17 {
+  background-position: -16px -32px;
+}
+.decrafting_recipe_18 {
+  background-position: -32px -32px;
+}
+.decrafting_recipe_19 {
+  background-position: -48px -32px;
+}
+.decrafting_recipe_20 {
+  background-position: -64px -32px;
+}
+.decrafting_recipe_21 {
+  background-position: -80px -32px;
+}
+.decrafting_recipe_22 {
+  background-position: -96px -32px;
+}
+.decrafting_recipe_23 {
+  background-position: -112px -32px;
+}
+.decrafting_recipe_24 {
+  background-position: -0px -48px;
+}
+.decrafting_recipe_25 {
+  background-position: -16px -48px;
+}
+.decrafting_recipe_26 {
+  background-position: -32px -48px;
+}
+.decrafting_recipe_27 {
+  background-position: -48px -48px;
+}
+.decrafting_recipe_28 {
+  background-position: -64px -48px;
+}
+.decrafting_recipe_29 {
+  background-position: -80px -48px;
+}
+.decrafting_recipe_30 {
+  background-position: -96px -48px;
+}
+
+        button {
+            transition: transform 0.16s ease, box-shadow 0.16s ease, background-color 0.16s ease, opacity 0.16s ease, border-color 0.16s ease;
+        }
+        button:not(:disabled):hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.35);
+        }
+        button:not(:disabled):active {
+            transform: translateY(0) scale(0.97);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+        }
+        button:focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 2px;
+        }
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .pickup-card {
+            transition: transform 0.16s ease, box-shadow 0.16s ease, border-color 0.16s ease, background-color 0.16s ease;
+        }
+        .pickup-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+
+        .info-card {
+            position: absolute;
+            top: 100%;
+            margin-top: 4px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #1e1e24;
+            color: #d1d5db;
+            font-size: 0.85rem;
+            line-height: 1.3;
+            padding: 8px 12px;
+            border-radius: 8px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.45);
+            border: 1px solid #2f3a47;
+            width: max-content;
+            max-width: 260px;
+            text-align: center;
+            display: none;
+            opacity: 0;
+            transition: opacity 0.15s ease;
+            z-index: 50;
+            pointer-events: auto;
+        }
+        .info-card::before {
+            content: "";
+            position: absolute;
+            top: -10px;
+            left: 0;
+            width: 100%;
+            height: 10px;
+        }
+        .relative:hover .info-card,
+        .relative:focus-within .info-card {
+            display: block;
+            opacity: 1;
+        }
+
+        .recipe-row {
+            transition: opacity 0.28s ease, transform 0.28s ease;
+        }
+        .recipe-row.done-out {
+            opacity: 0;
+            transform: translateX(24px) scale(0.96);
+        }
+    </style>
+</head>
+<body class="p-4 md:p-8 max-w-7xl mx-auto">
+
+    <header class="border-b border-slate-700 pb-4 mb-6">
+        <h1 class="text-3xl font-serif text-slate-100 tracking-wide" style="font-family:'Space Grotesk',sans-serif; letter-spacing:0.02em;">
+            Bag of Crafting Calculadora (Repentance+)
+        </h1>
+    </header>
+
+    <section class="mb-6">
+        <div class="bg-amber-900/40 border border-blue-700/60 rounded-t p-2 text-center text-amber-200 font-semibold text-sm">
+            Semilla (Seed)
+        </div>
+        <div class="bg-slate-900 p-3 border-x border-b border-slate-700 rounded-b">
+            <input 
+                type="text" 
+                id="seedInput" 
+                title="Semilla del run. Formato: 4 caracteres, espacio, 4 caracteres (ej. JKD9 Z0C9)."
+                placeholder="EJ: ABCD EFG1" 
+                value="" 
+                class="w-full bg-white text-gray-900 font-mono font-bold text-center py-2 text-lg rounded tracking-widest border border-gray-300 focus:outline-none focus:ring-2 focus:ring-amber-500 uppercase"
+                maxlength="9"
+            />
+        </div>
+    </section>
+
+    <section class="bg-slate-900 border border-slate-700 rounded p-4 mb-6">
+        <h2 class="text-sm font-semibold text-slate-400 uppercase tracking-wider mb-3">Componentes Disponibles</h2>
+        <div id="pickupsGrid" class="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-12 gap-2"></div>
+    </section>
+
+    <section class="bg-slate-900 border border-slate-700 rounded p-4 mb-6 space-y-4">
+        <div class="flex flex-wrap gap-2 items-center text-xs">
+                <div class="relative inline-block">
+  <button id="toggleRealtime" class="bg-amber-600 text-white px-3 py-1.5 rounded hover:bg-amber-500 transition font-medium">Habilitar la actualización en tiempo real</button>
+  <div class="info-card">Calcula automáticamente las recetas al cambiar los componentes o la semilla.</div>
+</div>
+            <div class="relative inline-block">
+  <button id="toggleWasm" class="bg-amber-600 text-white px-3 py-1.5 rounded hover:bg-amber-500 transition font-medium">Activar la aceleración WASM</button>
+  <div class="info-card">Utiliza WebAssembly para acelerar el procesamiento de combinación de recetas.</div>
+</div>
+            <div class="relative inline-block">
+  <button id="toggleDisplayMode" class="bg-amber-600 text-white px-3 py-1.5 rounded hover:bg-amber-500 transition font-medium">Modo: Sintetizados (semilla)</button>
+  <div class="info-card">Alterna entre ítems realmente sintetizados con esta semilla y los teóricamente sintetizables.<br><button type="button" class="info-more-btn text-amber-400 hover:text-amber-300 underline text-xs mt-1" style="background:none;border:none;cursor:pointer;padding:0;">Más información</button></div>
+</div>
+        </div>
+        <!-- Modo de juego -->
+        <div class="space-y-2">
+            <div class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Modo de juego</div>
+            <div class="flex flex-wrap gap-2">
+                <button type="button" data-runtype="Normal" class="runtype-btn px-3 py-1.5 rounded text-sm font-medium bg-amber-600 text-white">Normal</button>
+                <button type="button" data-runtype="Daily" class="runtype-btn px-3 py-1.5 rounded text-sm font-medium bg-slate-800 text-slate-300 hover:bg-slate-700">Daily</button>
+                <button type="button" data-runtype="Greed" class="runtype-btn px-3 py-1.5 rounded text-sm font-medium bg-slate-800 text-slate-300 hover:bg-slate-700">Greed</button>
+                <button type="button" data-runtype="Challenge" class="runtype-btn px-3 py-1.5 rounded text-sm font-medium bg-slate-800 text-slate-300 hover:bg-slate-700">Challenge</button>
+            </div>
+        </div>
+
+        <!-- Personaje -->
+        <div class="space-y-2">
+            <div class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Personaje</div>
+            <div class="flex flex-wrap gap-2">
+                <button type="button" data-character="Other" class="char-btn px-3 py-1.5 rounded text-sm font-medium bg-amber-600 text-white">Other</button>
+                <button type="button" data-character="Keeper" class="char-btn px-3 py-1.5 rounded text-sm font-medium bg-slate-800 text-slate-300 hover:bg-slate-700">Keeper</button>
+                <button type="button" data-character="Lost" class="char-btn px-3 py-1.5 rounded text-sm font-medium bg-slate-800 text-slate-300 hover:bg-slate-700">Lost</button>
+                <button type="button" data-character="T. Lost" class="char-btn px-3 py-1.5 rounded text-sm font-medium bg-slate-800 text-slate-300 hover:bg-slate-700">T. Lost</button>
+            </div>
+        </div>
+
+        <!-- Items and Trinkets -->
+        <div class="space-y-2">
+            <div class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Items and Trinkets</div>
+            <div class="flex flex-col gap-2">
+                <button id="toggleSacredOrb" type="button" class="flex items-center gap-3 bg-slate-800 hover:bg-slate-700 rounded p-3 text-left transition">
+                    <a class="icons collectibles" id="collectibles_691" style="transform:scale(1.5);image-rendering:pixelated;"></a>
+                    <div class="flex-1">
+                        <div class="flex items-center gap-2">
+                            <span class="font-semibold text-sm text-slate-100">Sacred Orb</span>
+                            <span class="text-[10px] bg-amber-900 text-amber-200 px-1.5 py-0.5 rounded">DLC+</span>
+                        </div>
+                        <div class="text-xs text-slate-400">Destined for greatness</div>
+                    </div>
+                    <span class="orb-state text-xs text-slate-500">OFF</span>
+                </button>
+                <button id="toggleNoTrinkets" type="button" class="flex items-center gap-3 bg-slate-800 hover:bg-slate-700 rounded p-3 text-left transition">
+                    <img src="public/NO_trinket.png" alt="NO!" style="width:32px;height:32px;image-rendering:pixelated;transform:scale(1.5);" />
+                    <div class="flex-1">
+                        <div class="flex items-center gap-2">
+                            <span class="font-semibold text-sm text-slate-100">NO!</span>
+                            <span class="text-[10px] bg-amber-900 text-amber-200 px-1.5 py-0.5 rounded">DLC+</span>
+                        </div>
+                        <div class="text-xs text-slate-400">Never again!</div>
+                    </div>
+                    <span class="trinket-state text-xs text-slate-500">OFF</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="text-center mb-3">
+            <span class="inline-block bg-slate-800 px-4 py-1.5 rounded text-slate-300 font-medium">Items encontrados (<span id="countSynthesized">0</span>)</span>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+            <button id="btnSynthesize" class="bg-amber-500 hover:bg-amber-400 text-white font-bold py-3 px-6 rounded text-center transition text-lg shadow-lg">Buscar recetas</button>
+            <button id="btnClear" class="bg-slate-800 hover:bg-gray-600 text-amber-300 font-semibold py-3 px-6 rounded text-center transition">Vacía los componentes</button>
+        </div>
+    </section>
+
+    <section class="bg-slate-900 border border-slate-700 rounded p-4">
+        <h2 class="text-base font-semibold text-slate-200 mb-4 flex items-center justify-between">
+            <span>Recetas encontradas</span>
+            <span id="resultsCount" class="text-xs bg-amber-900 text-amber-200 px-2.5 py-1 rounded-full">0 Encontradas</span>
+        </h2>
+        <div class="mb-3">
+            <input type="text" id="searchInput" placeholder="Buscar por ID o nombre del objeto..." title="Filtra los resultados por ID o nombre del objeto." class="w-full bg-slate-950 text-white text-sm border border-slate-600 rounded px-3 py-1.5 focus:outline-none focus:border-amber-500" />
+        </div>
+        <div id="recipesContainer" class="space-y-3 max-h-[500px] overflow-y-auto pr-2">
+            <div class="text-center py-8 text-slate-500 text-sm">Selecciona componentes y presiona "Buscar recetas" para ver las recetas disponibles.</div>
+        </div>
+
+    <!-- Modal: info recetas por semilla -->
+    <div id="infoModalBackdrop" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:100;align-items:center;justify-content:center;">
+        <div id="infoModal" style="background:#1e1e24;color:#e5e5e5;border-radius:12px;max-width:520px;width:90%;padding:24px;box-shadow:0 20px 60px rgba(0,0,0,0.6);border:1px solid #2f3a47;position:relative;">
+            <button id="infoModalClose" style="position:absolute;top:10px;right:14px;background:none;border:none;color:#9aa4b2;font-size:22px;cursor:pointer;line-height:1;" title="Cerrar">&times;</button>
+            <h2 style="font-family:'Space Grotesk',sans-serif;font-size:1.25rem;margin:0 0 12px 0;color:#d4af37;">¿Cómo funciona el cálculo de recetas por Semilla?</h2>
+            <div style="font-size:0.9rem;line-height:1.5;">
+                <p style="margin:0 0 10px 0;"><strong>Modo Sintetizados (basado en semilla actual):</strong><br>Calcula con precisión exacta los ítems que obtendrás en tu partida actual. Toma en cuenta la semilla (seed) de tu run, los ítems desglosados/desbloqueados en tu partida y las reglas del algoritmo de crafteo de Repentance+.</p>
+                <p style="margin:0 0 10px 0;"><strong>Modo Teóricamente Sintetizables:</strong><br>Muestra todas las recetas genéricas posibles según el valor asignado a los componentes en la bolsa, sin considerar la semilla específica ni las restricciones de desbloqueo de tu partida.</p>
+                <p style="margin:0;"><strong>Recomendación:</strong><br>👉 <strong>Usa el Modo Sintetizados (semilla)</strong> para asegurar los ítems exactos que vas a fabricar en tu partida en tiempo real. Usa el modo teórico únicamente si deseas explorar combinaciones de recetas estándar sin ingresar una semilla.</p>
+            </div>
+        </div>
+    </div>
+
+    </section>
+
+    <script>
+        const PICKUPS = [
+            { id: 'red_heart', name: 'Red Heart', icon: '❤️', engineId: 1, defaultQty: 0 },
+            { id: 'soul_heart', name: 'Soul Heart', icon: '💙', engineId: 2, defaultQty: 0 },
+            { id: 'black_heart', name: 'Black Heart', icon: '🖤', engineId: 3, defaultQty: 0 },
+            { id: 'eternal_heart', name: 'Eternal Heart', icon: '🤍', engineId: 4, defaultQty: 0 },
+            { id: 'gold_heart', name: 'Golden Heart', icon: '💛', engineId: 5, defaultQty: 0 },
+            { id: 'bone_heart', name: 'Bone Heart', icon: '🦴', engineId: 6, defaultQty: 0 },
+            { id: 'rotten_heart', name: 'Rotten Heart', icon: '🟤', engineId: 7, defaultQty: 0 },
+            { id: 'penny', name: 'Penny', icon: '🪙', engineId: 8, defaultQty: 0 },
+            { id: 'nickel', name: 'Nickel', icon: '⚪', engineId: 9, defaultQty: 0 },
+            { id: 'dime', name: 'Dime', icon: '🔘', engineId: 10, defaultQty: 0 },
+            { id: 'lucky_penny', name: 'Lucky Penny', icon: '🟢', engineId: 11, defaultQty: 0 },
+            { id: 'key', name: 'Key', icon: '🔑', engineId: 12, defaultQty: 0 },
+            { id: 'golden_key', name: 'Golden Key', icon: '🔑', engineId: 13, defaultQty: 0 },
+            { id: 'charged_key', name: 'Charged Key', icon: '🔑', engineId: 14, defaultQty: 0 },
+            { id: 'bomb', name: 'Bomb', icon: '💣', engineId: 15, defaultQty: 0 },
+            { id: 'golden_bomb', name: 'Golden Bomb', icon: '💣', engineId: 16, defaultQty: 0 },
+            { id: 'giga_bomb', name: 'Giga Bomb', icon: '💣', engineId: 17, defaultQty: 0 },
+            { id: 'micro_battery', name: 'Micro Battery', icon: '🔋', engineId: 18, defaultQty: 0 },
+            { id: 'battery', name: 'Battery', icon: '🔋', engineId: 19, defaultQty: 0 },
+            { id: 'mega_battery', name: 'Mega Battery', icon: '🔋', engineId: 20, defaultQty: 0 },
+            { id: 'card', name: 'Card', icon: '🃏', engineId: 21, defaultQty: 0 },
+            { id: 'pill', name: 'Pill', icon: '💊', engineId: 22, defaultQty: 0 },
+            { id: 'rune', name: 'Rune', icon: '🪨', engineId: 23, defaultQty: 0 },
+            { id: 'dice_shard', name: 'Dice Shard', icon: '🎲', engineId: 24, defaultQty: 0 },
+            { id: 'soul_stone', name: 'Soul Stone', icon: '🔮', engineId: 25, defaultQty: 0 },
+            { id: 'golden_penny', name: 'Golden Penny', icon: '🪙', engineId: 26, defaultQty: 0 },
+            { id: 'golden_pill', name: 'Golden Pill', icon: '💊', engineId: 27, defaultQty: 0 },
+            { id: 'golden_battery', name: 'Golden Battery', icon: '🔋', engineId: 28, defaultQty: 0 },
+            { id: 'poop', name: 'Poop', icon: '💩', engineId: 29, defaultQty: 0 }
+        ];
+
+        const state = {
+            seed: '',
+            inventory: {},
+            recipeLimit: 100,
+            realtime: true,
+            wasm: true,
+            runType: 'Normal',
+            character: 'Other',
+            hasSacredOrb: false,
+            hasNoTrinket: false,
+            worker_status: 'idle'
+        };
+
+        const ITEM_NAMES = {"1":"The Sad Onion","2":"The Inner Eye","3":"Spoon Bender","4":"Cricket's Head","5":"My Reflection","6":"Number One","7":"Blood of the Martyr","8":"Brother Bobby","9":"Skatole","10":"Halo of Flies","11":"1UP","12":"Magic Mushroom","13":"The Virus","14":"Roid Rage","15":"<3","16":"Raw Liver","17":"Skeleton Key","18":"A Dollar","19":"Boom!","20":"Transcendence","21":"The Compass","22":"Lunch","23":"Dinner","24":"Dessert","25":"Breakfast","26":"Rotten Meat","27":"Wooden Spoon","28":"The Belt","29":"Mom's Underwear","30":"Mom's Heels","31":"Mom's Lipstick","32":"Wire Coat Hanger","33":"The Bible","34":"The Book of Belial","35":"The Necronomicon","36":"The Poop","37":"Mr. Boom","38":"Tammy's Head","39":"Mom's Bra","40":"Kamikaze","41":"Mom's Pad","42":"Bob's Rotten Head","44":"Teleport","45":"Yum Heart","46":"Lucky Foot","47":"Doctor's Remote","48":"Cupid's Arrow","49":"Shoop Da Whoop!","50":"Steven","51":"Pentagram","52":"Dr. Fetus","53":"Magneto","54":"Treasure Map","55":"Mom's Eye","56":"Lemon Mishap","57":"Distant Admiration","58":"Book of Shadows","60":"The Ladder","62":"Charm of the Vampire","63":"The Battery","64":"Steam Sale","65":"Anarchist Cookbook","66":"The Hourglass","67":"Sister Maggy","68":"Technology","69":"Chocolate Milk","70":"Growth Hormones","71":"Mini Mush","72":"Rosary","73":"Cube of Meat","74":"A Quarter","75":"PhD","76":"X-Ray Vision","77":"My Little Unicorn","78":"Book of Revelations","79":"The Mark","80":"The Pact","81":"Dead Cat","82":"Lord of the Pit","83":"The Nail","84":"We Need To Go Deeper","85":"Deck of Cards","86":"Monstro's Tooth","87":"Loki's Horns","88":"Little Chubby","89":"Spider Bite","90":"The Small Rock","91":"Spelunker Hat","92":"Super Bandage","93":"The Gamekid","94":"Sack of Pennies","95":"Robo-Baby","96":"Little C.H.A.D","97":"The Book of Sin","98":"The Relic","99":"Little Gish","100":"Little Steven","101":"The Halo","102":"Mom's Bottle of Pills","103":"The Common Cold","104":"The Parasite","105":"The D6","106":"Mr. Mega","107":"Pinking Shears","108":"The Wafer","109":"Money = Power","110":"Mom's Contacts","111":"The Bean","112":"Guardian Angel","113":"Demon Baby","114":"Mom's Knife","115":"Ouija Board","116":"9 Volt","117":"Dead Bird","118":"Brimstone","119":"Blood Bag","120":"Odd Mushroom (Thin)","121":"Odd Mushroom (Large)","122":"Whore of Babylon","123":"Monster Manual","124":"Dead Sea Scrolls","125":"Bobby - Bomb","126":"Razor Blade","127":"Forget Me Now","128":"Forever Alone","129":"Bucket of Lard","130":"A Pony","131":"Bomb Bag","132":"A Lump of Coal","133":"Guppy's Paw","134":"Guppy's Tail","135":"IV Bag","136":"Best Friend","137":"Remote Detonator","138":"Stigmata","139":"Mom's Purse","140":"Bob's Curse","141":"Pageant Boy","142":"Scapular","143":"Speed Ball","144":"Bum Friend","145":"Guppy's Head","146":"Prayer Card","147":"Notched Axe","148":"Infestation","149":"Ipecac","150":"Tough Love","151":"The Mulligan","152":"Technology 2","153":"Mutant Spider","154":"Chemical Peel","155":"The Peeper","156":"Habit","157":"Bloody Lust","158":"Crystal Ball","159":"Spirit of the Night","160":"Crack The Sky","161":"Ankh","162":"Celtic Cross","163":"Ghost Baby","164":"The Candle","165":"Cat-O-Nine-Tails","166":"D20","167":"Harlequin Baby","168":"Epic Fetus","169":"Polyphemus","170":"Daddy Longlegs","171":"Spider Butt","172":"Sacrificial Dagger","173":"Mitre","174":"Rainbow Baby","175":"Dad's Key","176":"Stem Cells","177":"Portable Slot","178":"Holy Water","179":"Fate","180":"The Black Bean","181":"White Pony","182":"Sacred Heart","183":"Toothpicks","184":"Holy Grail","185":"Dead Dove","186":"Blood Rights","187":"Guppy's Hairball","188":"Abel","189":"SMB Super Fan","190":"Pyro","191":"3 Dollar Bill","192":"Telepathy for Dummies","193":"MEAT!","194":"Magic 8 Ball","195":"Mom's Coin Purse","196":"Squeezy","197":"Jesus Juice","198":"Box","199":"Mom's Key","200":"Mom's Eyeshadow","201":"Iron Bar","202":"Midas Touch","203":"Humbleing Bundle","204":"Fanny pack","205":"Sharp Plug","206":"The Guillotine","207":"Ball of Bandages","208":"Champion Belt","209":"Butt Bombs","210":"Gnawed Leaf","211":"Spiderbaby","212":"Guppy's Collar","213":"Lost Contact","214":"Anemic","215":"Goat Head","216":"Ceremonial Robes","217":"Mom's Wig","218":"Placenta","219":"Old Bandage","220":"Sad Bombs","221":"Rubber Cement","222":"Anti-Gravity","223":"Pyromaniac","224":"Cricket's Body","225":"Gimpy","226":"Black Lotus","227":"Piggy Bank","228":"Mom's Perfume","229":"Monstro's Lung","230":"Abaddon","231":"Ball of Tar","232":"Stop Watch","233":"Tiny Planet","234":"Infestation 2","236":"E. Coli","237":"Death's Touch","238":"Key Piece #1","239":"Key Piece #2","240":"Experimental Treatment","241":"Contract From Below","242":"Infamy","243":"Trinity Shield","244":"Tech.5","245":"20/20","246":"Blue Map","247":"BFFS!","248":"Hive Mind","249":"There's Options","250":"Bogo Bombs","251":"Starter Deck","252":"Little Baggy","253":"Magic Scab","254":"Blood Clot","255":"Screw","256":"Hot Bombs","257":"Fire Mind","258":"Missing No","259":"Dark Matter","260":"Black Candle","261":"Proptosis","262":"Missing Page 2","263":"Clear Rune","264":"Smart Fly","265":"Dry Baby","266":"Juicy Sack","267":"Robo-Baby 2.0","268":"Rotten Baby","269":"Headless Baby","270":"Leech","271":"Mystery Sack","272":"BBF","273":"Bob's Brain","274":"Best Bud","275":"Lil Brimstone","276":"Isaac's Heart","277":"Lil Haunt","278":"Dark Bum","279":"Big Fan","280":"Sissy Long Legs","281":"Punching Bag","282":"How To Jump","283":"D100","284":"D4","285":"D10","286":"Blank Card","287":"Book of Secrets","288":"Box of Spiders","289":"Red Candle","290":"The Jar","291":"FLUSH!","292":"Satanic Bible","293":"Head of Krampus","294":"Butter Bean","295":"Magic Fingers","296":"Converter","297":"Pandora's Box","298":"Unicorn Stump","299":"Taurus","300":"Aries","301":"Cancer","302":"Leo","303":"Virgo","304":"Libra","305":"Scorpio","306":"Sagittarius","307":"Capricorn","308":"Aquarius","309":"Pisces","310":"Eve's Mascara","311":"Judas' Shadow","312":"Maggy's Bow","313":"Holy Mantle","314":"Thunder Thighs","315":"Strange Attractor","316":"Cursed Eye","317":"Mysterious Liquid","318":"Gemini","319":"Cain's Other Eye","320":"???'s Only Friend","321":"Samson's Chains","322":"Mongo Baby","323":"Isaac's Tears","324":"Undefined","325":"Scissors","326":"Breath of Life","327":"The Polaroid","328":"The Negative","329":"The Ludovico Technique","330":"Soy Milk","331":"Godhead","332":"Lazarus' Rags","333":"The Mind","334":"The Body","335":"The Soul","336":"Dead Onion","337":"Broken Watch","338":"Boomerang","339":"Safety Pin","340":"Caffeine Pill","341":"Torn Photo","342":"Blue Cap","343":"Latch Key","344":"Match Book","345":"Synthoil","346":"A Snack","347":"Diplopia","348":"Placebo","349":"Wooden Nickel","350":"Toxic Shock","351":"Mega Bean","352":"Glass Cannon","353":"Bomber Boy","354":"Crack Jacks","355":"Mom's Pearls","356":"Car Battery","357":"Box of Friends","358":"The Wiz","359":"8 Inch Nails","360":"Incubus","361":"Fate's Reward","362":"Lil Chest","363":"Sworn Protector","364":"Friend Zone","365":"Lost Fly","366":"Scatter Bombs","367":"Sticky Bombs","368":"Epiphora","369":"Continuum","370":"Mr. Dolly","371":"Curse of The Tower","372":"Charged Baby","373":"Dead Eye","374":"Holy Light!","375":"Host Hat","376":"Restock","377":"Bursting Sack","378":"No. 2","379":"Pupula Duplex","380":"Pay To Play","381":"Eden's Blessing","382":"Friendly Ball","383":"Tear Detonator","384":"Lil Gurdy","385":"Bumbo","386":"D12","387":"Censer","388":"Key Bum","389":"Rune Bag","390":"Seraphim","391":"Betrayal","392":"Zodiac","393":"Serpent's Kiss","394":"Marked","395":"Tech X","396":"Ventricle Razor","397":"Tractor Beam","398":"God's Flesh","399":"Maw of The Void","400":"Spear of Destiny","401":"Explosivo","402":"Chaos","403":"Spider Mod","404":"Farting Baby","405":"GB Bug","406":"D8","407":"Purity","408":"Athame","409":"Empty Vessel","410":"Evil Eye","411":"Lusty Blood","412":"Cambion Conception","413":"Immaculate Conception","414":"More Options","415":"Crown of Light","416":"Deep Pockets","417":"Succubus","418":"Fruit Cake","419":"Teleport 2.0","420":"Black Powder","421":"Kidney Bean","422":"Glowing Hour Glass","423":"Circle of Protection","424":"Sack Head","425":"Night Light","426":"Obsessed Fan","427":"Mine Crafter","428":"PJs","429":"Head of the Keeper","430":"Papa Fly","431":"Multidimensional Baby","432":"Glitter Bombs","433":"My Shadow","434":"Jar of Flies","435":"Lil Loki","436":"Milk!","437":"D7","438":"Binky","439":"Mom's Box","440":"Kidney Stone","441":"Mega Blast","442":"Dark Prince's Crown","443":"Apple!","444":"Lead Pencil","445":"Dog Tooth","446":"Dead Tooth","447":"Linger Bean","448":"Shard of Glass","449":"Metal Plate","450":"Eye of Greed","451":"Tarot Cloth","452":"Varicose Veins","453":"Compound Fracture","454":"Polydactyly","455":"Dad's Lost Coin","456":"Midnight Snack","457":"Cone Head","458":"Belly Button","459":"Sinus Infection","460":"Glaucoma","461":"Parasitoid","462":"Eye of Belial","463":"Sulfuric Acid","464":"Glyph of Balance","465":"Analog Stick","466":"Contagion","467":"Finger!","468":"Shade","469":"Depression","470":"Hushy","471":"Lil Monstro","472":"King Baby","473":"Big Chubby","475":"Plan C","476":"D1","477":"Void","478":"Pause","479":"Smelter","480":"Compost","481":"Dataminer","482":"Clicker","483":"MaMa Mega!","484":"Wait What?","485":"Crooked Penny","486":"Dull Razor","487":"Potato Peeler","488":"Metronome","489":"D Infinity","490":"Eden's Soul","491":"Acid Baby","492":"YO LISTEN!","493":"Adrenaline","494":"Jacob's Ladder","495":"Ghost Pepper","496":"Euthanasia","497":"Camo Undies","498":"Duality","499":"Eucharist","500":"Sack of Sacks","501":"Greed's Gullet","502":"Large Zit","503":"Little Horn","504":"Brown Nugget","505":"Poke Go","506":"BackStabber","507":"Sharp Straw","508":"Mom's Razor","509":"Bloodshot Eye","510":"Delirious","511":"Angry Fly","512":"Black Hole","513":"Bozo","514":"Broken Modem","515":"Mystery Gift","516":"Sprinkler","517":"Fast Bombs","518":"Buddy in a Box","519":"Lil Delirium","520":"Jumper Cables","521":"Coupon","522":"Telekinesis","523":"Moving Box","524":"Technology Zero","525":"Leprosy","526":"7 Seals","527":"Mr. ME!","528":"Angelic Prism","529":"Pop!","530":"Death's List","531":"Haemolacria","532":"Lachryphagy","533":"Trisagion","534":"Schoolbag","535":"Blanket","536":"Sacrificial Altar","537":"Lil Spewer","538":"Marbles","539":"Mystery Egg","540":"Flat Stone","541":"Marrow","542":"Slipped Rib","543":"Hallowed Ground","544":"Pointy Rib","545":"Book of the Dead","546":"Dad's Ring","547":"Divorce Papers","548":"Jaw Bone","549":"Brittle Bones","550":"Broken Shovel","551":"Broken Shovel","552":"Mom's Shovel","553":"Mucormycosis","554":"2Spooky","555":"Golden Razor","556":"Sulfur","557":"Fortune Cookie","558":"Eye Sore","559":"120 Volt","560":"It Hurts","561":"Almond Milk","562":"Rock Bottom","563":"Nancy Bombs","564":"A Bar of Soap","565":"Blood Puppy","566":"Dream Catcher","567":"Paschal Candle","568":"Divine Intervention","569":"Blood Oath","570":"Playdough Cookie","571":"Orphan Socks","572":"Eye of the Occult","573":"Immaculate Heart","574":"Monstrance","575":"The Intruder","576":"Dirty Mind","577":"Damocles","578":"Free Lemonade","579":"Spirit Sword","580":"Red Key","581":"Psy Fly","582":"Wavy Cap","583":"Rocket in a Jar","584":"Book of Virtues","585":"Alabaster Box","586":"The Stairway","588":"Sol","589":"Luna","590":"Mercurius","591":"Venus","592":"Terra","593":"Mars","594":"Jupiter","595":"Saturnus","596":"Uranus","597":"Neptunus","598":"Pluto","599":"Voodoo Head","600":"Eye Drops","601":"Act of Contrition","602":"Member Card","603":"Battery Pack","604":"Mom's Bracelet","605":"The Scooper","606":"Ocular Rift","607":"Boiled Baby","608":"Freezer Baby","609":"Eternal D6","610":"Bird Cage","611":"Larynx","612":"Lost Soul","614":"Blood Bombs","615":"Lil Dumpy","616":"Bird's Eye","617":"Lodestone","618":"Rotten Tomato","619":"Birthright","621":"Red Stew","622":"Genesis","623":"Sharp Key","624":"Booster Pack","625":"Mega Mush","626":"Knife Piece 1","627":"Knife Piece 2","628":"Death Certificate","629":"Bot Fly","631":"Meat Cleaver","632":"Evil Charm","633":"Dogma","634":"Purgatory","635":"Stitches","636":"R Key","637":"Knockout Drops","638":"Eraser","639":"Yuck Heart","640":"Urn of Souls","641":"Akeldama","642":"Magic Skin","643":"Revelation","644":"Consolation Prize","645":"Tinytoma","646":"Brimstone Bombs","647":"4.5 Volt","649":"Fruity Plum","650":"Plum Flute","651":"Star of Bethlehem","652":"Cube Baby","653":"Vade Retro","654":"False PHD","655":"Spin to Win","657":"Vasculitis","658":"Giant Cell","659":"Tropicamide","660":"Card Reading","661":"Quints","663":"Tooth and Nail","664":"Binge Eater","665":"Guppy's Eye","667":"Strawman","668":"Dad's Note","669":"Sausage","670":"Options?","671":"Candy Heart","672":"A Pound of Flesh","673":"Redemption","674":"Spirit Shackles","675":"Cracked Orb","676":"Empty Heart","677":"Astral Projection","678":"C Section","679":"Lil Abaddon","680":"Montezuma's Revenge","681":"Lil Portal","682":"Worm Friend","683":"Bone Spurs","684":"Hungry Soul","685":"Jar of Wisps","686":"Soul Locket","687":"Friend Finder","688":"Inner Child","689":"Glitched Crown","690":"Belly Jelly","691":"Sacred Orb","692":"Sanguine Bond","693":"The Swarm","694":"Heartbreak","695":"Bloody Gust","696":"Salvation","697":"Vanishing Twin","698":"Twisted Pair","699":"Azazel's Rage","700":"Echo Chamber","701":"Isaac's Tomb","702":"Vengeful Spirit","703":"Esau Jr","704":"Berserk!","705":"Dark Arts","706":"Abyss","707":"Supper","708":"Stapler","709":"Suplex!","710":"Bag of Crafting","711":"Flip","712":"Lemegeton","713":"Sumptorium","714":"Recall","715":"Hold","716":"Keeper's Sack","717":"Keeper's Kin","719":"Keeper's Box","720":"Everything Jar","721":"TMTRAINER","722":"Anima Sola","723":"Spindown Dice","724":"Hypercoagulation","725":"IBS","726":"Hemoptysis","727":"Ghost Bombs","728":"Gello","729":"Decap Attack","730":"Glass Eye","731":"Stye","732":"Mom's Ring"};
+
+        function str2seed(seed) {
+  if (seed.length != 9) return 0;
+  //"xxxx xxxx"
+  if (seed[4] != " ") {
+    return 0;
+  }
+
+  let dict = [];
+  for (let i = 0; i < 255; i++) {
+    dict[i] = 0xff;
+  }
+  for (let i = 0; i < 32; i++) {
+    dict["ABCDEFGHJKLMNPQRSTWXYZ01234V6789".charCodeAt(i)] = i;
+  }
+
+  let num_seed = [];
+  for (let i = 0; i < 9; i++) {
+    if (i == 4) continue;
+    let j = i;
+    if (i > 4) {
+      j = i - 1;
+    }
+    num_seed[j] = dict[seed.charCodeAt(i)];
+    if (num_seed[j] == 0xff) return 0;
+  }
+
+  let v8 = 0;
+  let v10;
+
+  //num_seed[x] j is unsigned int8
+  for (
+    let j =
+      ((num_seed[6] >>> 3) |
+        (4 *
+          (num_seed[5] |
+            (32 *
+              (num_seed[4] |
+                (32 *
+                  (num_seed[3] |
+                    (32 *
+                      (num_seed[2] |
+                        (32 * (num_seed[1] | (32 * num_seed[0])))))))))))) ^
+      0xfef7ffd;
+    j != 0;
+    v8 = ((v10 >>> 7) + 2 * v10) & 0xff
+  ) {
+    v10 = ((j & 0xff) + v8) & 0xff;
+    j >>>= 5;
+  }
+  if (v8 == (num_seed[7] | (0xff & (32 * num_seed[6])))) {
+    return (
+      ((num_seed[6] >> 3) |
+        (4 *
+          (num_seed[5] |
+            (32 *
+              (num_seed[4] |
+                (32 *
+                  (num_seed[3] |
+                    (32 *
+                      (num_seed[2] |
+                        (32 * (num_seed[1] | (32 * num_seed[0])))))))))))) ^
+      0xfef7ffd
+    );
+  }
+  return 0;
+}
+
+
+        let webWorkerText = `
+//启用webAssembly
+if(fetch && WebAssembly){
+        WebAssembly.instantiateStreaming(fetch("data:application/wasm;base64,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AgAAAACAP1ACAAAAAIA/UQIAAAAAgD9SAgAAAACAP1MCAAAAAIA/VAIAAAAAgD9VAgAAAACAP1YCAAAAAIA/AAAAAJcBAACXAQAAXgAAAPUBAAA7AAAAMAIAAF0AAACNAgAAQgAAAM8CAAA+AAAA//////////8NAwAABgAAABMDAAAZAAAALAMAAA8AAAD/////////////////////OwMAACIAAAD//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////10DAAALAEHQwwALpQH//////////wAAAAAAAAAA/////wMAAAAAAAAACAAAAP////8CAAAAAAAAAAgAAAD/////AwAAAAAAAAAIAAAA/////wQAAAAAAAAACAAAAP////8DAAAAAAAAAAgAAAD/////AgAAAAAAAAAIAAAA/////wMAAAAAAAAACAAAAP////8BAAAAAAAAAAgAAAD/////AAAAAAAAAAAIAAAA/////wIAQYDFAAsF/////wIAQZDFAAuVBf////8EAAAAAAAAAAgAAAD/////AgAAAAAAAAAIAAAA/////wIAAAAAAAAACAAAAP////8CAAAAAAAAABAAAAD/////AgAAAAAAAAAQAAAA/////wIAAAAAAAAACAAAAP////8DAAAAAAAAAAgAAAD/////AAAAAAAAAAAIAAAACAAAAAIAAAAAAAAAEAAAAP////8BAAAAAAAAAEgAAAD/////AQAAAAAAAAAQAAAA/////wEAAAAAAAAAEAAAAP////8BAAAAAAAAABAAAAD/////AQAAAAAAAAAQAAAA/////wEAAAAAAAAAEAAAAP////8BAAAAAAAAAAgAAAD/////AQAAAAAAAAAIAAAA/////wEAAAAAAAAACAAAAP////8BAAAAAAAAAAgAAAD/////AQAAAAAAAAAIAAAAiwAAAAMAAAAAAAAACAAAAP////8BAAAAAQAAABAAAAD/////AgAAAAEAAAAIAAAAJAAAAAAAAAABAAAACAAAAP////8AAAAAAQAAAAAAAAD/////AQAAAAEAAAAIAAAA/////wEAAAABAAAACAAAAP////8AAAAAAQAAAAgAAAD/////AAAAAAEAAAAQAAAA/////wAAAAABAAAACAAAAP////8BAAAAAQAAAAgAAAD//////////wAAAAAAAAAA/////wAAAAABAAAACAAAAP////8BAAAAAQAAABAAAAD/////AgAAAAAAAAAIAAAA/////wEAAAABAAAACAAAAP////8CAAAAAAAAAAgAAAD/////AgAAAAEAAAAIAAAA/////wMAAAAAAAAACAAAAP////8DAAAAAAAAAAgAAAALAAAABAAAAAAAAAAIAAAA/////wEAQbDKAAtU/////wEAAAAAAAAASAAAAP////8BAAAAAAAAAAgAAAD/////AAAAAAEAAAAIAAAA/////wEAAAAAAAAACAAAAP////8CAAAAAQAAAAAAAAD/////AEGQywAL1QH/////AQAAAAAAAAAQAAAA//////////8AAAAAAAAAAP////8CAAAAAAAAABAAAAD/////AgAAAAAAAAAIAAAA/////wIAAAAAAAAACAAAAP////8AAAAAAQAAAAgAAAD/////AAAAAAEAAAAIAAAA/////wEAAAAAAAAACAAAAP////8DAAAAAAAAAAgAAAD/////AwAAAAAAAAAIAAAA/////wMAAAAAAAAACAAAAP////8CAAAAAAAAAAgAAAD/////AgAAAAAAAAAIAAAABgAAAAEAQfDMAAsBCgBB/MwAC2kIAAAA/////wIAAAAAAAAACAAAAP////8CAAAAAAAAAAgAAAD/////AQAAAAEAAAAIAAAABwAAAAMAAAABAAAAEAAAAP////8DAAAAAAAAAAgAAAD/////AwAAAAAAAAAIAAAA/////wIAQfDNAAvlA/////8DAAAAAAAAABAAAAAJAAAAAgAAAAEAAAAAAAAA/////wIAAAABAAAACAAAAP////8CAAAAAQAAAAgAAAANAAAAAAAAAAEAAAAIAAAADwAAAAEAAAAAAAAACAAAAA4AAAABAAAAAAAAAAgAAAD/////AgAAAAAAAAAIAAAADAAAAAMAAAAAAAAACAAAAP////8CAAAAAAAAAAgAAAATAAAAAgAAAAAAAAAQAAAAGgAAAAEAAAABAAAACAAAABUAAAABAAAAAAAAAAgAAAD/////AQAAAAAAAAAIAAAAGQAAAAIAAAAAAAAAEAAAABYAAAABAAAAAQAAAAgAAAAUAAAAAwAAAAAAAAAQAAAAFwAAAAEAAAAAAAAACAAAABgAAAACAAAAAAAAAAgAAAAbAAAAAwAAAAAAAAAIAAAA/////wEAAAABAAAACAAAAP////8BAAAAAAAAAAgAAAAfAAAAAwAAAAAAAAAIAAAAHQAAAAQAAAABAAAACAAAABwAAAACAAAAAAAAAAgAAAD/////AgAAAAEAAAAIAAAA/////wQAAAAAAAAAEAAAAP////8DAAAAAAAAAAgAAAAjAAAAAwAAAAAAAAAIAAAA/////wAAAAABAAAACAAAAC0AAAABAEHg0QALtQcvAAAAAQAAAAAAAAAIAAAAKwAAAAQAAAAAAAAACAAAAP////8CAAAAAAAAAAgAAAD/////AgAAAAAAAAAIAAAA/////wAAAAAAAAAAEAAAAP////8EAAAAAAAAAAgAAACTAAAAAgAAAAAAAAAQAAAA/////wIAAAAAAAAACAAAAP////8CAAAAAAAAAAgAAAD/////AgAAAAAAAAAIAAAA/////wEAAAABAAAACAAAAP////8BAAAAAQAAAAgAAAD/////AQAAAAAAAAAIAAAALAAAAAAAAAABAAAAEAAAADAAAAADAAAAAQAAAAgAAAD/////AQAAAAAAAAAIAAAA/////wEAAAAAAAAAEAAAAP////8CAAAAAQAAAAgAAAAuAAAAAQAAAAAAAAAIAAAA/////wMAAAAAAAAACAAAAP////8CAAAAAQAAABAAAAD/////AgAAAAAAAAAIAAAA/////wIAAAABAAAAEAAAAP////8AAAAAAQAAAAgAAAD/////AAAAAAEAAAAIAAAA/////wIAAAAAAAAAEAAAAP////8CAAAAAAAAAAgAAAD/////AQAAAAAAAAAIAAAA/////wAAAAAAAAAACAAAAP////8CAAAAAAAAABAAAAD/////AgAAAAAAAAAIAAAA/////wEAAAAAAAAACAAAAP////8CAAAAAQAAAAgAAAD/////AwAAAAEAAAAQAAAA/////wEAAAABAAAACAAAAP////8AAAAAAAAAABAAAACMAAAABAAAAAAAAAAIAAAA/////wMAAAAAAAAACAAAAP////8DAAAAAAAAAAgAAAD/////AgAAAAAAAAAIAAAA/////wMAAAAAAAAACAAAAP////8CAAAAAAAAAAgAAAD/////AgAAAAAAAAAIAAAA/////wIAAAAAAAAAEAAAADYAAAACAAAAAAAAABAAAAD/////AwAAAAEAAAAIAAAA/////wMAAAAAAAAAEAAAAP////8BAAAAAQAAAAgAAAD/////AAAAAAAAAACQAAAAMgAAAAEAAAAAAAAAEAAAAP////8BAAAAAAAAAAgAAAA7AAAAAgAAAAEAAAAIAAAA/////wMAAAAAAAAACAAAADEAAAACAAAAAQAAAAgAAAD/////AQAAAAAAAAAIAAAAPgAAAAQAAAAAAAAACAAAAP////8EAAAAAAAAAAgAAAD/////AwAAAAAAAAAIAAAA/////wEAAAABAAAACAAAADUAAAACAEGg2QALBf////8DAEGw2QAL4QH/////AQAAAAAAAAAIAAAAOgAAAAIAAAABAAAACAAAAP////8BAAAAAAAAABAAAAD/////AAAAAAEAAAAIAAAA/////wMAAAAAAAAACAAAAHEAAAADAAAAAAAAABAAAAD/////AAAAAAAAAAAQAAAA/////wMAAAABAAAACAAAAP////8EAAAAAAAAAAgAAAD/////AwAAAAAAAAAIAAAA/////wMAAAAAAAAAEAAAAP////8DAAAAAAAAABAAAAA4AAAAAAAAAAEAAAAQAAAAQQAAAAEAAAAAAAAACAAAADMAQZzbAAupAggAAAA/AAAAAwAAAAAAAAAIAAAA/////wMAAAAAAAAACAAAAP////8CAAAAAAAAAAgAAAD/////AQAAAAEAAAAIAAAA/////wIAAAAAAAAAEAAAAP////8BAAAAAAAAAAgAAAD/////AAAAAAAAAAAIAAAA/////wMAAAAAAAAACAAAAP////8CAAAAAAAAAAgAAAD/////AAAAAAAAAAAIAAAA/////wMAAAAAAAAACAAAAP////8BAAAAAAAAAAgAAAD/////AgAAAAAAAAAIAAAA/////wEAAAAAAAAAEAAAAP////8DAAAAAAAAAAgAAAD/////AQAAAAAAAAAQAAAA/////wIAAAAAAAAAEAAAAGsAAAABAAAAAAAAAAgAAAAGAAAAAQBB0N0ACyX/////AgAAAAAAAAAIAAAA/////wEAAAAAAAAACAAAAP////8BAEGA3gALFf////8AAAAAAAAAABAAAAD/////AQBBoN4AC6UB/////wIAAAAAAAAACAAAAP////8BAAAAAAAAABAAAAD/////AwAAAAAAAABIAAAA/////wMAAAAAAAAACAAAAP////8CAAAAAAAAAAgAAAD/////AgAAAAAAAAAQAAAA/////wIAAAAAAAAAEAAAAP////8CAAAAAAAAAAgAAACWAAAAAwAAAAAAAAAIAAAA/////wEAAAAAAAAACAAAAP////8EAEHQ3wALhQH/////AwAAAAAAAAAIAAAA/////wIAAAAAAAAAEAAAAP////8CAAAAAAAAABAAAAD/////AQAAAAAAAAAQAAAA/////wIAAAAAAAAACAAAAP////8CAAAAAAAAAAgAAACAAAAAAwAAAAAAAAAIAAAA/////wIAAAAAAAAACAAAAIoAAAAEAEHg4AALlQH/////AAAAAAAAAAAIAAAA/////wMAAAAAAAAACAAAAP//////////AAAAAAAAAAD/////AAAAAAAAAAAQAAAAZwAAAAMAAAAAAAAACAAAAP////8AAAAAAAAAAAoAAAD/////AAAAAAAAAAAKAAAAjQAAAAEAAAAAAAAACAAAAP////8CAAAAAAAAAEgAAAD/////AgBBgOIACwX/////AgBBkOIAC4EBaAAAAAMAAAAAAAAACAAAAP////8EAAAAAAAAAAgAAACGAAAAAQAAAAAAAAAIAAAA/////wIAAAAAAAAACAAAAP////8CAAAAAAAAAAgAAACHAAAAAwAAAAAAAABIAAAA/////wEAAAAAAAAACAAAAP////8CAAAAAAAAAAgAAACSAEGc4wALVQgAAAD/////AgAAAAAAAAAQAAAA/////wIAAAAAAAAACAAAAP////8CAAAAAAAAAAgAAAD/////AQAAAAAAAAAIAAAA/////wIAAAAAAAAACAAAAGkAQfzjAAtZCAAAAP////8CAAAAAAAAAAgAAACIAAAAAwAAAAAAAAAIAAAA/////wMAAAAAAAAACAAAAP////8AAAAAAAAAABAAAADpAAAAAgAAAAEAAAAIAAAA/////wEAQeDkAAsF/////wMAQfDkAAuhAf////8CAAAAAAAAAAgAAABmAAAAAQAAAAAAAAAIAAAA/////wMAAAAAAAAACAAAAP////8BAAAAAAAAAAgAAAD/////AgAAAAAAAAAIAAAAfAAAAAIAAAAAAAAACAAAAP////8AAAAAAAAAAAgAAAD/////AAAAAAAAAAAIAAAA/////wAAAAAAAAAAEAAAAP////8CAAAAAAAAAAgAAACBAEGc5gALKRAAAAD/////AQAAAAAAAAAIAAAA/////wMAAAAAAAAACAAAAP////8BAEHQ5gALFf////8BAAAAAAAAAAgAAAD/////AQBB8OYAC5UC/////wEAAAABAAAAEAAAAIUAAAACAAAAAQAAAAgAAACUAAAAAgAAAAEAAAAIAAAA/////wEAAAABAAAACAAAAHkAAAACAAAAAQAAAAgAAAB6AAAAAAAAAAEAAAAIAAAA/////wEAAAABAAAACAAAAIkAAAABAAAAAQAAAAgAAAD/////AAAAAAEAAAAQAAAA/////wEAAAABAAAACAAAAH4AAAADAAAAAQAAAAgAAACPAAAAAQAAAAEAAAAIAAAAkQAAAAAAAAABAAAACAAAAP////8AAAAAAQAAAAgAAAD/////AgAAAAEAAAAQAAAAdwAAAAIAAAABAAAACAAAAP////8BAAAAAQAAAAAAAAD/////AQBBkOkACyX/////AgAAAAAAAAAIAAAA/////wMAAAAAAAAAEAAAAP////8BAEHA6QALBf////8CAEHQ6QALlQH/////AQAAAAAAAAAIAAAA/////wMAAAAAAAAACAAAAP////8DAAAAAAAAAAgAAAD/////AwAAAAAAAAAIAAAA/////wIAAAAAAAAACAAAAP////8CAAAAAAAAAAgAAABwAAAAAwAAAAAAAAAIAAAAbAAAAAMAAAAAAAAAkAAAAG0AAAACAAAAAAAAABAAAAD/////BABB8OoAC3X/////AQAAAAAAAAAQAAAA/////wAAAAAAAAAACAAAAP////8AAAAAAAAAAAgAAAD/////AwAAAAAAAAAIAAAA/////wEAAAAAAAAACAAAAG4AAAACAAAAAAAAAAgAAAByAAAAAQAAAAAAAAAIAAAAcwAAAAEAQfDrAAvVAf////8CAAAAAAAAAAgAAABqAAAAAQAAAAEAAAAIAAAAfQAAAAEAAAABAAAACAAAAB4AAAAAAAAAAQAAAAgAAAD/////AQAAAAEAAAAQAAAAOQAAAAIAAAAAAAAACgAAAE4AAAACAAAAAAAAAAoAAAD/////AQAAAAAAAAAIAAAA/////wEAAAAAAAAACAAAAJwAAAAEAAAAAAAAAAgAAAB0AAAAAQAAAAAAAACQAAAAggAAAAMAAAAAAAAACAAAAIMAAAADAAAAAAAAABAAAACEAAAAAwBB0O0ACxX/////AgAAAAAAAAAIAAAA/////wEAQfDtAAuVA/////8BAAAAAQAAAAgAAAD/////AQAAAAAAAAAIAAAA/////wEAAAAAAAAACAAAAP////8DAAAAAAAAAAgAAAD/////AwAAAAAAAAAIAAAA/////wIAAAAAAAAACAAAAP////8BAAAAAAAAAAgAAAD/////AwAAAAAAAAAIAAAA/////wEAAAAAAAAAEAAAAP////8DAAAAAQAAAAgAAAD/////AQAAAAEAAAAIAAAA9AAAAAEAAAABAAAACAAAAP////8DAAAAAAAAAAgAAAD/////AQAAAAEAAAAIAAAA/////wEAAAABAAAACAAAAP////8CAAAAAAAAAAgAAAD/////AgAAAAAAAAAQAAAA/////wIAAAAAAAAACAAAAP////8DAAAAAAAAAAgAAADLAAAAAQAAAAEAAAAIAAAA/////wEAAAAAAAAACAAAAP////8DAAAAAAAAAAgAAAC+AAAABAAAAAAAAAAIAAAAtwAAAAIAAAAAAAAACAAAAMAAAAACAAAAAAAAAAgAAAC9AAAAAgBBkPEAC7UB/////wEAAAAAAAAACAAAAP////8CAAAAAAAAAAgAAAD/////AQAAAAAAAAAIAAAA/////wEAAAAAAAAACAAAAP////8BAAAAAAAAAAgAAAD/////AgAAAAAAAAAIAAAA/////wMAAAAAAAAACAAAAP////8AAAAAAAAAABAAAAD/////AgAAAAAAAAAIAAAA/////wMAAAAAAAAACAAAAP////8DAAAAAAAAAAgAAAD/////AwBB0PIAC7UB/////wIAAAAAAAAASAAAAP////8BAAAAAAAAAAgAAAD/////AgAAAAAAAAAIAAAA/////wIAAAAAAAAACAAAAP////8CAAAAAAAAAAgAAAC8AAAAAwAAAAAAAAAIAAAA/////wEAAAABAAAACAAAAP////8BAAAAAQAAAAgAAAD/////AQAAAAAAAAAIAAAA/////wEAAAAAAAAACAAAALUAAAABAAAAAQAAAAgAAADBAAAAAgBBkPQACwHIAEGc9AAL+QEIAAAA2gAAAAMAAAAAAAAACAAAAP////8DAAAAAAAAAAgAAAC2AAAAAQAAAAAAAAAIAAAAygAAAAEAAAAAAAAACAAAANwAAAACAAAAAAAAAAgAAAD/////AQAAAAAAAAAIAAAA/////wQAAAAAAAAACAAAAP////8AAAAAAQAAAAgAAAD/////AwAAAAAAAAAIAAAA/////wEAAAAAAAAACAAAALoAAAADAAAAAAAAAAgAAAD/////AQAAAAAAAAAIAAAA/////wMAAAAAAAAACAAAAP////8DAAAAAAAAAAgAAAD/////AQAAAAAAAAAIAAAAswAAAAEAQaD2AAtFyQAAAAEAAAAAAAAACAAAAOcAAAABAAAAAQAAAAgAAAC0AAAAAwAAAAAAAAAIAAAAuAAAAAMAAAAAAAAACAAAALsAAAACAEHw9gAL1QHCAAAAAgAAAAAAAAAIAAAAxgAAAAMAAAAAAAAACAAAANsAAAABAAAAAAAAABAAAADeAAAAAQAAAAAAAAAQAAAAhwAAAAMAAAAAAAAACAAAAP////8EAAAAAAAAAAgAAADuAAAAAgAAAAAAAAAIAAAA3QAAAAMAAAAAAAAACAAAAP////8CAAAAAAAAAAgAAAD/////AwAAAAEAAAAIAAAA/////wAAAAAAAAAACAAAAP////8AAAAAAQAAAAgAAAD//////////wEAAAAAAAAA/////wIAQdD4AAsV/////wMAAAAAAAAACAAAAP////8BAEHw+AAL9QL/////AAAAAAAAAAAIAAAA/////wEAAAABAAAACAAAAP////8CAAAAAAAAABAAAAD/////AgAAAAAAAAAIAAAA/////wEAAAAAAAAACAAAAP////8CAAAAAAAAAAgAAAD/////AgAAAAAAAAAIAAAAwwAAAAEAAAAAAAAACAAAAP////8CAAAAAQAAAAgAAAD/////AQAAAAAAAAAIAAAA/////wEAAAAAAAAAEAAAAP////8BAAAAAQAAAEgAAAD/////AwAAAAAAAAAIAAAA/////wIAAAABAAAACAAAAOgAAAACAAAAAAAAAAgAAAAUAQAABAAAAAEAAAAIAAAAIgEAAAEAAAAAAAAAEAAAAP////8DAAAAAAAAAAgAAAD/////AwAAAAAAAAAIAAAA/////wIAAAAAAAAACAAAAP////8BAAAAAAAAAAgAAAD/////AAAAAAAAAAAIAAAA/////wEAAAAAAAAAEAAAAP////8BAEHw+wALdTQBAAACAAAAAAAAAAgAAAD/////AgAAAAAAAAAIAAAA/////wAAAAAAAAAAEAAAACMBAAADAAAAAAAAAAgAAAD/////AgAAAAAAAAAIAAAAMwEAAAIAAAAAAAAACAAAAP////8BAAAAAAAAABAAAAD/////AgBB8PwAC6IB/////wIAAAAAAAAACAAAAP////8DAAAAAAAAAAgAAAD/////AQAAAAAAAAAIAAAA/////wMAAAAAAAAACAAAACsBAAADAAAAAAAAAAgAAAD/////AgAAAAAAAAAIAAAAKQEAAAIAAAAAAAAACAAAAP////8CAAAAAAAAAAgAAAD/////AgAAAAAAAAAIAAAA/////wEAAAAAAAAACAAAAB0BAEGc/gALFggAAAD/////AQAAAAAAAAAIAAAAOwEAQbz+AAvZBAgAAAD/////AgAAAAAAAAAIAAAAHgEAAAEAAAAAAAAACAAAAP////8BAAAAAAAAAAgAAAD/////AAAAAAEAAAAAAAAAMQEAAAAAAAABAAAACAAAACgBAAACAAAAAQAAAAgAAAAnAQAAAwAAAAEAAAAIAAAA/////wAAAAABAAAACAAAAD4BAAACAAAAAQAAAAgAAAD/////AAAAAAEAAAAIAAAA/////wAAAAABAAAACAAAAP////8AAAAAAQAAAJAAAAD/////AwAAAAEAAAAIAAAA/////wEAAAABAAAACAAAACYBAAACAAAAAQAAAAgAAAAgAQAAAAAAAAEAAAAAAAAA/////wIAAAABAAAAEAAAAC8BAAABAAAAAQAAAAgAAAAaAQAABAAAAAEAAAAIAAAAIQEAAAIAAAABAAAACAAAAP////8CAAAAAAAAAAgAAAD/////AgAAAAAAAAAIAAAA/////wEAAAAAAAAAEAAAAP////8DAAAAAAAAAAgAAAD/////AwAAAAAAAAAIAAAAJAEAAAMAAAAAAAAACAAAAP////8DAAAAAAAAAAgAAAAyAQAAAQAAAAAAAAAIAAAAGwEAAAMAAAAAAAAACAAAACoBAAACAAAAAAAAAAgAAABPAQAAAQAAAAAAAAAQAAAA/////wEAAAAAAAAACAAAAP////8DAAAAAAAAAAgAAAA8AQAAAAAAAAEAAAAIAAAA/////wIAAAAAAAAASAAAAP////8DAAAAAAAAAAgAAAD/////AgAAAAEAAAAIAAAA/////wEAQaCDAQsF/////wEAQbCDAQtFUgEAAAEAAAABAAAACAAAAGABAAABAAAAAAAAAAgAAABdAQAAAQAAAAEAAAAIAAAAYQEAAAIAAAAAAAAAEAAAAGIBAAADAEGAhAELogFeAQAAAwAAAAEAAAAIAAAAXwEAAAEAAAABAAAACAAAAGQBAAABAAAAAAAAAAgAAABjAQAAAgAAAAAAAAAIAAAAZQEAAAEAAAAAAAAACAAAAG8BAAACAAAAAAAAAAgAAABsAQAAAgAAAAEAAAAIAAAAbQEAAAEAAAABAAAACAAAAG4BAAABAAAAAQAAAAgAAABxAQAAAwAAAAAAAAAIAAAAcAEAQayFAQuZARAAAAB0AQAAAgAAAAAAAAAIAAAAcwEAAAMAAAABAAAACAAAAHUBAAADAAAAAAAAAAgAAAB2AQAAAQAAAAAAAAAIAAAAeAEAAAEAAAAAAAAACgAAAHkBAAAEAAAAAAAAAAgAAAB6AQAAAwAAAAAAAAAIAAAAfAEAAAMAAAAAAAAACAAAAHsBAAADAAAAAAAAAAgAAACBAQAAAgBB0IYBCyV/AQAAAQAAAAEAAAAIAAAAgAEAAAEAAAAAAAAACAAAAIIBAAACAEGAhwELAoMBAEGMhwELKRAAAAB+AQAAAgAAAAAAAAAIAAAAiAEAAAEAAAAAAAAAEAAAAIkBAAABAEHAhwELNY4BAAABAAAAAAAAABAAAACKAQAAAQAAAAAAAAAIAAAAkQEAAAIAAAABAAAACAAAAJABAAACAEGAiAELdY0BAAADAAAAAAAAAAgAAACLAQAAAQAAAAAAAAAIAAAAjAEAAAMAAAAAAAAACAAAAP////8EAAAAAQAAAAgAAAD/////BAAAAAAAAAAIAAAA/////wQAAAABAAAACAAAAP////8DAAAAAAAAAAgAAAD/////AQBBgIkBC9UBRwIAAAAAAAABAAAACAAAAP////8CAAAAAQAAAAgAAAD/////AgAAAAEAAAAIAAAA/////wEAAAAAAAAACAAAAP////8CAAAAAAAAAAgAAAD/////AQAAAAAAAAAQAAAA/////wEAAAAAAAAACAAAALEBAAAEAAAAAAAAAAgAAAD/////AQAAAAAAAAAIAAAA/////wIAAAAAAAAACAAAAM4BAAABAAAAAAAAAAgAAAD/////AgAAAAAAAAAIAAAA/////wMAAAAAAAAACAAAAKcBAAABAEHgigELxQH/////AQAAAAAAAAAQAAAA/////wIAAAAAAAAACAAAAP////8CAAAAAAAAABAAAAD/////AwAAAAAAAAAIAAAA/////wMAAAAAAAAACAAAAP////8BAAAAAAAAAAgAAAD/////AgAAAAAAAAAIAAAABQIAAAEAAAAAAAAACAAAALABAAACAAAAAQAAAAgAAAD/////AAAAAAEAAAAIAAAACAIAAAMAAAAAAAAACAAAAJ8BAAADAAAAAQAAAEgAAAD/////BABBsIwBC8ID/////wAAAAABAAAACAAAAP////8BAAAAAAAAAAgAAAChAQAAAwAAAAAAAAAIAAAApAEAAAEAAAABAAAACAAAAK0BAAADAAAAAAAAAAgAAAD//////////wAAAAAAAAAA/////wIAAAAAAAAACAAAAP////8DAAAAAAAAAAgAAAD/////AgAAAAAAAAAIAAAA/////wIAAAAAAAAACAAAAP////8DAAAAAAAAAAgAAAD/////AQAAAAAAAAAIAAAA/////wIAAAAAAAAACAAAAP////8CAAAAAAAAAAgAAAD/////AwAAAAAAAAAIAAAA/////wMAAAAAAAAACAAAAP////8DAAAAAAAAAAgAAAD/////AgAAAAAAAABIAAAA/////wMAAAAAAAAACAAAAP////8DAAAAAAAAAAgAAABGAgAAAgAAAAAAAAAIAAAA/////wAAAAAAAAAACAAAAP////8BAAAAAQAAAAgAAAD/////AAAAAAEAAAAIAAAA/////wIAAAAAAAAACAAAAP////8BAAAAAAAAAAgAAAD/////AgAAAAAAAAAIAAAAwAEAAAMAAAABAAAACAAAAMIBAEH8jwELGRAAAADxAQAAAgAAAAEAAAAIAAAAzAEAAAEAQaCQAQsl//////////8AAAAAAAAAAP////8CAAAAAAAAABAAAAD/////AwBB0JABC9UB/////wMAAAAAAAAACAAAAP////8CAAAAAAAAAAgAAAD/////AgAAAAAAAAAIAAAArwEAAAMAAAAAAAAACAAAAP//////////AAAAAAAAAACuAQAAAgAAAAAAAAAIAAAAtAEAAAMAAAABAAAACAAAAP////8BAAAAAQAAAAgAAAD/////AQAAAAAAAAAIAAAAIwIAAAQAAAABAAAACAAAAP////8AAAAAAAAAAAIAAAD/////AAAAAAAAAAACAAAAfAIAAAQAAAABAAAACAAAAP////8DAEGwkgEL9QH//////////wAAAAAAAAAAuAEAAAAAAAABAAAACAAAAP////8BAAAAAAAAAAgAAAD/////AwAAAAAAAAACAAAABwIAAAEAAAAAAAAACAAAAP////8BAAAAAQAAAAgAAAD/////BAAAAAEAAACMAAAA/////wIAAAAAAAAACAAAAP////8BAAAAAQAAAAgAAAC6AQAAAQAAAAEAAAAQAAAAogEAAAMAAAABAAAACAAAAL4BAAABAAAAAAAAAAgAAADYAQAAAgAAAAEAAAAIAAAA1gEAAAQAAAAAAAAACAAAAP////8BAAAAAAAAAAgAAADIAQAAAQBBsJQBC6IDIgIAAAIAAAAAAAAACAAAAP////8CAAAAAAAAAAgAAAD//////////wAAAAAAAAAAmQEAAAEAAAAAAAAACAAAAJoBAAAAAAAAAQAAAAgAAACpAQAAAwAAAAAAAAAIAAAA/////wEAAAAAAAAACAAAAKgBAAABAAAAAQAAAAgAAAD/////AgAAAAAAAAAIAAAA/////wAAAAABAAAAAAAAALABAAACAAAAAAAAAAgAAAD/////AQAAAAAAAAAIAAAA/////wEAAAAAAAAAEAAAAP////8BAAAAAAAAAAgAAAD/////AgAAAAAAAABIAAAA/////wIAAAAAAAAACAAAAP//////////AAAAAAAAAAD/////AgAAAAAAAAAIAAAA/////wQAAAAAAAAAEAAAALwBAAACAAAAAAAAAAgAAAD//////////wAAAAAAAAAA9wEAAAIAAAAAAAAACAAAAP////8AAAAAAAAAAAIAAAD/////AwAAAAAAAAAIAAAAuQEAAAIAAAAAAAAASAAAALsBAAABAAAAAAAAABAAAAC9AQBB3JcBCxlgAAAAvwEAAAIAAAAAAAAACgAAANUBAAABAEGAmAELYsMBAAABAAAAAAAAABAAAADFAQAAAQAAAAAAAAAQAAAAyQEAAAEAAAAAAAAAEAAAAM8BAAAEAAAAAAAAAAgAAADHAQAAAgAAAAAAAAAIAAAAwQEAAAIAAAAAAAAACAAAANIBAEHsmAELaQgAAADTAQAAAwAAAAAAAAAIAAAA1AEAAAIAAAAAAAAACAAAAM0BAAACAAAAAAAAAAgAAADXAQAAAQAAAAEAAAAIAAAApgEAAAEAAAAAAAAACAAAANkBAAACAAAAAQAAAAgAAACyAQAAAgBB4JkBCxXrAQAABAAAAAAAAAAIAAAA7AEAAAMAQYCaAQsl9QEAAAQAAAAAAAAACAAAAO4BAAABAAAAAAAAABAAAADvAQAAAgBBsJoBCwXwAQAAAwBBwJoBC6IDxAEAAAIAAAAAAAAAEAAAAPMBAAADAAAAAAAAAAgAAACzAQAAAQAAAAAAAABKAAAA9gEAAAQAAAAAAAAACAAAAPIBAAACAAAAAAAAAAgAAAD4AQAAAwAAAAAAAAAIAAAA+QEAAAIAAAAAAAAACAAAAPoBAAABAAAAAAAAABAAAAD7AQAAAgAAAAEAAAAIAAAATgIAAAEAAAABAAAACAAAAEsCAAABAAAAAQAAAAgAAABVAgAAAwAAAAEAAAAIAAAA/////wEAAAAAAAAAEAAAAP////8DAAAAAAAAAAgAAAC1AQAAAQAAAAEAAAAIAAAASgIAAP////8BAAAACAAAAFACAAAEAAAAAQAAAAgAAABXAgAAAwAAAAEAAAAIAAAATQIAAAMAAAABAAAAEAAAAP////8AAAAAAQAAAAAAAAD/////AAAAAAEAAAAAAAAA0AEAAAMAAAAAAAAACAAAAFQCAAACAAAAAAAAAAgAAAD//////////wAAAAAAAAAA0QEAAAEAAAABAAAACAAAAMsBAAACAAAAAQAAAAgAAAD0AQBB7J0BCzYIAAAAWAIAAAIAAAABAAAACAAAAEgCAAAEAAAAAQAAAAgAAABJAgAAAgAAAAAAAAAQAAAATAIAQayeAQvFCAgAAABPAgAAAQAAAAAAAAAIAAAAUgIAAAEAAAAAAAAACAAAAFMCAAADAAAAAQAAAAgAAABWAgAAAQAAAAEAAAAIAAAA/////wMAAAAAAAAACAAAAP////8CAAAAAAAAAAgAAAD/////AwAAAAAAAAAIAAAA//////////8AAAAAAAAAAAEAAAAFAAAAEAAAAAEAAAAFAAAAEwAAAAEAAAAJAAAAHQAAAAEAAAALAAAABgAAAAEAAAALAAAAEAAAAAEAAAATAAAAAwAAAAEAAAAVAAAAFAAAAAEAAAAbAAAAGwAAAAIAAAAFAAAADwAAAAIAAAAFAAAAFQAAAAIAAAAHAAAABwAAAAIAAAAHAAAACQAAAAIAAAAHAAAAGQAAAAIAAAAJAAAADwAAAAIAAAAPAAAAEQAAAAIAAAAPAAAAGQAAAAIAAAAVAAAACQAAAAMAAAABAAAADgAAAAMAAAADAAAAGgAAAAMAAAADAAAAHAAAAAMAAAADAAAAHQAAAAMAAAAFAAAAFAAAAAMAAAAFAAAAFgAAAAMAAAAFAAAAGQAAAAMAAAAHAAAAHQAAAAMAAAANAAAABwAAAAMAAAAXAAAAGQAAAAMAAAAZAAAAGAAAAAMAAAAbAAAACwAAAAQAAAADAAAAEQAAAAQAAAADAAAAGwAAAAQAAAAFAAAADwAAAAUAAAADAAAAFQAAAAUAAAAHAAAAFgAAAAUAAAAJAAAABwAAAAUAAAAJAAAAHAAAAAUAAAAJAAAAHwAAAAUAAAANAAAABgAAAAUAAAAPAAAAEQAAAAUAAAARAAAADQAAAAUAAAAVAAAADAAAAAUAAAAbAAAACAAAAAUAAAAbAAAAFQAAAAUAAAAbAAAAGQAAAAUAAAAbAAAAHAAAAAYAAAABAAAACwAAAAYAAAADAAAAEQAAAAYAAAARAAAACQAAAAYAAAAVAAAABwAAAAYAAAAVAAAADQAAAAcAAAABAAAACQAAAAcAAAABAAAAEgAAAAcAAAABAAAAGQAAAAcAAAANAAAAGQAAAAcAAAARAAAAFQAAAAcAAAAZAAAADAAAAAcAAAAZAAAAFAAAAAgAAAAHAAAAFwAAAAgAAAAJAAAAFwAAAAkAAAAFAAAADgAAAAkAAAAFAAAAGQAAAAkAAAALAAAAEwAAAAkAAAAVAAAAEAAAAAoAAAAJAAAAFQAAAAoAAAAJAAAAGQAAAAsAAAAHAAAADAAAAAsAAAAHAAAAEAAAAAsAAAARAAAADQAAAAsAAAAVAAAADQAAAAwAAAAJAAAAFwAAAA0AAAADAAAAEQAAAA0AAAADAAAAGwAAAA0AAAAFAAAAEwAAAA0AAAARAAAADwAAAA4AAAABAAAADwAAAA4AAAANAAAADwAAAA8AAAABAAAAHQAAABEAAAAPAAAAFAAAABEAAAAPAAAAFwAAABEAAAAPAAAAGgAAAAE="))
+        .then(obj=>{
+            let exports = obj.instance.exports
+            let buffer = new Uint8Array(exports.memory.buffer, exports.getRecipeBuffer())
+            BagOfCraftingWasmHelper = {
+                calc(seed,arr){
+                    for(let i=0;i<8;i++){
+                        buffer[i]=arr[i]
+                    }
+                    return exports.getResult(seed)
+                },
+                setSafeArg(
+                  safe_is_daily_run,
+                  safe_is_greed,
+                  safe_challenge_id,
+                  safe_current_stage,
+                  safe_has_keeper,
+                  safe_has_lost,
+                  safe_has_tlost,
+                  safe_has_c691,
+                  safe_has_t88){
+                    exports.setSafeArg(
+                      safe_is_daily_run ? 1 : 0,
+                      safe_is_greed ? 1 : 0,
+                      safe_challenge_id ? 1 : 0,
+                      safe_current_stage,
+                      safe_has_keeper ? 1 : 0,
+                      safe_has_lost ? 1 : 0,
+                      safe_has_tlost ? 1 : 0,
+                      safe_has_c691 ? 1 : 0,
+                      safe_has_t88 ? 1 : 0,
+                    )
+                  }
+            }
+        })
+}
+
+//对item_array进行桶排序
+function bucket_sort_list_toint64(item_array) {
+    //@debug-only
+    console.assert(item_array.length == 8);
+
+    let item_count = [];
+
+    //initial value
+    for (let i = 0; i < 0x1f; i++) {
+        item_count[i] = 0;
+    }
+
+    item_count[item_array[0]]++;
+    item_count[item_array[1]]++;
+    item_count[item_array[2]]++;
+    item_count[item_array[3]]++;
+    item_count[item_array[4]]++;
+    item_count[item_array[5]]++;
+    item_count[item_array[6]]++;
+    item_count[item_array[7]]++;
+
+    let offset = BigInt(0);
+
+    let v12 = BigInt(0); // v12 is 64 bit
+    for (let i = BigInt(0); i < BigInt(0x1f); i++) {
+        for (let j = 0; j < item_count[i]; j++) {
+            //此代码一定会执行8遍
+            v12 |= i << offset;
+            offset += BigInt(8);
+        }
+    }
+    //v12 = 0x08 07 06 05 04 03 02 01
+    return v12;
+}
+
+//游戏中的随机数字生成器
+let rng_offsets = [
+    0x00000001, 0x00000005, 0x00000010, 0x00000001, 0x00000005, 0x00000013,
+    0x00000001, 0x00000009, 0x0000001d, 0x00000001, 0x0000000b, 0x00000006,
+    0x00000001, 0x0000000b, 0x00000010, 0x00000001, 0x00000013, 0x00000003,
+    0x00000001, 0x00000015, 0x00000014, 0x00000001, 0x0000001b, 0x0000001b,
+    0x00000002, 0x00000005, 0x0000000f, 0x00000002, 0x00000005, 0x00000015,
+    0x00000002, 0x00000007, 0x00000007, 0x00000002, 0x00000007, 0x00000009,
+    0x00000002, 0x00000007, 0x00000019, 0x00000002, 0x00000009, 0x0000000f,
+    0x00000002, 0x0000000f, 0x00000011, 0x00000002, 0x0000000f, 0x00000019,
+    0x00000002, 0x00000015, 0x00000009, 0x00000003, 0x00000001, 0x0000000e,
+    0x00000003, 0x00000003, 0x0000001a, 0x00000003, 0x00000003, 0x0000001c,
+    0x00000003, 0x00000003, 0x0000001d, 0x00000003, 0x00000005, 0x00000014,
+    0x00000003, 0x00000005, 0x00000016, 0x00000003, 0x00000005, 0x00000019,
+    0x00000003, 0x00000007, 0x0000001d, 0x00000003, 0x0000000d, 0x00000007,
+    0x00000003, 0x00000017, 0x00000019, 0x00000003, 0x00000019, 0x00000018,
+    0x00000003, 0x0000001b, 0x0000000b, 0x00000004, 0x00000003, 0x00000011,
+    0x00000004, 0x00000003, 0x0000001b, 0x00000004, 0x00000005, 0x0000000f,
+    0x00000005, 0x00000003, 0x00000015, 0x00000005, 0x00000007, 0x00000016,
+    0x00000005, 0x00000009, 0x00000007, 0x00000005, 0x00000009, 0x0000001c,
+    0x00000005, 0x00000009, 0x0000001f, 0x00000005, 0x0000000d, 0x00000006,
+    0x00000005, 0x0000000f, 0x00000011, 0x00000005, 0x00000011, 0x0000000d,
+    0x00000005, 0x00000015, 0x0000000c, 0x00000005, 0x0000001b, 0x00000008,
+    0x00000005, 0x0000001b, 0x00000015, 0x00000005, 0x0000001b, 0x00000019,
+    0x00000005, 0x0000001b, 0x0000001c, 0x00000006, 0x00000001, 0x0000000b,
+    0x00000006, 0x00000003, 0x00000011, 0x00000006, 0x00000011, 0x00000009,
+    0x00000006, 0x00000015, 0x00000007, 0x00000006, 0x00000015, 0x0000000d,
+    0x00000007, 0x00000001, 0x00000009, 0x00000007, 0x00000001, 0x00000012,
+    0x00000007, 0x00000001, 0x00000019, 0x00000007, 0x0000000d, 0x00000019,
+    0x00000007, 0x00000011, 0x00000015, 0x00000007, 0x00000019, 0x0000000c,
+    0x00000007, 0x00000019, 0x00000014, 0x00000008, 0x00000007, 0x00000017,
+    0x00000008, 0x00000009, 0x00000017, 0x00000009, 0x00000005, 0x0000000e,
+    0x00000009, 0x00000005, 0x00000019, 0x00000009, 0x0000000b, 0x00000013,
+    0x00000009, 0x00000015, 0x00000010, 0x0000000a, 0x00000009, 0x00000015,
+    0x0000000a, 0x00000009, 0x00000019, 0x0000000b, 0x00000007, 0x0000000c,
+    0x0000000b, 0x00000007, 0x00000010, 0x0000000b, 0x00000011, 0x0000000d,
+    0x0000000b, 0x00000015, 0x0000000d, 0x0000000c, 0x00000009, 0x00000017,
+    0x0000000d, 0x00000003, 0x00000011, 0x0000000d, 0x00000003, 0x0000001b,
+    0x0000000d, 0x00000005, 0x00000013, 0x0000000d, 0x00000011, 0x0000000f,
+    0x0000000e, 0x00000001, 0x0000000f, 0x0000000e, 0x0000000d, 0x0000000f,
+    0x0000000f, 0x00000001, 0x0000001d, 0x00000011, 0x0000000f, 0x00000014,
+    0x00000011, 0x0000000f, 0x00000017, 0x00000011, 0x0000000f, 0x0000001a,
+];
+
+function RNG_Next(num, offset_id) {
+    let offset_a = rng_offsets[offset_id * 3];
+    let offset_b = rng_offsets[offset_id * 3 + 1];
+    let offset_c = rng_offsets[offset_id * 3 + 2];
+    num = num ^ ((num >>> offset_a) & 0xffffffff);
+    num = num ^ ((num << offset_b) & 0xffffffff);
+    num = num ^ ((num >>> offset_c) & 0xffffffff);
+    return num >>> 0; /* to unsigned */
+}
+
+/* 道具池和品质的数据经过压缩，压缩算法参考github文件compress.js */
+let item_pool_data = [];
+let item_config_data = {};
+
+/* 解压缩 */
+var compressed =
+    '{"item_pool_data_compressed":[{"1":[1,2,3,4,5,6,7,8,10,13,14,15,19,36,37,38,39,40,41,42,44,45,46,47,48,49,52,53,55,56,57,58,62,65,66,67,68,69,71,72,75,76,77,78,85,86,87,88,89,91,92,93,94,95,96,97,99,100,102,103,104,105,106,107,108,109,110,111,113,115,117,120,121,123,124,125,126,127,128,129,131,136,137,138,140,142,143,144,146,148,149,150,151,152,153,154,155,157,160,161,162,163,166,167,169,170,171,172,173,174,175,176,178,180,186,188,189,191,192,200,201,202,206,209,210,211,213,214,217,220,221,222,223,224,225,227,228,229,231,233,234,236,240,242,244,245,256,257,261,264,265,266,267,268,269,270,271,272,273,274,275,276,277,278,279,280,281,282,283,284,285,287,288,291,292,294,295,298,299,300,301,302,303,304,305,306,307,308,309,310,312,314,315,316,317,318,319,320,321,322,323,324,325,329,330,332,336,350,351,352,353,358,359,361,362,364,365,366,367,368,369,371,373,375,377,378,379,381,382,384,385,386,388,389,390,391,392,393,394,395,397,398,401,404,405,406,407,410,411,418,419,421,422,426,427,430,431,432,435,436,437,440,443,444,445,446,447,448,449,452,453,454,457,458,459,460,461,463,465,466,467,469,470,471,473,476,478,481,482,485,488,491,492,493,494,495,496,497,502,504,506,507,508,509,511,512,513,516,517,522,524,525,529,531,532,537,539,540,542,543,544,545,548,549,553,555,557,558,559,560,561,563,565,570,575,576,578,581,583,605,607,608,610,611,612,614,615,616,617,618,629,631,635,637,639,641,645,649,652,655,657,658,661,663,671,675,676,678,680,681,682,683,687,690,693,695,709,710,713,717,720,722,724,725,726,727,729],"0.5":[12,101,609,650,703,728],"0.1":[17,168,190,625,723],"0.2":[98,114,237,313,333,334,335,374,677]},{"1":[21,33,54,60,63,64,75,85,102,116,137,139,147,156,164,195,199,203,204,205,208,227,232,246,247,248,249,250,251,252,260,289,290,295,296,297,337,338,347,348,349,356,357,372,376,380,383,396,403,414,416,422,425,434,439,451,472,479,480,486,487,505,514,515,518,520,521,523,527,534,535,566,585,599,602,603,604,619,621,623,624,638,647,670,716],"0.5":[286,402,424,483,485,660,719],"0.2":[475],"0.1":[642]},{"1":[14,22,23,24,25,26,27,28,29,30,31,32,51,70,141,143,165,176,183,193,194,195,196,197,198,218,219,240,253,254,255,339,340,341,342,343,344,345,346,354,355,370,438,455,456,538,541,547,564,600,624,644,659,707,708,730,731],"0.5":[92,428]},{"1":[34,35,51,74,79,80,81,82,83,84,97,109,113,114,115,118,122,123,133,134,145,157,159,163,172,186,187,212,215,216,225,230,237,241,259,262,265,268,269,275,278,292,311,360,391,399,408,409,411,412,417,420,431,433,442,462,468,498,503,506,519,526,530,536,545,554,556,569,572,577,606,634,646,654,665,672,679,684,692,695,698,699,702,728],"0.2":[127,441,475],"0.5":[477,694,704,705,706,712]},{"1":[7,33,72,78,98,101,108,112,124,138,142,146,156,162,173,178,182,184,185,197,243,313,326,331,332,333,334,335,363,374,387,390,400,407,413,415,423,464,490,498,499,519,526,528,533,543,567,568,573,574,579,586,601,622,634,640,643,651,653,685,686,696],"0.5":[477,584,691],"0.4":[510]},{"1":[11,16,17,20,35,84,120,121,127,168,190,213,226,242,258,262,263,271,286,287,316,321,348,388,389,402,405,424,450,489,500,501,546,562,571,580,582,609,612,625,628,632,636,664,667,669,674,675,677,688,689,700,701,703,711,716,717,719,721,723],"0.5":[691,697]},null,{"1":[9,36,209,378,504,576]},{"1":[28,29,32,74,194,196,255,341,343,344,354,355,370,438,455,456,644,708,730,732],"0.5":[179,428,534],"0.1":[444,571]},{"1":[81,133,134,140,145,212,297,316,371,642,665],"0.1":[475,580],"0.5":[565],"0.2":[654]},null,null,{"1":[51,79,80,81,126,133,134,145,212,215,216,225,241,260,371,408,442,451,468,496,503,536,565,569,580,642,665,692,702,711],"0.2":[475],"0.5":[654,694,697]},null,null,null,null,null,null,null,null,null,null,null,null,null,{"1":[588,589,590,591,592,593,594,595,596,597,598]}],"item_config_data_compressed":{"0":[9,19,35,36,39,40,41,44,56,59,65,66,74,86,111,117,126,136,137,141,148,161,177,180,186,188,195,198,211,233,236,238,239,252,258,262,272,273,274,276,287,290,294,295,315,316,325,371,388,396,420,421,426,447,452,468,470,474,475,478,480,481,482,486,504,525,539,555,578,582,603,605,610,626,627,631,650,655,668,672,681,714,715,721,725],"1":[8,21,22,23,24,25,26,27,28,29,30,31,33,37,38,42,45,47,53,54,55,57,60,67,73,77,87,88,93,94,95,97,99,102,103,112,113,123,124,125,128,129,131,140,144,147,160,162,163,167,171,174,176,187,192,194,200,202,204,206,207,209,210,212,214,222,227,240,246,250,256,264,267,269,277,279,280,281,282,285,288,289,291,293,298,299,302,304,314,318,320,321,323,324,326,329,330,332,337,338,339,340,344,346,348,349,351,352,357,358,364,366,367,368,377,382,383,384,385,386,391,392,394,398,400,403,404,405,406,412,413,425,427,430,433,435,436,437,442,446,448,449,456,460,467,469,472,473,484,488,493,498,501,502,508,509,510,511,512,516,517,519,522,523,529,530,536,537,541,542,543,544,548,554,558,560,561,563,565,568,569,574,576,583,585,593,604,607,612,623,624,632,634,635,638,639,641,644,645,649,652,653,657,658,659,671,674,675,676,677,685,686,692,697,702,704,705,707,709,719,726,727,729],"2":[2,6,10,11,13,14,15,16,17,20,34,46,48,49,58,62,63,64,71,72,75,76,81,83,84,85,89,91,92,96,100,106,107,115,116,119,120,121,122,130,133,134,135,138,139,142,143,145,152,154,155,156,157,164,166,172,175,191,193,197,201,205,208,213,217,218,219,220,225,226,228,229,231,241,242,243,247,248,251,253,254,255,257,259,263,266,270,271,275,283,284,286,296,297,300,303,308,309,312,319,322,327,328,336,343,353,354,355,361,362,363,365,369,372,376,378,379,380,387,393,409,410,416,418,423,428,429,431,432,434,439,440,445,450,451,454,455,457,458,463,464,465,466,471,476,479,485,487,490,491,492,500,505,507,513,518,520,521,526,535,538,540,545,546,556,557,559,564,566,570,571,575,577,588,590,591,594,595,599,602,606,608,611,614,617,618,621,637,642,646,647,654,656,660,661,663,665,667,670,673,679,680,683,684,687,688,693,695,699,701,703,717,720,722,724,731],"3":[1,3,5,7,18,32,50,51,68,69,70,78,79,80,82,90,98,101,104,109,110,127,132,146,150,151,153,158,159,165,170,173,178,179,181,183,184,185,189,190,196,199,203,215,216,221,224,230,234,237,244,249,260,261,265,268,278,292,301,305,306,307,310,311,317,333,334,335,341,342,345,347,350,356,359,370,373,374,375,381,389,390,397,399,401,402,407,408,411,414,417,419,424,438,443,444,453,459,461,462,477,483,494,495,496,497,499,503,506,514,515,524,527,528,532,533,534,547,549,553,567,572,573,579,580,584,586,589,592,596,597,598,600,601,609,615,616,619,622,629,633,640,651,669,682,690,694,696,700,706,708,712,713,716,728,730,732],"4":[4,12,52,105,108,114,118,149,168,169,182,223,232,245,313,331,360,395,415,441,489,531,550,551,552,562,581,625,628,636,643,664,678,689,691,698,711,723],"-1":[422,710]},"id_with_achievement":[20,32,35,52,73,74,78,83,86,87,88,90,92,93,94,96,97,98,99,100,101,104,105,106,110,112,113,114,119,126,127,131,149,157,162,164,166,168,172,175,179,186,187,188,189,206,207,221,230,232,237,240,244,246,249,252,258,260,263,267,271,276,283,284,286,287,289,292,293,294,297,310,311,312,319,320,321,323,324,325,327,328,331,332,333,334,335,349,357,360,361,362,363,381,386,387,388,389,391,392,393,399,404,405,406,407,408,409,410,411,412,413,414,416,417,433,440,441,442,450,453,455,462,464,468,470,472,475,476,477,479,485,486,488,489,490,496,498,499,500,501,504,510,511,512,513,514,515,516,517,518,519,520,521,522,523,524,525,526,527,528,529,530,531,532,533,534,535,536,537,538,539,540,541,542,543,544,545,546,547,548,549,555,562,565,568,576,577,579,580,584,585,586,602,609,610,611,612,619,621,622,625,628,631,634,639,640,641,642,643,645,646,649,650,651,653,656,665,667,670,671,672,673,674,675,676,677,678,679,680,681,682,683,684,685,686,687,688,689,690,691,692,693,694,695,696,697,698,699,700,701,702,703,704,705,706,709,710,711,712,713,716,717,719,720,721,722,723,724,725,726,727,728,729],"id_with_tags":{"lazarusshared":[238,239,327,328,530,626,627,633,668,673,697],"nodaily":[636],"offensive":[1,2,3,4,5,6,7,8,9,12,13,14,17,18,19,21,27,28,29,30,31,32,34,35,37,38,39,41,42,44,46,47,48,49,50,51,52,54,55,56,57,63,64,65,66,67,68,69,70,71,72,74,75,76,77,79,80,84,85,86,87,88,89,90,91,93,94,95,97,99,100,101,102,103,104,105,106,107,109,110,111,113,114,115,116,118,120,121,122,123,124,125,127,128,130,131,132,134,136,137,139,140,141,143,144,145,147,149,150,151,152,153,154,155,158,160,163,164,165,166,167,168,169,170,171,174,175,177,178,181,182,183,187,188,189,190,191,192,194,195,196,197,198,199,200,201,203,206,208,209,213,215,216,217,220,221,222,224,228,229,230,231,233,234,237,238,239,240,241,244,245,246,247,248,249,250,251,252,254,255,256,257,258,259,260,261,263,266,267,268,269,270,271,272,273,275,277,278,280,283,284,285,286,287,288,289,291,292,293,294,295,297,300,304,305,306,307,308,309,310,315,316,317,318,319,320,322,323,324,325,327,328,329,330,331,333,336,338,339,340,341,342,343,344,345,347,348,349,350,351,352,353,355,356,357,358,359,360,361,362,364,365,366,367,368,369,370,372,373,374,376,377,378,379,380,381,382,383,384,385,386,388,389,390,391,392,393,394,395,396,397,398,399,400,401,402,403,405,406,407,408,410,411,414,415,416,417,418,419,420,421,424,426,427,429,430,431,432,433,434,435,437,438,439,440,441,443,444,445,446,447,450,451,453,454,455,458,459,460,461,462,463,464,465,466,467,468,469,470,471,472,473,475,476,477,478,479,480,481,483,484,485,488,489,490,491,492,494,495,496,497,498,499,500,502,503,504,505,506,507,510,511,512,515,516,517,518,519,520,521,522,523,524,526,527,528,529,530,531,532,533,534,536,537,540,544,545,547,548,549,550,551,552,553,555,556,557,558,559,561,562,563,564,565,566,567,570,572,573,574,575,576,577,578,579,580,582,583,584,585,586,588,589,590,591,592,593,594,595,596,597,598,599,600,601,602,603,604,605,606,607,608,609,611,616,617,618,619,621,622,623,624,625,628,631,632,634,635,636,637,638,640,641,642,643,644,646,647,649,650,651,652,653,654,656,657,659,660,661,663,665,667,669,670,673,678,679,680,681,682,683,684,685,686,687,689,691,696,697,698,699,700,701,703,704,705,706,708,709,710,711,712,716,717,719,720,721,722,723,725,726,727,728,729,730,731,732],"nolostbr":[15,16,20,22,23,24,25,26,33,40,45,60,62,78,82,92,96,98,108,117,119,126,129,133,135,138,142,146,148,156,157,159,161,162,176,179,180,184,185,186,193,202,204,205,211,214,218,219,225,226,227,236,253,262,274,276,282,290,296,301,311,312,314,326,332,334,346,354,371,412,413,428,436,442,448,452,456,482,487,493,501,513,525,539,541,543,560,569,571,610,614,639,658,664,671,675,676,677,692,695,702,707,713,724],"nokeeper":[672],"nogreed":[21,54,215,241,249,376,437,505,580,599,660,670,672,697],"nochallenge":[161,311,332,482,636]},"active_item_ids":[33,34,35,36,37,38,39,40,41,42,44,45,47,49,56,58,65,66,77,78,83,84,85,86,93,97,102,105,107,111,123,124,126,127,130,133,135,136,137,145,146,147,158,160,164,166,171,175,177,181,186,192,263,282,283,284,285,286,287,288,289,290,291,292,293,294,295,296,297,298,323,324,325,326,338,347,348,349,351,352,357,382,383,386,396,406,419,421,422,427,434,437,439,441,474,475,476,477,478,479,480,481,482,483,484,485,486,487,488,489,490,504,507,510,512,515,516,521,522,523,527,536,545,550,552,555,556,557,577,578,580,582,585,604,605,609,611,622,623,625,628,631,635,636,638,639,640,642,650,653,655,685,687,703,704,705,706,709,710,711,712,713,714,715,719,720,722,723,728,729]}';
+compressed = JSON.parse(compressed);
+let item_pool_data_compressed = compressed.item_pool_data_compressed;
+for (let i = 0; i < item_pool_data_compressed.length; i++) {
+    let item_pool = [];
+    let item_pool_compressed = item_pool_data_compressed[i];
+    for (let weight in item_pool_compressed) {
+        for (let j = 0; j < item_pool_compressed[weight].length; j++) {
+            let id = item_pool_compressed[weight][j];
+            item_pool.push({ id: id, weight: weight });
+        }
+    }
+
+    item_pool_data[i] = item_pool;
+}
+let item_config_data_compressed = compressed.item_config_data_compressed;
+
+for (let quality in item_config_data_compressed) {
+    for (let i = 0; i < item_config_data_compressed[quality].length; i++) {
+        let id = item_config_data_compressed[quality][i];
+        item_config_data[id] = { quality: quality };
+    }
+}
+
+for (let i = 0; i < compressed.id_with_achievement.length; i++) {
+    let id = compressed.id_with_achievement[i];
+    item_config_data[id].achievement_id = true;
+}
+
+for (let tag in compressed.id_with_tags) {
+  for (let id of compressed.id_with_tags[tag]) {
+    if (item_config_data[id]) {
+      item_config_data[id][tag] = true;
+    }
+  }
+}
+
+for (let active_id of compressed.active_item_ids) {
+  item_config_data[active_id].is_active_item = true;
+}
+/* 解压完毕 */
+
+function GetItemPoolData(item_pool_id) {
+    return item_pool_data[item_pool_id];
+}
+function GetItemConfig(item_id) {
+    return item_config_data[item_id];
+}
+
+let safe_is_daily_run = false
+let safe_is_greed = false
+let safe_challenge_id = false /* 懒得换了，界面上是个开关，那就boolean吧 */
+let safe_current_stage = 1
+let safe_has_keeper = false //id:14 or 33
+let safe_has_lost = false // id:10 only
+let safe_has_tlost = false 
+let safe_game_start_seed = 0
+let safe_has_c691 = false
+let safe_has_t88 = false
+
+function IsSafeToGenerage(item_config, flag){
+    //assert flag == 6 || flag == 1
+    if((flag & 1) != 0){
+        /* if(safe_challenge_id == 29) not support */
+        if(safe_challenge_id && item_config["nochallenge"])
+            return false;
+        if(safe_is_daily_run && item_config["nodaily"])
+            return false;
+        if(safe_is_greed && item_config["nogreed"])
+            return false;
+    }
+    if((flag & 4) != 0){
+        if((!safe_is_greed) && safe_current_stage >= 7 && item_config.id == 697)
+            return false;
+        if(safe_has_keeper && item_config["nokeeper"])
+            return false;
+        if(safe_has_lost && item_config["nolostbr"])
+            return false;
+        if(safe_has_tlost){
+            if(!item_config["offensive"])
+                return false;
+            if(item_config.quality < 2){
+                //do something...
+                if(RNG_Next(safe_game_start_seed + item_config.id, 17) % 5 == 0){
+                    return false;
+                }
+            }
+        }
+        if(safe_has_c691){
+            if(item_config.quality < 2)
+                return false;
+            if(item_config.quality == 2 && RNG_Next(safe_game_start_seed + item_config.id, 18) % 3 == 0){
+                return false;
+            }
+        }
+        if(safe_has_t88 && item_config.quality == 0)
+            return false
+    }
+    if((flag & 2) != 0){
+        // handle achievement, we dont do that
+    }
+    return true
+}
+
+//预先确定的配方
+let recipe_predefine_list = [
+    { input: BigInt("0x0101010101010101"), output: 0x2d },
+    { input: BigInt("0x0808080808080808"), output: 0xb1 },
+    { input: BigInt("0x1D1D1D1D1D1D1D1D"), output: 0x24 },
+    { input: BigInt("0x0202020202020202"), output: 0x2ae },
+    { input: BigInt("0x1515151515151515"), output: 0x55 },
+    { input: BigInt("0x1919191919191919"), output: 0x244 },
+    { input: BigInt("0x0404040404040404"), output: 0xb6 },
+    { input: BigInt("0x0F0F0F0F0F0F0F0F"), output: 0x6A },
+    { input: BigInt("0x1616161616161616"), output: 0x4b },
+    { input: BigInt("0x1818181818181818"), output: 0x1e9 },
+    { input: BigInt("0x0303030303030303"), output: 0x76 },
+    { input: BigInt("0x0606060606060606"), output: 0x274 },
+    { input: BigInt("0x0C0C0C0C0C0C0C0C"), output: 0x157 },
+    { input: BigInt("0x1111111111111111"), output: 0x1e3 },
+    { input: BigInt("0x1616161616161603"), output: 0x28e },
+    { input: BigInt("0x0504040404040201"), output: 0x14b },
+    { input: BigInt("0x0707010101010101"), output: 0x27f },
+    { input: BigInt("0x0D0D0C0C0C0C0C0C"), output: 0xaf },
+    { input: BigInt("0x10100F0F0F0F0F0F"), output: 0x1e3 },
+];
+
+//input_array是长度为8的数组，表示配方，gameStartSeed是一个32位随机数字，需要用str2seed计算
+function get_result(input_array, gameStartSeed, craftable_arr) {
+    let sorted_items = bucket_sort_list_toint64(input_array);
+
+    //先过滤预先确定好的配方
+    for (let i = 0; i < recipe_predefine_list.length; i++) {
+        if (recipe_predefine_list[i].input == sorted_items)
+            return recipe_predefine_list[i].output;
+    }
+
+    //然后是游戏中的算法,后面这段没必要看懂，因为是从游戏里抄出来的，总之它返回道具id
+    let item_count = [];
+    for (let i = 0; i < 0x1f; i++) {
+        item_count[i] = 0;
+    }
+    item_count[input_array[0]]++;
+    item_count[input_array[1]]++;
+    item_count[input_array[2]]++;
+    item_count[input_array[3]]++;
+    item_count[input_array[4]]++;
+    item_count[input_array[5]]++;
+    item_count[input_array[6]]++;
+    item_count[input_array[7]]++;
+
+    let score_matrix = [
+        0x00000000, 0x00000001, 0x00000004, 0x00000005, 0x00000005, 0x00000005,
+        0x00000005, 0x00000001, 0x00000001, 0x00000003, 0x00000005, 0x00000008,
+        0x00000002, 0x00000007, 0x00000005, 0x00000002, 0x00000007, 0x0000000a,
+        0x00000002, 0x00000004, 0x00000008, 0x00000002, 0x00000002, 0x00000004,
+        0x00000004, 0x00000002, 0x00000007, 0x00000007, 0x00000007, 0x00000000,
+        0x00000001,
+    ];
+
+    let item_score_sum =
+        score_matrix[input_array[0]] +
+        score_matrix[input_array[1]] +
+        score_matrix[input_array[2]] +
+        score_matrix[input_array[3]] +
+        score_matrix[input_array[4]] +
+        score_matrix[input_array[5]] +
+        score_matrix[input_array[6]] +
+        score_matrix[input_array[7]];
+
+    // console.log("item score sum = " + item_score_sum)
+    let weight_list = [
+        { id: 0, weight: 1.0 },
+        { id: 1, weight: 2.0 },
+        { id: 2, weight: 2.0 },
+        { id: 4, weight: item_count[4] * 10.0 },
+        { id: 3, weight: item_count[3] * 10.0 },
+        { id: 5, weight: item_count[6] * 5.0 },
+        { id: 8, weight: item_count[5] * 10.0 },
+        { id: 12, weight: item_count[7] * 10.0 },
+        { id: 9, weight: item_count[25] * 10.0 },
+        { id: 7, weight: item_count[29] * 10.0 },
+    ];
+    if (item_count[15] + item_count[12] + item_count[8] + item_count[1] == 0) {
+        weight_list.push({ id: 26, weight: item_count[23] * 10.0 });
+    }
+    if (gameStartSeed == 0) {
+        throw "Error";
+    }
+
+    safe_game_start_seed = gameStartSeed
+    let currentSeed = gameStartSeed;
+
+    for (let item_i = 0; item_i < 0x1f; item_i++) {
+        for (let j = 0; j < item_count[item_i]; j++) {
+            currentSeed = RNG_Next(currentSeed, item_i);
+        }
+    }
+    // console.log(currentSeed)
+    let collectible_count = 733; // it equals to some_variable_a - some_variable_b
+
+    let collectible_list = [];
+    for (let i = 0; i < collectible_count; i++) {
+        collectible_list[i] = 0.0;
+    }
+
+    let all_weight = 0.0;
+    // console.log(weight_list)
+    if (weight_list.length > 0) {
+        for (
+            let weight_select_i = 0;
+            weight_select_i < weight_list.length;
+            weight_select_i++
+        ) {
+            if (weight_list[weight_select_i].weight <= 0.0) {
+                continue;
+            }
+            let score = item_score_sum;
+            if (
+                weight_list[weight_select_i].id == 4 ||
+                weight_list[weight_select_i].id == 3 ||
+                weight_list[weight_select_i].id == 5
+            ) {
+                score -= 5;
+            }
+
+            let quality_min = 0;
+            let quality_max = 1;
+            if (score > 34) {
+                quality_max = 4;
+                quality_min = 4;
+            } else if (score > 30) {
+                quality_max = 4;
+                quality_min = 3;
+            } else if (score > 26) {
+                quality_max = 4;
+                quality_min = 3;
+            } else if (score > 22) {
+                quality_max = 4;
+                quality_min = 2;
+            } else if (score > 18) {
+                quality_max = 3;
+                quality_min = 2;
+            } else if (score > 14) {
+                quality_min = 1;
+                quality_max = 2;
+            } else if (score > 8) {
+                quality_min = 0;
+                quality_max = 2;
+            }
+
+            let item_pools = GetItemPoolData(weight_list[weight_select_i].id);
+            for (
+                let item_pool_i = 0;
+                item_pool_i < item_pools.length;
+                item_pool_i++
+            ) {
+                let item_config = undefined;
+                let item_id = item_pools[item_pool_i].id
+                if (item_id >= 0) {
+                    if (item_id >= collectible_count) {
+                        item_config = undefined;
+                    } else {
+                        item_config = GetItemConfig(item_id);
+                    }
+                }
+                let item_quality =
+                    0 +
+                    item_config.quality; /* there is not a zero, but a var from item_config, which is always zero when i'm testing */
+                if(IsSafeToGenerage(item_config, 1) && item_quality >= quality_min && item_quality <= quality_max){
+                    //be careful:the game use float instead of double, so js in not accurate!!!
+                    let item_weight =
+                        item_pools[item_pool_i].weight *
+                        weight_list[weight_select_i].weight;
+                    all_weight += item_weight;
+                    // console.log(all_weight)
+                    collectible_list[item_id] += item_weight;
+                    if (craftable_arr && item_weight > 0) {
+                        craftable_arr[item_id] = true
+                    }
+                }
+            }
+        }
+    }
+    // let retry_count = 0
+
+    let selected;
+    // let output = []
+    for (; ;) {
+        currentSeed = RNG_Next(currentSeed, 6);
+        //use float instead!!!
+        let remains = Number(currentSeed) * 2.3283062e-10 * all_weight;
+        // console.log(remains)
+        selected = 25;
+        for (
+            let current_select = 0;
+            current_select < collectible_count;
+            current_select++
+        ) {
+            // console.log(collectible_list[current_select])
+            if (collectible_list[current_select] > remains) {
+                selected = current_select;
+                break;
+            }
+            remains -= collectible_list[current_select];
+        }
+
+        //默认全解锁
+        if(IsSafeToGenerage(GetItemConfig(selected),6))
+          return selected;
+    }
+}
+
+function search_dfs(
+    ids,
+    max_use_count,
+    current,
+    callback,
+    ids_i = 0,
+    current_i = 0
+) {
+    if (current.length == current_i) {
+        callback(current);
+        //no more space
+        return;
+    }
+    if (ids.length == ids_i) {
+        //no more recipe
+        return;
+    }
+    let max_consume = max_use_count[ids_i];
+    if (current.length - current_i < max_consume)
+        max_consume = current.length - current_i;
+
+    for (let i = 0; i < max_consume; i++) {
+        current[current_i + i] = ids[ids_i];
+    }
+    for (let i = max_consume; i >= 0; i--) {
+        search_dfs(ids, max_use_count, current, callback, ids_i + 1, current_i + i);
+    }
+}
+
+onmessage = function(event){
+    let data = event.data
+    if(data.cmd == 'start'){
+
+        safe_is_daily_run = data.safe_is_daily_run
+        safe_is_greed = data.safe_is_greed
+        safe_challenge_id = data.safe_challenge_id
+        safe_current_stage = data.safe_current_stage
+        safe_has_keeper = data.safe_has_keeper
+        safe_has_lost = data.safe_has_lost
+        safe_has_tlost = data.safe_has_tlost
+        safe_has_c691 = data.safe_has_c691
+        safe_has_t88 = data.safe_has_t88
+
+        let items = [];
+        let qualities = {};
+
+        let craftable_arr = []
+        for(let i=0;i<800;i++){
+          craftable_arr[i] = false
+        }
+  
+        let watcher_counter = 0
+
+        let craft_count = data.craft_count
+        let real_time_flush = data.real_time_flush
+        let wasm = data.enable_wasm && BagOfCraftingWasmHelper
+        let base_div = wasm ? 100000 : 1000
+        let all_count = 0
+
+        if(wasm){
+          BagOfCraftingWasmHelper.setSafeArg(
+            safe_is_daily_run,
+            safe_is_greed,
+            safe_challenge_id,
+            safe_current_stage,
+            safe_has_keeper,
+            safe_has_lost,
+            safe_has_tlost,
+            safe_has_c691,
+            safe_has_t88
+          );
+        }
+
+        search_dfs(
+            data.candidates,
+            data.candidates_limit,
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            (arr)=>{all_count++}
+          )
+
+        function do_recheck(arr,item_id){
+          let js_result = get_result(arr,data.seed)
+          if(js_result != item_id){
+            console.log("inconsist:" + arr + " " + item_id + "->js " + js_result)
+          }
+        }
+
+        search_dfs(
+            data.candidates,
+            data.candidates_limit,
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            (arr) => {
+              // if (arr.length != 8) {
+              //   console.log("ERROR!");
+              // }
+              let result
+              if(wasm){
+                result = BagOfCraftingWasmHelper.calc(data.seed, arr);
+              }else{
+                result = get_result(arr, data.seed, craftable_arr);
+              }
+              if (items[result] == undefined) {
+                let marr = []
+                for (let i = 0; i < 8; i++) {
+                  marr[i] = arr[i];
+                }
+                items[result] = [marr];
+               qualities[result] = (GetItemConfig(result) || {quality:0}).quality;
+                //do_recheck(marr,result);
+              }else if(items[result].length < craft_count){
+                let marr = []
+                for (let i = 0; i < 8; i++) {
+                  marr[i] = arr[i];
+                }
+                items[result].push(marr)
+                //do_recheck(marr,result);
+              }
+              if((++watcher_counter) % base_div == 0){
+                if(real_time_flush){
+                  this.postMessage({
+                      cmd:"report",
+                      real_time_flush:true,
+                      items:items,
+                      craftable_arr:craftable_arr,
+                      qualities:qualities,
+                      count:watcher_counter,
+                      all_count:all_count,
+                  })
+                }else{
+                  this.postMessage({
+                    cmd:"report",
+                    real_time_flush:false,
+                    /*craftable_arr:craftable_arr,
+                      qualities:qualities,*/
+                    count:watcher_counter,
+                    all_count:all_count,
+                })
+
+                }
+              }
+
+            }
+          );
+        this.postMessage({
+            cmd:"result",
+            items:items,
+            craftable_arr:craftable_arr,
+                      qualities:qualities,
+            count:watcher_counter,
+            all_count:all_count,
+        })
+    }
+}
+`;
+        let webWorker;
+        if (window.Worker) {
+            webWorker = new Worker("data:text/javascript," + encodeURIComponent(webWorkerText));
+        }
+        if (webWorker) {
+            webWorker.onmessage = function(event) {
+                const data = event.data;
+                if (data.cmd === 'result' || data.cmd === 'report') {
+                    if (data.cmd === 'result') state.worker_status = 'idle';
+                    renderResults(data);
+                }
+            };
+        }
+
+        function renderPickupsGrid() {
+            const container = document.getElementById('pickupsGrid');
+            container.innerHTML = '';
+            PICKUPS.forEach(pickup => {
+                state.inventory[pickup.engineId] = pickup.defaultQty;
+                const card = document.createElement('div');
+                card.className = 'pickup-card rounded p-1.5 text-center flex flex-col items-center justify-between';
+                card.innerHTML = `
+                    <div class="mb-1 select-none flex justify-center" title="${pickup.name}"><div class="decrafting_recipe decrafting_recipe_${pickup.engineId}"></div></div>
+                    <div class="text-[10px] text-slate-300 mb-1 truncate w-full text-center" title="${pickup.name}">${pickup.name}</div>
+                    <select data-id="${pickup.engineId}" class="pickup-select w-full bg-slate-950 text-white text-xs border border-slate-600 rounded px-1 py-0.5 text-center cursor-pointer focus:outline-none focus:border-amber-500">
+                        ${Array.from({ length: 9 }, (_, i) => `<option value="${i}" ${i === pickup.defaultQty ? 'selected' : ''}>${i}</option>`).join('')}
+                    </select>
+                `;
+                container.appendChild(card);
+            });
+            document.querySelectorAll('.pickup-select').forEach(select => {
+                select.addEventListener('change', (e) => {
+                    const id = parseInt(e.target.dataset.id, 10);
+                    state.inventory[id] = parseInt(e.target.value, 10);
+                    if (state.realtime) synthesizeRecipes();
+                });
+            });
+        }
+
+        function getPickupById(engineId) {
+            return PICKUPS.find(p => p.engineId === engineId);
+        }
+
+        function markDone(ingredients) {
+            ingredients.forEach(function(ingId) {
+                if (state.inventory[ingId] > 0) state.inventory[ingId]--;
+            });
+            // update selects in grid
+            document.querySelectorAll('.pickup-select').forEach(function(sel) {
+                const id = parseInt(sel.dataset.id, 10);
+                sel.value = state.inventory[id];
+            });
+            if (state.realtime) synthesizeRecipes();
+            else if (state.lastResultData) renderResults(state.lastResultData);
+        }
+
+        function renderResults(data) {
+            state.lastResultData = data;
+            const container = document.getElementById('recipesContainer');
+            const totalCountSpan = document.getElementById('countSynthesized');
+            const resultsCountSpan = document.getElementById('resultsCount');
+            const items = data.items || {};
+            const qualities = data.qualities || {};
+            const craftable = data.craftable_arr || [];
+
+            const query = (document.getElementById('searchInput').value || '').toLowerCase().trim();
+
+            if (state.displayMode === 'craftable') {
+                let ids = [];
+                for (let i = 0; i < craftable.length; i++) {
+                    if (craftable[i]) ids.push(i);
+                }
+                const filtered = ids.filter(function(id) {
+                    if (!query) return true;
+                    const name = (ITEM_NAMES[id] || '').toLowerCase();
+                    return String(id).includes(query) || name.includes(query);
+                });
+                totalCountSpan.textContent = filtered.length;
+                resultsCountSpan.textContent = filtered.length + ' Sintetizables';
+                container.innerHTML = '';
+                if (filtered.length === 0) {
+                    container.innerHTML = '<div class="text-center py-8 text-slate-500 text-sm">No hay items sintetizables con el inventario actual.</div>';
+                    return;
+                }
+                filtered.forEach(function(id) {
+                    const quality = qualities[id] != null ? qualities[id] : 0;
+                    const stars = '★'.repeat(Math.max(0, quality));
+                    const row = document.createElement('div');
+                    row.className = 'recipe-row bg-slate-800/50 border border-slate-600/60 p-2.5 rounded flex items-center justify-between hover:bg-slate-800 transition';
+                    const iconHtml = '<a class="icons collectibles" id="collectibles_' + String(id).padStart(3,'0') + '" style="transform:scale(1.5);image-rendering:pixelated;"></a>';
+                    row.innerHTML = '<div class="flex items-center space-x-3">' + iconHtml + '<div><div class="font-bold text-sm text-slate-100">' + (ITEM_NAMES[id] || ('Objeto ' + id)) + '</div><div class="text-xs text-slate-400"><span class="text-slate-500">(teorico, calidad variable)</span></div></div></div><div class="text-xs text-slate-500">Sintetizable</div>';
+                    container.appendChild(row);
+                });
+                return;
+            }
+
+            let recipes = [];
+            Object.keys(items).forEach(function(k) {
+                const id = parseInt(k, 10);
+                if (items[id] && items[id].length > 0) recipes.push({ id: id, ingredientsList: items[id] });
+            });
+
+            const filtered = recipes.filter(function(r) {
+                if (!query) return true;
+                const name = (ITEM_NAMES[r.id] || '').toLowerCase();
+                return String(r.id).includes(query) || name.includes(query);
+            });
+
+            totalCountSpan.textContent = filtered.length;
+            resultsCountSpan.textContent = filtered.length + ' Sintetizados';
+            container.innerHTML = '';
+
+            if (recipes.length === 0) {
+                let craftableCount = 0;
+                for (let i = 0; i < craftable.length; i++) {
+                    if (craftable[i]) craftableCount++;
+                }
+                container.innerHTML = '<div class="text-center py-8 text-slate-500 text-sm">No se encontraron recetas completas con el inventario actual. Items sintetizables: ' + craftableCount + '</div>';
+                return;
+            }
+
+            filtered.forEach(function(r) {
+                const quality = qualities[r.id] != null ? qualities[r.id] : 0;
+                const stars = '★'.repeat(Math.max(0, quality));
+                const row = document.createElement('div');
+                row.className = 'bg-slate-800/50 border border-slate-600/60 p-2.5 rounded flex items-center justify-between hover:bg-slate-800 transition';
+                const ingredientsIcons = r.ingredientsList[0].map(function(ingId) {
+                    const p = getPickupById(ingId);
+                    return '<span class="bg-slate-950 border border-slate-600 px-1.5 py-0.5 rounded text-xs inline-flex items-center justify-center" title="' + (p ? p.name : ingId) + '"><div class="decrafting_recipe decrafting_recipe_' + ingId + '"></div></span>';
+                }).join(' ');
+                const iconHtml = '<a class="icons collectibles" id="collectibles_' + String(r.id).padStart(3,'0') + '" style="transform:scale(1.5);image-rendering:pixelated;"></a>';
+                row.innerHTML = '<div class="flex items-center space-x-3">' + iconHtml + '<div><div class="font-bold text-sm text-slate-100">' + (ITEM_NAMES[r.id] || ('Objeto ' + r.id)) + '</div><div class="text-xs text-yellow-400">Calidad: ' + stars + '</div></div></div><div class="flex items-center space-x-2">' + ingredientsIcons + '<button class="btn-done ml-2 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold px-2 py-1 rounded transition">Hecho</button></div>';
+                const btn = row.querySelector('.btn-done');
+                if (btn) {
+                    btn.addEventListener('click', function() {
+                        var b = this;
+                        row.classList.add('done-out');
+                        setTimeout(function() {
+                            markDone(r.ingredientsList[0]);
+                            b.textContent = 'Hecho ✓';
+                            b.classList.remove('bg-emerald-600','hover:bg-emerald-500');
+                            b.classList.add('bg-amber-600');
+                            b.disabled = true;
+                        }, 260);
+                    });
+                }
+                container.appendChild(row);
+            });
+        }
+
+function synthesizeRecipes() {
+            const check_seed_reg = new RegExp("^[A-Z0-9]{4} [A-Z0-9]{4}$", "g");
+            let invalid_seed = false;
+            if (state.seed.length != 9 || !state.seed.match(check_seed_reg)) invalid_seed = true;
+            let seed = str2seed(state.seed);
+            if (seed == 0) invalid_seed = true;
+            if (invalid_seed) return; // no alert here; validation happens on button click
+
+            const candidates = [];
+            const candidates_limit = [];
+            Object.entries(state.inventory).forEach(([id, qty]) => {
+                if (qty > 0) {
+                    candidates.push(parseInt(id, 10));
+                    candidates_limit.push(qty);
+                }
+            });
+            if (candidates.length <= 0) return;
+
+            state.worker_status = 'busy';
+            if (webWorker) {
+                webWorker.postMessage({
+                    cmd: 'start',
+                    candidates: candidates,
+                    candidates_limit: candidates_limit,
+                    seed: seed,
+                    craft_count: state.recipeLimit,
+                    real_time_flush: state.realtime,
+                    enable_wasm: state.wasm,
+                    safe_is_daily_run: state.runType === 'Daily',
+                    safe_is_greed: state.runType === 'Greed',
+                    safe_challenge_id: state.runType === 'Challenge',
+                    safe_current_stage: (state.runType === 'Daily' || state.runType === 'Challenge') ? 7 : 1,
+                    safe_has_keeper: state.character === 'Keeper',
+                    safe_has_lost: state.character === 'Lost',
+                    safe_has_tlost: state.character === 'T. Lost',
+                    safe_has_c691: state.hasSacredOrb,
+                    safe_has_t88: state.hasNoTrinket
+                });
+            }
+        }
+
+        // Event listeners
+        document.getElementById('btnSynthesize').addEventListener('click', () => {
+            const check_seed_reg = new RegExp("^[A-Z0-9]{4} [A-Z0-9]{4}$", "g");
+            let invalid_seed = false;
+            if (state.seed.length != 9 || !state.seed.match(check_seed_reg)) invalid_seed = true;
+            let seed = str2seed(state.seed);
+            if (seed == 0) invalid_seed = true;
+            if (invalid_seed) { alert("Semilla incorrecta"); return; }
+            synthesizeRecipes();
+        });
+
+        document.getElementById('btnClear').addEventListener('click', () => {
+            document.querySelectorAll('.pickup-select').forEach(select => {
+                select.value = "0";
+                state.inventory[parseInt(select.dataset.id, 10)] = 0;
+            });
+            if (state.realtime) synthesizeRecipes();
+        });
+
+        document.getElementById('toggleRealtime').addEventListener('click', (e) => {
+            state.realtime = !state.realtime;
+            e.target.textContent = state.realtime ? 'Habilitar la actualización en tiempo real' : 'Deshabilitar la actualización en tiempo real';
+            e.target.classList.toggle('bg-amber-600', state.realtime);
+            e.target.classList.toggle('bg-slate-800', !state.realtime);
+        });
+
+        document.getElementById('toggleWasm').addEventListener('click', (e) => {
+            state.wasm = !state.wasm;
+            e.target.textContent = state.wasm ? 'Activar la aceleración WASM' : 'Desactivar la aceleración WASM';
+            e.target.classList.toggle('bg-amber-600', state.wasm);
+            e.target.classList.toggle('bg-slate-800', !state.wasm);
+        });
+
+        // Modo de juego tabs
+        document.querySelectorAll('.runtype-btn').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                state.runType = btn.dataset.runtype;
+                document.querySelectorAll('.runtype-btn').forEach(function(b) {
+                    b.classList.remove('bg-amber-600','text-white');
+                    b.classList.add('bg-slate-800','text-slate-300');
+                });
+                btn.classList.remove('bg-slate-800','text-slate-300');
+                btn.classList.add('bg-amber-600','text-white');
+                if (state.realtime) synthesizeRecipes();
+            });
+        });
+
+        // Personaje tabs
+        document.querySelectorAll('.char-btn').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                state.character = btn.dataset.character;
+                document.querySelectorAll('.char-btn').forEach(function(b) {
+                    b.classList.remove('bg-amber-600','text-white');
+                    b.classList.add('bg-slate-800','text-slate-300');
+                });
+                btn.classList.remove('bg-slate-800','text-slate-300');
+                btn.classList.add('bg-amber-600','text-white');
+                if (state.realtime) synthesizeRecipes();
+            });
+        });
+
+        // Sacred Orb toggle
+        const sacredBtn = document.getElementById('toggleSacredOrb');
+        if (sacredBtn) {
+            sacredBtn.addEventListener('click', function() {
+                state.hasSacredOrb = !state.hasSacredOrb;
+                const st = sacredBtn.querySelector('.orb-state');
+                if (state.hasSacredOrb) {
+                    sacredBtn.classList.add('ring-2','ring-amber-500');
+                    if (st) { st.textContent = 'ON'; st.classList.remove('text-slate-500'); st.classList.add('text-amber-400'); }
+                } else {
+                    sacredBtn.classList.remove('ring-2','ring-amber-500');
+                    if (st) { st.textContent = 'OFF'; st.classList.remove('text-amber-400'); st.classList.add('text-slate-500'); }
+                }
+                if (state.realtime) synthesizeRecipes();
+            });
+        }
+
+        // NO! trinket toggle
+        const noTrinketBtn = document.getElementById('toggleNoTrinkets');
+        if (noTrinketBtn) {
+            noTrinketBtn.addEventListener('click', function() {
+                state.hasNoTrinket = !state.hasNoTrinket;
+                const st = noTrinketBtn.querySelector('.trinket-state');
+                if (state.hasNoTrinket) {
+                    noTrinketBtn.classList.add('ring-2','ring-amber-500');
+                    if (st) { st.textContent = 'ON'; st.classList.remove('text-slate-500'); st.classList.add('text-amber-400'); }
+                } else {
+                    noTrinketBtn.classList.remove('ring-2','ring-amber-500');
+                    if (st) { st.textContent = 'OFF'; st.classList.remove('text-amber-400'); st.classList.add('text-slate-500'); }
+                }
+                if (state.realtime) synthesizeRecipes();
+            });
+        }
+
+
+        // Modal info
+        function openInfoModal() {
+            const bd = document.getElementById('infoModalBackdrop');
+            bd.style.display = 'flex';
+        }
+        function closeInfoModal() {
+            const bd = document.getElementById('infoModalBackdrop');
+            bd.style.display = 'none';
+        }
+        document.addEventListener('click', (e) => {
+            if (e.target && e.target.classList && e.target.classList.contains('info-more-btn')) {
+                openInfoModal();
+            }
+            if (e.target && e.target.id === 'infoModalClose') closeInfoModal();
+            if (e.target && e.target.id === 'infoModalBackdrop') closeInfoModal();
+        });
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeInfoModal();
+        });
+
+
+        document.getElementById('seedInput').addEventListener('input', (e) => {
+            state.seed = e.target.value.toUpperCase();
+            if (state.realtime) synthesizeRecipes();
+        });
+
+        document.getElementById('searchInput').addEventListener('input', () => {
+            if (state.lastResultData) renderResults(state.lastResultData);
+        });
+
+        document.getElementById('toggleDisplayMode').addEventListener('click', (e) => {
+            state.displayMode = (state.displayMode === 'crafted') ? 'craftable' : 'crafted';
+            e.target.textContent = (state.displayMode === 'crafted') ? 'Modo: Sintetizados (semilla)' : 'Modo: Sintetizables (teórico)';
+            if (state.displayMode === 'craftable' && state.wasm) {
+                state.wasm = false;
+                const wb = document.getElementById('toggleWasm');
+                wb.textContent = 'Activar la aceleración WASM';
+                wb.classList.remove('bg-amber-600'); wb.classList.add('bg-slate-800');
+            }
+            if (state.displayMode === 'crafted') {
+                state.wasm = true;
+                const wb = document.getElementById('toggleWasm');
+                wb.textContent = 'Activar la aceleración WASM';
+                wb.classList.remove('bg-slate-800'); wb.classList.add('bg-amber-600');
+            }
+            if (state.realtime || state.lastResultData) synthesizeRecipes();
+        });
+
+        // Inicialización
+        renderPickupsGrid();
+        if (state.realtime) synthesizeRecipes();
+    </script>
+</body>
+</html>

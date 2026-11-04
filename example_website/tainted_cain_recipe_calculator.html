@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sintetiza la Sacabolsas / Bag of Crafting - TBOI Repentance+</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            background-color: #1e1e1e;
+            color: #d4d4d4;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .pickup-card {
+            background-color: #2d2d2d;
+            border: 1px solid #444;
+            transition: all 0.2s ease;
+        }
+        .pickup-card:hover {
+            border-color: #3b82f6;
+            background-color: #363636;
+        }
+        /* Custom scrollbars */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1e1e1e;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #444;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #666;
+        }
+    </style>
+</head>
+<body class="p-4 md:p-8 max-w-7xl mx-auto">
+
+    <!-- Encabezado Principal -->
+    <header class="border-b border-gray-700 pb-4 mb-6">
+        <h1 class="text-3xl font-serif text-gray-100 tracking-wide">
+            Sintetizador de Bolsas del Tesoro (Bag of Crafting) - Repentance+
+        </h1>
+        <p class="text-xs text-gray-400 mt-1">Calculadora de recetas basada en la semilla e inventario actual de pickups.</p>
+    </header>
+
+    <!-- Sección de Semilla (Seed) -->
+    <section class="mb-6">
+        <div class="bg-blue-900/40 border border-blue-700/60 rounded-t p-2 text-center text-blue-200 font-semibold text-sm">
+            Semilla (Seed)
+        </div>
+        <div class="bg-gray-800 p-3 border-x border-b border-gray-700 rounded-b">
+            <input 
+                type="text" 
+                id="seedInput" 
+                placeholder="EJ: ABCD EFG1" 
+                value="ABCD EFG1" 
+                class="w-full bg-white text-gray-900 font-mono font-bold text-center py-2 text-lg rounded tracking-widest border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
+                maxlength="9"
+            />
+        </div>
+    </section>
+
+    <!-- Grid de Pickups / Componentes -->
+    <section class="bg-gray-800 border border-gray-700 rounded p-4 mb-6">
+        <h2 class="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-3">Componentes Disponibles</h2>
+        
+        <div id="pickupsGrid" class="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-12 gap-2">
+            <!-- Los componentes se generan dinámicamente con JS -->
+        </div>
+    </section>
+
+    <!-- Panel de Opciones y Controles -->
+    <section class="bg-gray-800 border border-gray-700 rounded p-4 mb-6 space-y-4">
+        
+        <!-- Línea 1: Filtros de Recetas y WASM -->
+        <div class="flex flex-wrap gap-2 items-center text-xs">
+            <div class="bg-gray-700 px-3 py-1.5 rounded text-gray-300 font-medium">
+                Sintetizar (<span id="countSynthesized">0</span>)
+            </div>
+            
+            <div class="flex bg-gray-900 rounded p-0.5 border border-gray-700">
+                <button class="recipe-limit-btn px-2.5 py-1 rounded bg-gray-700 text-white font-bold" data-limit="1">1. Receta</button>
+                <button class="recipe-limit-btn px-2.5 py-1 rounded text-gray-400 hover:text-white" data-limit="10">10. Recetas</button>
+                <button class="recipe-limit-btn px-2.5 py-1 rounded text-gray-400 hover:text-white" data-limit="20">20 recetas</button>
+                <button class="recipe-limit-btn px-2.5 py-1 rounded text-gray-400 hover:text-white" data-limit="50">50 recetas</button>
+                <button class="recipe-limit-btn px-2.5 py-1 rounded text-gray-400 hover:text-white bg-green-700 font-bold" data-limit="100">100 recetas</button>
+            </div>
+
+            <button id="toggleRealtime" class="bg-green-700 text-white px-3 py-1.5 rounded hover:bg-green-600 transition font-medium">
+                Habilitar la actualización en tiempo real
+            </button>
+            
+            <button id="toggleWasm" class="bg-green-700 text-white px-3 py-1.5 rounded hover:bg-green-600 transition font-medium">
+                Activar la aceleración WASM
+            </button>
+        </div>
+
+        <!-- Línea 2: Modos de Juego y Desbloqueos de Personajes -->
+        <div class="flex flex-wrap gap-2 text-xs">
+            <label class="inline-flex items-center bg-gray-700 px-2.5 py-1.5 rounded cursor-pointer hover:bg-gray-650">
+                <input type="checkbox" id="greedMode" class="rounded border-gray-600 text-blue-600 focus:ring-0 mr-1.5">
+                Modo avaricia
+            </label>
+            <label class="inline-flex items-center bg-gray-700 px-2.5 py-1.5 rounded cursor-pointer hover:bg-gray-650">
+                <input type="checkbox" id="dailyChallenges" class="rounded border-gray-600 text-blue-600 focus:ring-0 mr-1.5">
+                Retos diarios (incluyendo Después del Capítulo 4)
+            </label>
+            <label class="inline-flex items-center bg-gray-700 px-2.5 py-1.5 rounded cursor-pointer hover:bg-gray-650">
+                <input type="checkbox" id="unlockKeeper" class="rounded border-gray-600 text-blue-600 focus:ring-0 mr-1.5">
+                (Corrompido) dueño de la tienda
+            </label>
+            <label class="inline-flex items-center bg-gray-700 px-2.5 py-1.5 rounded cursor-pointer hover:bg-gray-650">
+                <input type="checkbox" id="unlockForgotten" class="rounded border-gray-600 text-blue-600 focus:ring-0 mr-1.5">
+                Transformado en un alma errante
+            </label>
+        </div>
+
+        <!-- Línea 3: Modificadores de Objetos -->
+        <div class="flex flex-wrap gap-2 text-xs">
+            <span class="bg-gray-700 px-3 py-1.5 rounded text-gray-300">
+                Objeto: Orbe Sagrado de la Cruz
+            </span>
+            <span class="bg-gray-700 px-3 py-1.5 rounded text-gray-300">
+                (Oro/varios) Accesorios: ¡No!
+            </span>
+        </div>
+
+        <!-- Línea 4: Botones Principales -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+            <button id="btnSynthesize" class="bg-green-600 hover:bg-green-500 text-white font-bold py-3 px-6 rounded text-center transition text-lg shadow-lg">
+                Comienza la síntesis
+            </button>
+            <button id="btnClear" class="bg-gray-700 hover:bg-gray-600 text-blue-300 font-semibold py-3 px-6 rounded text-center transition">
+                Vacía los componentes
+            </button>
+        </div>
+    </section>
+
+    <!-- Lista de Resultados de Síntesis -->
+    <section class="bg-gray-800 border border-gray-700 rounded p-4">
+        <h2 class="text-base font-semibold text-gray-200 mb-4 flex items-center justify-between">
+            <span>Resultados de Recetas Posibles</span>
+            <span id="resultsCount" class="text-xs bg-blue-900 text-blue-200 px-2.5 py-1 rounded-full">0 Encontradas</span>
+        </h2>
+
+        <div id="recipesContainer" class="space-y-3 max-h-[500px] overflow-y-auto pr-2">
+            <div class="text-center py-8 text-gray-500 text-sm">
+                Selecciona componentes y presiona "Comienza la síntesis" para ver las recetas disponibles.
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Lista completa de Pickups con IDs y assets textuales/visuales
+        const PICKUPS = [
+            { id: 'red_heart', name: 'Corazón Rojo', icon: '❤️', defaultQty: 8 },
+            { id: 'soul_heart', name: 'Corazón de Alma', icon: '💙', defaultQty: 8 },
+            { id: 'black_heart', name: 'Corazón Negro', icon: '🖤', defaultQty: 0 },
+            { id: 'eternal_heart', name: 'Corazón Eterno', icon: '🤍', defaultQty: 0 },
+            { id: 'gold_heart', name: 'Corazón Dorado', icon: '💛', defaultQty: 0 },
+            { id: 'bone_heart', name: 'Corazón de Hueso', icon: '🦴', defaultQty: 0 },
+            { id: 'rotten_heart', name: 'Corazón Podrido', icon: '🟤', defaultQty: 0 },
+            { id: 'penny', name: 'Moneda', icon: '🪙', defaultQty: 0 },
+            { id: 'nickel', name: 'Níquel', icon: '⚪', defaultQty: 0 },
+            { id: 'dime', name: 'Moneda de 10c', icon: '🔘', defaultQty: 0 },
+            { id: 'lucky_penny', name: 'Moneda de la Suerte', icon: '🟢', defaultQty: 0 },
+            { id: 'key', name: 'Llave', icon: '🔑', defaultQty: 0 },
+            { id: 'golden_key', name: 'Llave Dorada', icon: '🔑✨', defaultQty: 0 },
+            { id: 'charged_key', name: 'Llave Cargada', icon: '🔑⚡', defaultQty: 0 },
+            { id: 'bomb', name: 'Bomba', icon: '💣', defaultQty: 0 },
+            { id: 'golden_bomb', name: 'Bomba Dorada', icon: '💣✨', defaultQty: 0 },
+            { id: 'giga_bomb', name: 'Giga Bomba', icon: '💣💥', defaultQty: 0 },
+            { id: 'micro_battery', name: 'Micro Batería', icon: '🔋', defaultQty: 0 },
+            { id: 'battery', name: 'Batería Normal', icon: '🔋', defaultQty: 0 },
+            { id: 'mega_battery', name: 'Mega Batería', icon: '🔋⚡', defaultQty: 0 },
+            { id: 'card', name: 'Carta / Tarjeta', icon: '🃏', defaultQty: 0 },
+            { id: 'pill', name: 'Píldora', icon: '💊', defaultQty: 0 },
+            { id: 'rune', name: 'Runa', icon: '🪨', defaultQty: 0 },
+            { id: 'dice_shard', name: 'Fragmento del Dado', icon: '🎲', defaultQty: 0 },
+            { id: 'soul_stone', name: 'Piedra del Alma', icon: '🔮', defaultQty: 0 },
+            { id: 'golden_penny', name: 'Moneda Dorada', icon: '🪙✨', defaultQty: 0 },
+            { id: 'golden_pill', name: 'Píldora Dorada', icon: '💊✨', defaultQty: 0 },
+            { id: 'golden_battery', name: 'Batería Dorada', icon: '🔋✨', defaultQty: 0 },
+            { id: 'poop', name: 'Caca / Poop', icon: '💩', defaultQty: 0 }
+        ];
+
+        // Estado global de la app
+        const state = {
+            seed: 'ABCD EFG1',
+            inventory: {},
+            recipeLimit: 100,
+            realtime: true,
+            wasm: true,
+            greed: false,
+            daily: false,
+            keeper: false,
+            forgotten: false
+        };
+
+        // Renderizado inicial del Grid de Componentes
+        function renderPickupsGrid() {
+            const container = document.getElementById('pickupsGrid');
+            container.innerHTML = '';
+
+            PICKUPS.forEach(pickup => {
+                state.inventory[pickup.id] = pickup.defaultQty;
+
+                const card = document.createElement('div');
+                card.className = 'pickup-card rounded p-1.5 text-center flex flex-col items-center justify-between';
+                
+                card.innerHTML = `
+                    <div class="text-xl mb-1 select-none" title="${pickup.name}">${pickup.icon}</div>
+                    <select 
+                        data-id="${pickup.id}" 
+                        class="pickup-select w-full bg-gray-900 text-white text-xs border border-gray-600 rounded px-1 py-0.5 text-center cursor-pointer focus:outline-none focus:border-blue-500"
+                    >
+                        ${Array.from({ length: 30 }, (_, i) => `<option value="${i}" ${i === pickup.defaultQty ? 'selected' : ''}>${i}</option>`).join('')}
+                    </select>
+                `;
+
+                container.appendChild(card);
+            });
+
+            // Event Listeners para los selects
+            document.querySelectorAll('.pickup-select').forEach(select => {
+                select.addEventListener('change', (e) => {
+                    const id = e.target.dataset.id;
+                    state.inventory[id] = parseInt(e.target.value, 10);
+                    if (state.realtime) synthesizeRecipes();
+                });
+            });
+        }
+
+        // Simulación del algoritmo de sintetizado de Tainted Cain
+        function synthesizeRecipes() {
+            const container = document.getElementById('recipesContainer');
+            const totalCountSpan = document.getElementById('countSynthesized');
+            const resultsCountSpan = document.getElementById('resultsCount');
+
+            // Filtrar componentes con cantidad > 0
+            const availablePickups = [];
+            Object.entries(state.inventory).forEach(([id, qty]) => {
+                for (let i = 0; i < qty; i++) {
+                    availablePickups.push(id);
+                }
+            });
+
+            if (availablePickups.length < 8) {
+                container.innerHTML = `
+                    <div class="text-center py-8 text-yellow-500 text-sm">
+                        Se necesitan al menos 8 componentes en total para sintetizar una receta. (Tienes ${availablePickups.length}/8).
+                    </div>`;
+                totalCountSpan.textContent = '0';
+                resultsCountSpan.textContent = '0 Encontradas';
+                return;
+            }
+
+            // Mock de items generables según la receta
+            const mockItems = [
+                { name: "Brimstone", quality: 4, icon: "😈" },
+                { name: "Sacred Heart", quality: 4, icon: "💖" },
+                { name: "The D6", quality: 3, icon: "🎲" },
+                { name: "Mutant Spider", quality: 3, icon: "🕷️" },
+                { name: "Crickets Head", quality: 4, icon: "🐱" },
+                { name: "Magic Mushroom", quality: 4, icon: "🍄" },
+                { name: "Holy Mantle", quality: 3, icon: "🛡️" },
+                { name: "Breakfast", quality: 1, icon: "🥛" }
+            ];
+
+            // Generar combinaciones simuladas
+            const recipes = [];
+            const limit = Math.min(state.recipeLimit, 15);
+
+            for (let i = 0; i < limit; i++) {
+                // Seleccionar 8 pickups aleatorios del inventario disponible
+                const shuffled = [...availablePickups].sort(() => 0.5 - Math.random());
+                const ingredients = shuffled.slice(0, 8);
+                const item = mockItems[i % mockItems.length];
+
+                recipes.push({
+                    item: item,
+                    ingredients: ingredients
+                });
+            }
+
+            // Renderizar resultados
+            totalCountSpan.textContent = recipes.length;
+            resultsCountSpan.textContent = `${recipes.length} Encontradas`;
+            container.innerHTML = '';
+
+            recipes.forEach(r => {
+                const row = document.createElement('div');
+                row.className = 'bg-gray-700/50 border border-gray-600/60 p-2.5 rounded flex items-center justify-between hover:bg-gray-700 transition';
+                
+                const ingredientsIcons = r.ingredients.map(ingId => {
+                    const p = PICKUPS.find(x => x.id === ingId);
+                    return `<span class="bg-gray-900 border border-gray-600 px-1.5 py-0.5 rounded text-xs" title="${p.name}">${p.icon}</span>`;
+                }).join(' ');
+
+                row.innerHTML = `
+                    <div class="flex items-center space-x-3">
+                        <span class="text-2xl">${r.item.icon}</span>
+                        <div>
+                            <div class="font-bold text-sm text-gray-100">${r.item.name}</div>
+                            <div class="text-xs text-yellow-400">Calidad: ${'★'.repeat(r.item.quality)}</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-1">
+                        ${ingredientsIcons}
+                    </div>
+                `;
+
+                container.appendChild(row);
+            });
+        }
+
+        // Event Listeners y Handlers de Controles
+        document.getElementById('btnSynthesize').addEventListener('click', synthesizeRecipes);
+
+        document.getElementById('btnClear').addEventListener('click', () => {
+            document.querySelectorAll('.pickup-select').forEach(select => {
+                select.value = "0";
+                state.inventory[select.dataset.id] = 0;
+            });
+            if (state.realtime) synthesizeRecipes();
+        });
+
+        document.querySelectorAll('.recipe-limit-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                document.querySelectorAll('.recipe-limit-btn').forEach(b => {
+                    b.classList.remove('bg-green-700', 'font-bold', 'text-white');
+                    b.classList.add('text-gray-400');
+                });
+                e.target.classList.add('bg-green-700', 'font-bold', 'text-white');
+                e.target.classList.remove('text-gray-400');
+                state.recipeLimit = parseInt(e.target.dataset.limit, 10);
+                if (state.realtime) synthesizeRecipes();
+            });
+        });
+
+        document.getElementById('seedInput').addEventListener('input', (e) => {
+            state.seed = e.target.value.toUpperCase();
+            if (state.realtime) synthesizeRecipes();
+        });
+
+        // Inicialización
+        renderPickupsGrid();
+        synthesizeRecipes();
+    </script>
+</body>
+</html>
