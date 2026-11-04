@@ -1399,7 +1399,8 @@ kbd {
 </head>
 <body class="p-4 md:p-8 max-w-7xl mx-auto">
 
-    <header class="border-b border-slate-700 pb-4 mb-6">
+    <header class="border-b border-slate-700 pb-4 mb-6 relative">
+        <button id="btnExample" class="absolute top-0 right-0 bg-slate-700 hover:bg-slate-600 text-slate-200 text-xs font-semibold px-3 py-1 rounded transition" title="Carga una semilla y pickups de ejemplo.">EJEMPLO</button>
         <h1 class="text-3xl font-serif text-slate-100 tracking-wide" style="font-family:'Space Grotesk',sans-serif; letter-spacing:0.02em;">
             Bag of Crafting Calculadora (Repentance+)
         </h1>
@@ -2410,7 +2411,7 @@ onmessage = function(event){
                     return '<div class="flex items-center justify-center" title="' + (p ? p.name : ingId) + '"><img src="https://bindingofisaacrebirth.wiki.gg/images/Collectible_Bag_of_Crafting_component_' + ingId + '.png" style="width:32px;height:32px;image-rendering:pixelated;" /></div>';
                 }).join('');
                 const iconHtml = '<a class="icons collectibles" id="collectibles_' + String(r.id).padStart(3,'0') + '" style="transform:scale(1.5);image-rendering:pixelated;"></a>';
-                row.innerHTML = '<div class="flex flex-col gap-2"><div class="flex justify-between items-center"><div class="font-bold text-sm text-slate-100">' + (ITEM_NAMES[r.id] || ('Objeto ' + r.id)) + '</div><div class="flex items-center gap-2"><div class="text-xs text-yellow-400">Q' + quality + '</div><button class="btn-done bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold px-2 py-1 rounded transition">Hecho</button></div></div><div class="flex items-stretch justify-between gap-3"><div class="grid gap-1" style="grid-template-columns:repeat(4,1fr);">' + ingredientsIcons + '</div><div class="border-l border-slate-600 pl-2 flex items-center justify-center">' + iconHtml + '</div></div></div>';
+                row.innerHTML = '<div class="flex flex-col gap-2"><div class="flex justify-between items-center"><div class="font-bold text-sm text-slate-100">' + (ITEM_NAMES[r.id] || ('Objeto ' + r.id)) + '</div><div class="flex items-center gap-2"><div class="text-xs text-yellow-400">QUALITY ' + quality + '</div><button class="btn-done bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold px-2 py-1 rounded transition">Hecho</button></div></div><div class="flex items-stretch justify-between gap-3"><div class="grid gap-1" style="grid-template-columns:repeat(4,1fr);">' + ingredientsIcons + '</div><div class="border-l border-slate-600 pl-2 flex items-center justify-center">' + iconHtml + '</div></div></div>';
                 const btn = row.querySelector('.btn-done');
                 if (btn) {
                     btn.addEventListener('click', function() {
@@ -2613,6 +2614,18 @@ function synthesizeRecipes() {
                 wb.classList.remove('bg-slate-800'); wb.classList.add('bg-blue-600');
             }
             if (state.realtime || state.lastResultData) synthesizeRecipes();
+        });
+
+        document.getElementById('btnExample').addEventListener('click', () => {
+            const seedInput = document.getElementById('seedInput');
+            seedInput.value = 'M2M0 LLFV';
+            state.seed = 'M2M0 LLFV';
+            document.querySelectorAll('.pickup-select').forEach(sel => {
+                sel.value = '8';
+                state.inventory[parseInt(sel.dataset.id, 10)] = 8;
+            });
+            if (state.realtime) synthesizeRecipes();
+            else if (state.lastResultData) renderResults(state.lastResultData);
         });
 
         // Inicialización
