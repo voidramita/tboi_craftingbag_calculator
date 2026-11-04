@@ -1395,18 +1395,20 @@ kbd {
             border-color: #1f2b42 !important;
             color: #ffffff !important;
         }
+
     </style>
 </head>
 <body class="p-4 md:p-8 max-w-7xl mx-auto">
 
     <header class="border-b border-slate-700 pb-4 mb-6 relative">
         <button id="btnExample" class="absolute top-0 right-0 bg-slate-700 hover:bg-slate-600 text-slate-200 text-xs font-semibold px-3 py-1 rounded transition" title="Carga una semilla y pickups de ejemplo.">EJEMPLO</button>
+        <button id="btnHelp" class="absolute top-0 right-[80px] bg-slate-700 hover:bg-slate-600 text-slate-200 text-xs font-semibold px-2.5 py-1 rounded transition" title="Tour guiado">?</button>
         <h1 class="text-3xl font-serif text-slate-100 tracking-wide" style="font-family:'Space Grotesk',sans-serif; letter-spacing:0.02em;">
             Bag of Crafting Calculadora (Repentance+)
         </h1>
     </header>
 
-    <section class="mb-6">
+    <section class="mb-6 highlight-section" data-help="seed">
         <div class="bg-blue-950/40 border border-blue-700/60 rounded-t p-2 text-center text-blue-200 font-semibold text-sm">
             Semilla (Seed)
         </div>
@@ -1423,12 +1425,12 @@ kbd {
         </div>
     </section>
 
-    <section class="bg-slate-900 border border-slate-700 rounded p-4 mb-6">
+    <section class="bg-slate-900 border border-slate-700 rounded p-4 mb-6 highlight-section" data-help="pickups">
         <h2 class="text-sm font-semibold uppercase tracking-wider mb-3" style="color:#8a99ad;">Pickups Disponibles</h2>
         <div id="pickupsGrid" class="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-12 gap-2"></div>
     </section>
 
-    <section class="bg-slate-900 border border-slate-700 rounded p-4 mb-6 space-y-4">
+    <section class="bg-slate-900 border border-slate-700 rounded p-4 mb-6 space-y-4 highlight-section" data-help="options">
         <div class="flex flex-wrap gap-2 items-center text-xs">
                 <div class="relative inline-block">
   <button id="toggleRealtime" class="bg-blue-600 text-white px-3 py-1.5 rounded hover:bg-blue-700 transition font-medium">Habilitar la actualización en tiempo real</button>
@@ -1466,7 +1468,7 @@ kbd {
         </div>
 
         <!-- Excepciones -->
-        <div class="space-y-2">
+        <div class="space-y-2 highlight-section" data-help="exceptions">
             <div class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Excepciones</div>
             <div class="flex flex-col gap-2">
                 <button id="toggleSacredOrb" type="button" class="flex items-center gap-3 bg-slate-800 hover:bg-slate-700 rounded p-3 text-left transition">
@@ -1495,7 +1497,7 @@ kbd {
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
-            <button id="btnSynthesize" class="bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 px-6 rounded text-center transition text-lg shadow-lg">Buscar recetas</button>
+            <button id="btnSynthesize" class="bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 px-6 rounded text-center transition text-lg shadow-lg highlight-section" data-help="search">Buscar recetas</button>
             <button id="btnClear" class="bg-slate-800 hover:bg-gray-600 text-slate-200 font-semibold py-3 px-6 rounded text-center transition">Reiniciar</button>
         </div>
     </section>
@@ -1525,6 +1527,27 @@ kbd {
         </div>
     </div>
 
+
+    <!-- Help overlay -->
+    <div id="helpOverlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:9998;backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);"></div>
+    <button id="helpClose" style="display:none;position:fixed;top:16px;right:16px;z-index:10001;background:#1f2937;color:#fff;border:none;border-radius:50%;width:36px;height:36px;font-size:20px;cursor:pointer;line-height:1;">&times;</button>
+
+    <!-- Help tooltip cards -->
+    <div class="help-card" data-for="seed" style="display:none;position:fixed;z-index:10000;background:#1e1e24;color:#d1d5db;font-size:0.85rem;padding:10px 14px;border-radius:8px;border:1px solid #2f3a47;box-shadow:0 8px 24px rgba(0,0,0,0.5);max-width:280px;">
+        Ingresa la semilla (Seed) de tu partida actual. La encuentras en el menú de pausa de Isaac.
+    </div>
+    <div class="help-card" data-for="pickups" style="display:none;position:fixed;z-index:10000;background:#1e1e24;color:#d1d5db;font-size:0.85rem;padding:10px 14px;border-radius:8px;border:1px solid #2f3a47;box-shadow:0 8px 24px rgba(0,0,0,0.5);max-width:280px;">
+        Selecciona la cantidad exacta de consumibles (corazones, monedas, llaves, bombas, etc.) que hay en el suelo de tu sala.
+    </div>
+    <div class="help-card" data-for="options" style="display:none;position:fixed;z-index:10000;background:#1e1e24;color:#d1d5db;font-size:0.85rem;padding:10px 14px;border-radius:8px;border:1px solid #2f3a47;box-shadow:0 8px 24px rgba(0,0,0,0.5);max-width:280px;">
+        Ajusta las opciones según tu partida actual para adaptar las reglas de crafteo.
+    </div>
+    <div class="help-card" data-for="exceptions" style="display:none;position:fixed;z-index:10000;background:#1e1e24;color:#d1d5db;font-size:0.85rem;padding:10px 14px;border-radius:8px;border:1px solid #2f3a47;box-shadow:0 8px 24px rgba(0,0,0,0.5);max-width:280px;">
+        Activa Sacred Orb o el trinket NO! si los tienes en tu partida para filtrar ítems de baja calidad o activos.
+    </div>
+    <div class="help-card" data-for="search" style="display:none;position:fixed;z-index:10000;background:#1e1e24;color:#d1d5db;font-size:0.85rem;padding:10px 14px;border-radius:8px;border:1px solid #2f3a47;box-shadow:0 8px 24px rgba(0,0,0,0.5);max-width:280px;">
+        Procesa las combinaciones y descubre los objetos que puedes fabricar.
+    </div>
     </section>
 
     <script>
@@ -2349,6 +2372,8 @@ onmessage = function(event){
 
             const query = (document.getElementById('searchInput').value || '').toLowerCase().trim();
 
+            const RENDER_LIMIT = 40;
+
             if (state.displayMode === 'craftable') {
                 let ids = [];
                 for (let i = 0; i < craftable.length; i++) {
@@ -2363,17 +2388,38 @@ onmessage = function(event){
                 if (resultsCountSpan) resultsCountSpan.textContent = filtered.length + ' Sintetizables';
                 container.innerHTML = '';
                 if (filtered.length === 0) {
-                    container.innerHTML = '<div style="width:100%;min-height:200px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px 20px;" class="text-slate-500 text-sm">No hay items sintetizables con el inventario actual.</div>';
+                    container.innerHTML = '<div style="grid-column:1 / -1;width:100%;min-height:200px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px 20px;" class="text-slate-500 text-sm">No hay items sintetizables con el inventario actual.</div>';
                     return;
                 }
-                filtered.forEach(function(id) {
+                const fragment = document.createDocumentFragment();
+                const limit = Math.min(filtered.length, RENDER_LIMIT);
+                for (let i = 0; i < limit; i++) {
+                    const id = filtered[i];
                     const quality = qualities[id] != null ? qualities[id] : 0;
                     const row = document.createElement('div');
-                    row.className = 'recipe-row bg-slate-800/50 border border-slate-600/60 p-4 rounded hover:bg-slate-800 transition';
-                    const iconHtml = '<a class="icons collectibles" id="collectibles_' + String(id).padStart(3,'0') + '" style="transform:scale(1.5);image-rendering:pixelated;"></a>';
-                    row.innerHTML = '<div class="flex flex-col gap-2"><div class="flex justify-between items-center"><div class="font-bold text-sm text-slate-100">' + (ITEM_NAMES[id] || ('Objeto ' + id)) + '</div><div class="text-xs text-slate-500">(teorico)</div></div><div class="flex items-stretch gap-3"><div class="grid gap-3" style="grid-template-columns:repeat(4,1fr);"">' + '' + '</div><div class="border-l border-slate-600 pl-3 flex items-center justify-center">' + iconHtml + '</div></div></div>';
-                    container.appendChild(row);
-                });
+                    row.className = 'recipe-row bg-slate-800/50 border border-slate-600/60 p-2.5 rounded hover:bg-slate-800 transition';
+                    const iconHtml = '<div class="w-12 h-12 flex items-center justify-center overflow-hidden"><a class="icons collectibles" id="collectibles_' + String(id).padStart(3,'0') + '" style="transform:scale(1.5);image-rendering:pixelated;display:inline-block;margin:0;"></a></div>';
+                    row.innerHTML = '<div class="flex flex-col gap-2"><div class="flex justify-between items-center"><div class="font-bold text-sm text-slate-100">' + (ITEM_NAMES[id] || ('Objeto ' + id)) + '</div><div class="text-xs text-slate-500">(teorico)</div></div><div class="flex items-center justify-between gap-2 pt-1"><div class="grid gap-1.5 shrink-0" style="grid-template-columns: repeat(4, 32px); grid-template-rows: repeat(2, 32px);"></div><div class="border-l border-slate-700 pl-3 flex items-center justify-center shrink-0 min-w-[56px] h-[68px]">' + iconHtml + '</div></div></div>';
+                    fragment.appendChild(row);
+                }
+                container.appendChild(fragment);
+                if (filtered.length > RENDER_LIMIT) {
+                    const more = document.createElement('div');
+                    more.style.gridColumn = '1 / -1';
+                    more.style.textAlign = 'center';
+                    more.style.padding = '12px';
+                    const btn = document.createElement('button');
+                    btn.className = 'bg-slate-700 hover:bg-slate-600 text-slate-200 text-xs font-semibold px-4 py-2 rounded transition';
+                    btn.textContent = 'Cargar más (' + (filtered.length - RENDER_LIMIT) + ' restantes)';
+                    btn.addEventListener('click', function() {
+                        if (state.lastResultData) {
+                            state.lastResultData._offset = RENDER_LIMIT;
+                            renderResults(state.lastResultData);
+                        }
+                    });
+                    more.appendChild(btn);
+                    container.appendChild(more);
+                }
                 return;
             }
 
@@ -2398,11 +2444,20 @@ onmessage = function(event){
                 for (let i = 0; i < craftable.length; i++) {
                     if (craftable[i]) craftableCount++;
                 }
-                container.innerHTML = '<div style="width:100%;min-height:200px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px 20px;" class="text-slate-500 text-sm">No se encontraron recetas completas con el inventario actual. Items sintetizables: ' + craftableCount + '</div>';
+                container.innerHTML = '<div style="grid-column:1 / -1;width:100%;min-height:200px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px 20px;" class="text-slate-500 text-sm">No se encontraron recetas completas con el inventario actual. Items sintetizables: ' + craftableCount + '</div>';
                 return;
             }
 
-            filtered.forEach(function(r) {
+            const isNewData = (state.lastResultData !== data);
+            state.lastResultData = data;
+            if (isNewData) data._offset = 0;
+            const offset = (data._offset) ? data._offset : 0;
+            const startIdx = 0;
+            const endIdx = Math.min(filtered.length, 40 + offset);
+
+            const fragment = document.createDocumentFragment();
+            for (let i = startIdx; i < endIdx; i++) {
+                const r = filtered[i];
                 const quality = qualities[r.id] != null ? qualities[r.id] : 0;
                 const row = document.createElement('div');
                 row.className = 'recipe-row bg-slate-800/50 border border-slate-600/60 p-2.5 rounded hover:bg-slate-800 transition';
@@ -2410,8 +2465,8 @@ onmessage = function(event){
                     const p = getPickupById(ingId);
                     return '<div class="flex items-center justify-center" title="' + (p ? p.name : ingId) + '"><img src="https://bindingofisaacrebirth.wiki.gg/images/Collectible_Bag_of_Crafting_component_' + ingId + '.png" style="width:32px;height:32px;image-rendering:pixelated;" /></div>';
                 }).join('');
-                const iconHtml = '<a class="icons collectibles" id="collectibles_' + String(r.id).padStart(3,'0') + '" style="transform:scale(1.5);image-rendering:pixelated;"></a>';
-                row.innerHTML = '<div class="flex flex-col gap-2"><div class="flex justify-between items-center"><div class="font-bold text-sm text-slate-100">' + (ITEM_NAMES[r.id] || ('Objeto ' + r.id)) + '</div><div class="flex items-center gap-2"><div class="text-xs text-yellow-400">QUALITY ' + quality + '</div><button class="btn-done bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold px-2 py-1 rounded transition">Hecho</button></div></div><div class="flex items-stretch justify-between gap-3"><div class="grid gap-1" style="grid-template-columns:repeat(4,1fr);">' + ingredientsIcons + '</div><div class="border-l border-slate-600 pl-2 flex items-center justify-center">' + iconHtml + '</div></div></div>';
+                const iconHtml = '<div class="w-12 h-12 flex items-center justify-center overflow-hidden"><a class="icons collectibles" id="collectibles_' + String(r.id).padStart(3,'0') + '" style="transform:scale(1.5);image-rendering:pixelated;display:inline-block;margin:0;"></a></div>';
+                row.innerHTML = '     <div class="flex flex-col gap-2">       <div class="flex justify-between items-center">         <div class="font-bold text-sm text-slate-100">' + (ITEM_NAMES[r.id] || ('Objeto ' + r.id)) + '</div>         <div class="flex items-center gap-2">           <div class="text-xs text-yellow-400 font-bold">Q' + quality + '</div>           <button class="btn-done bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold px-2 py-1 rounded transition">Hecho</button>         </div>       </div>       <div class="flex items-center justify-between gap-2 pt-1">         <div class="grid gap-1.5 shrink-0" style="grid-template-columns: repeat(4, 32px); grid-template-rows: repeat(2, 32px);">           ' + ingredientsIcons + '         </div>         <div class="border-l border-slate-700 pl-3 flex items-center justify-center shrink-0 min-w-[56px] h-[68px]">           ' + iconHtml + '         </div>       </div>     </div>   ';
                 const btn = row.querySelector('.btn-done');
                 if (btn) {
                     btn.addEventListener('click', function() {
@@ -2421,13 +2476,32 @@ onmessage = function(event){
                             markDone(r.ingredientsList[0]);
                             b.textContent = 'Hecho ✓';
                             b.classList.remove('bg-emerald-600','hover:bg-emerald-500');
-                            b.classList.add('bg-blue-600');
+                            b.classList.add('bg-amber-600');
                             b.disabled = true;
                         }, 260);
                     });
                 }
-                container.appendChild(row);
-            });
+                fragment.appendChild(row);
+            }
+            container.appendChild(fragment);
+
+            if (filtered.length > endIdx) {
+                const more = document.createElement('div');
+                more.style.gridColumn = '1 / -1';
+                more.style.textAlign = 'center';
+                more.style.padding = '12px';
+                const btn = document.createElement('button');
+                btn.className = 'bg-slate-700 hover:bg-slate-600 text-slate-200 text-xs font-semibold px-4 py-2 rounded transition';
+                btn.textContent = 'Cargar más (' + (filtered.length - endIdx) + ' restantes)';
+                btn.addEventListener('click', function() {
+                    if (state.lastResultData) {
+                        state.lastResultData._offset = endIdx;
+                        renderResults(state.lastResultData);
+                    }
+                });
+                more.appendChild(btn);
+                container.appendChild(more);
+            }
         }
 
 function synthesizeRecipes() {
@@ -2626,6 +2700,133 @@ function synthesizeRecipes() {
             });
             if (state.realtime) synthesizeRecipes();
             else if (state.lastResultData) renderResults(state.lastResultData);
+        });
+
+
+        // Tour guiado paso a paso (Spotlight nítido)
+        const tourSteps = [
+            { key: 'seed', selector: '[data-help="seed"]', title: 'Paso 1 de 5 — Semilla', text: 'Ingresa la semilla (Seed) de tu partida actual. La encuentras en el menú de pausa de Isaac.' },
+            { key: 'pickups', selector: '[data-help="pickups"]', title: 'Paso 2 de 5 — Pickups Disponibles', text: 'Selecciona la cantidad exacta de consumibles (corazones, monedas, llaves, bombas, etc.) que hay en el suelo de tu sala.' },
+            { key: 'options', selector: '[data-help="options"]', title: 'Paso 3 de 5 — Modo de juego y Personaje', text: 'Ajusta las opciones según tu partida actual para adaptar las reglas de crafteo.' },
+            { key: 'exceptions', selector: '[data-help="exceptions"]', title: 'Paso 4 de 5 — Excepciones', text: 'Activa Sacred Orb o el trinket NO! si los tienes en tu partida para filtrar ítems de baja calidad o activos.' },
+            { key: 'search', selector: '[data-help="search"]', title: 'Paso 5 de 5 — Buscar recetas', text: 'Procesa las combinaciones y descubre los objetos que puedes fabricar.' },
+        ];
+        let tourIndex = 0;
+        let tourActive = false;
+        let tourOverlay = null;
+        let tourCard = null;
+        let tourTarget = null;
+
+        function clearTourHighlight() {
+            if (tourTarget) {
+                tourTarget.style.position = '';
+                tourTarget.style.zIndex = '';
+                tourTarget.style.boxShadow = '';
+                tourTarget = null;
+            }
+        }
+
+        function showTourStep(idx) {
+            if (idx < 0) idx = 0;
+            if (idx >= tourSteps.length) { closeTour(); return; }
+            tourIndex = idx;
+            const step = tourSteps[idx];
+
+            // clear previous highlight
+            clearTourHighlight();
+
+            const target = document.querySelector(step.selector);
+            tourTarget = target;
+            if (target) {
+                target.style.position = 'relative';
+                target.style.zIndex = '9999';
+                target.style.boxShadow = '0 0 0 9999px rgba(0, 0, 0, 0.75), 0 0 0 2px #10b981';
+                target.style.borderRadius = '8px';
+            }
+
+            // update card
+            const titleEl = tourCard.querySelector('.tour-title');
+            const textEl = tourCard.querySelector('.tour-text');
+            const prevBtn = tourCard.querySelector('.tour-prev');
+            const nextBtn = tourCard.querySelector('.tour-next');
+            titleEl.textContent = step.title;
+            textEl.textContent = step.text;
+            prevBtn.style.display = (idx === 0) ? 'none' : 'inline-block';
+            nextBtn.textContent = (idx === tourSteps.length - 1) ? 'Finalizar' : 'Siguiente';
+
+            // position card
+            if (target) {
+                target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                const rect = target.getBoundingClientRect();
+                const top = rect.bottom + window.scrollY + 12;
+                let left = rect.left + window.scrollX;
+                const cardW = 320;
+                if (left + cardW > window.innerWidth + window.scrollX) left = window.innerWidth + window.scrollX - cardW - 16;
+                if (left < 8 + window.scrollX) left = 8 + window.scrollX;
+                tourCard.style.top = top + 'px';
+                tourCard.style.left = left + 'px';
+            }
+        }
+
+        function openTour() {
+            tourActive = true;
+            // overlay
+            tourOverlay = document.createElement('div');
+            tourOverlay.id = 'tourOverlay';
+            tourOverlay.style.cssText = 'position:fixed;inset:0;z-index:9998;background:transparent;';
+            tourOverlay.addEventListener('click', (e) => { if (e.target === tourOverlay) closeTour(); });
+            document.body.appendChild(tourOverlay);
+
+            // card
+            tourCard = document.createElement('div');
+            tourCard.style.cssText = 'position:absolute;z-index:10000;background:#1e1e24;color:#d1d5db;font-size:0.85rem;padding:14px 16px;border-radius:8px;border:1px solid #2f3a47;box-shadow:0 8px 24px rgba(0,0,0,0.5);width:320px;max-width:90vw;';
+            tourCard.innerHTML = '<button class="tour-close" style="position:absolute;top:8px;right:12px;background:none;border:none;color:#9aa4b2;font-size:20px;cursor:pointer;line-height:1;">&times;</button><div class="tour-title" style="font-weight:600;color:#d4af37;margin-bottom:6px;"></div><div class="tour-text" style="line-height:1.4;margin-bottom:10px;"></div><div style="display:flex;gap:8px;justify-content:flex-end;"><button class="tour-prev" style="background:#374151;color:#fff;border:none;padding:6px 12px;border-radius:6px;cursor:pointer;font-size:0.8rem;">Anterior</button><button class="tour-next" style="background:#2563eb;color:#fff;border:none;padding:6px 12px;border-radius:6px;cursor:pointer;font-size:0.8rem;">Siguiente</button></div>';
+            document.body.appendChild(tourCard);
+
+            tourCard.querySelector('.tour-close').addEventListener('click', closeTour);
+            tourCard.querySelector('.tour-prev').addEventListener('click', () => showTourStep(tourIndex - 1));
+            tourCard.querySelector('.tour-next').addEventListener('click', () => {
+                if (tourIndex === tourSteps.length - 1) closeTour();
+                else showTourStep(tourIndex + 1);
+            });
+
+            const _updateStepPos = () => {
+                if (!tourActive || !tourTarget || !tourCard) return;
+                const rect = tourTarget.getBoundingClientRect();
+                tourCard.style.top = (rect.bottom + window.scrollY + 12) + 'px';
+                let l = rect.left + window.scrollX;
+                if (l + 320 > window.innerWidth + window.scrollX) l = window.innerWidth + window.scrollX - 336;
+                if (l < 8 + window.scrollX) l = 8 + window.scrollX;
+                tourCard.style.left = l + 'px';
+            };
+            window.addEventListener('scroll', _updateStepPos, true);
+            window.addEventListener('resize', _updateStepPos);
+            tourCard._updatePos = _updateStepPos;
+            showTourStep(0);
+        }
+
+        function closeTour() {
+            tourActive = false;
+            clearTourHighlight();
+            if (tourOverlay) { tourOverlay.remove(); tourOverlay = null; }
+            if (tourCard) {
+                if (tourCard._updatePos) {
+                    window.removeEventListener('scroll', tourCard._updatePos, true);
+                    window.removeEventListener('resize', tourCard._updatePos);
+                }
+                tourCard.remove(); tourCard = null;
+            }
+        }
+
+        document.getElementById('btnHelp').addEventListener('click', openTour);
+        document.addEventListener('keydown', (e) => {
+            if (!tourActive) return;
+            if (e.key === 'Escape') closeTour();
+            if (e.key === 'ArrowRight') {
+                if (tourIndex === tourSteps.length - 1) closeTour();
+                else showTourStep(tourIndex + 1);
+            }
+            if (e.key === 'ArrowLeft') showTourStep(tourIndex - 1);
         });
 
         // Inicialización
