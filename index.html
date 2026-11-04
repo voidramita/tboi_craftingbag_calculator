@@ -7,7 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --bg: #0f1419;
@@ -1387,16 +1387,16 @@ kbd {
                 type="text" 
                 id="seedInput" 
                 title="Semilla del run. Formato: 4 caracteres, espacio, 4 caracteres (ej. JKD9 Z0C9)."
-                placeholder="EJ: ABCD EFG1" 
+                placeholder="ABCD EFG1" 
                 value="" 
-                class="w-full bg-white text-gray-900 font-mono font-bold text-center py-2 text-lg rounded tracking-widest border border-gray-300 focus:outline-none focus:ring-2 focus:ring-amber-500 uppercase"
+                class="w-full bg-white text-gray-900 font-bold text-center py-2 text-lg rounded tracking-widest border border-gray-300 focus:outline-none focus:ring-2 focus:ring-amber-500 uppercase" style="font-family:'JetBrains Mono',monospace;"
                 maxlength="9"
             />
         </div>
     </section>
 
     <section class="bg-slate-900 border border-slate-700 rounded p-4 mb-6">
-        <h2 class="text-sm font-semibold text-slate-400 uppercase tracking-wider mb-3">Componentes Disponibles</h2>
+        <h2 class="text-sm font-semibold text-slate-400 uppercase tracking-wider mb-3">Pickups Disponibles</h2>
         <div id="pickupsGrid" class="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-12 gap-2"></div>
     </section>
 
@@ -1437,9 +1437,9 @@ kbd {
             </div>
         </div>
 
-        <!-- Items and Trinkets -->
+        <!-- Excepciones -->
         <div class="space-y-2">
-            <div class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Items and Trinkets</div>
+            <div class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Excepciones</div>
             <div class="flex flex-col gap-2">
                 <button id="toggleSacredOrb" type="button" class="flex items-center gap-3 bg-slate-800 hover:bg-slate-700 rounded p-3 text-left transition">
                     <a class="icons collectibles" id="collectibles_691" style="transform:scale(1.5);image-rendering:pixelated;"></a>
@@ -1466,12 +1466,9 @@ kbd {
             </div>
         </div>
 
-        <div class="text-center mb-3">
-            <span class="inline-block bg-slate-800 px-4 py-1.5 rounded text-slate-300 font-medium">Items encontrados (<span id="countSynthesized">0</span>)</span>
-        </div>
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
             <button id="btnSynthesize" class="bg-amber-500 hover:bg-amber-400 text-white font-bold py-3 px-6 rounded text-center transition text-lg shadow-lg">Buscar recetas</button>
-            <button id="btnClear" class="bg-slate-800 hover:bg-gray-600 text-amber-300 font-semibold py-3 px-6 rounded text-center transition">Vacía los componentes</button>
+            <button id="btnClear" class="bg-slate-800 hover:bg-gray-600 text-amber-300 font-semibold py-3 px-6 rounded text-center transition">Reiniciar</button>
         </div>
     </section>
 
@@ -1484,7 +1481,7 @@ kbd {
             <input type="text" id="searchInput" placeholder="Buscar por ID o nombre del objeto..." title="Filtra los resultados por ID o nombre del objeto." class="w-full bg-slate-950 text-white text-sm border border-slate-600 rounded px-3 py-1.5 focus:outline-none focus:border-amber-500" />
         </div>
         <div id="recipesContainer" class="space-y-3 max-h-[500px] overflow-y-auto pr-2">
-            <div class="text-center py-8 text-slate-500 text-sm">Selecciona componentes y presiona "Buscar recetas" para ver las recetas disponibles.</div>
+            <div class="text-center py-8 text-slate-500 text-sm">Selecciona pickups y presiona "Buscar recetas" para ver las recetas disponibles.</div>
         </div>
 
     <!-- Modal: info recetas por semilla -->
@@ -2242,7 +2239,7 @@ onmessage = function(event){
                 const card = document.createElement('div');
                 card.className = 'pickup-card rounded p-1.5 text-center flex flex-col items-center justify-between';
                 card.innerHTML = `
-                    <div class="mb-1 select-none flex justify-center" title="${pickup.name}"><div class="decrafting_recipe decrafting_recipe_${pickup.engineId}"></div></div>
+                    <div class="mb-1 select-none flex justify-center" title="${pickup.name}"><img src="https://bindingofisaacrebirth.wiki.gg/images/Collectible_Bag_of_Crafting_component_${pickup.engineId}.png" alt="${pickup.name}" style="width:32px;height:32px;image-rendering:pixelated;transform:scale(1.5);" /></div>
                     <div class="text-[10px] text-slate-300 mb-1 truncate w-full text-center" title="${pickup.name}">${pickup.name}</div>
                     <select data-id="${pickup.engineId}" class="pickup-select w-full bg-slate-950 text-white text-xs border border-slate-600 rounded px-1 py-0.5 text-center cursor-pointer focus:outline-none focus:border-amber-500">
                         ${Array.from({ length: 9 }, (_, i) => `<option value="${i}" ${i === pickup.defaultQty ? 'selected' : ''}>${i}</option>`).join('')}
@@ -2329,7 +2326,7 @@ onmessage = function(event){
             });
 
             totalCountSpan.textContent = filtered.length;
-            resultsCountSpan.textContent = filtered.length + ' Sintetizados';
+            resultsCountSpan.textContent = filtered.length + ' Encontrados';
             container.innerHTML = '';
 
             if (recipes.length === 0) {
@@ -2348,7 +2345,7 @@ onmessage = function(event){
                 row.className = 'bg-slate-800/50 border border-slate-600/60 p-2.5 rounded flex items-center justify-between hover:bg-slate-800 transition';
                 const ingredientsIcons = r.ingredientsList[0].map(function(ingId) {
                     const p = getPickupById(ingId);
-                    return '<span class="bg-slate-950 border border-slate-600 px-1.5 py-0.5 rounded text-xs inline-flex items-center justify-center" title="' + (p ? p.name : ingId) + '"><div class="decrafting_recipe decrafting_recipe_' + ingId + '"></div></span>';
+                    return '<span class="bg-slate-950 border border-slate-600 px-1.5 py-0.5 rounded text-xs inline-flex items-center justify-center" title="' + (p ? p.name : ingId) + '"><img src="https://bindingofisaacrebirth.wiki.gg/images/Collectible_Bag_of_Crafting_component_' + ingId + '.png" style="width:16px;height:16px;image-rendering:pixelated;" /></span>';
                 }).join(' ');
                 const iconHtml = '<a class="icons collectibles" id="collectibles_' + String(r.id).padStart(3,'0') + '" style="transform:scale(1.5);image-rendering:pixelated;"></a>';
                 row.innerHTML = '<div class="flex items-center space-x-3">' + iconHtml + '<div><div class="font-bold text-sm text-slate-100">' + (ITEM_NAMES[r.id] || ('Objeto ' + r.id)) + '</div><div class="text-xs text-yellow-400">Calidad: ' + stars + '</div></div></div><div class="flex items-center space-x-2">' + ingredientsIcons + '<button class="btn-done ml-2 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold px-2 py-1 rounded transition">Hecho</button></div>';
@@ -2529,7 +2526,8 @@ function synthesizeRecipes() {
 
 
         document.getElementById('seedInput').addEventListener('input', (e) => {
-            state.seed = e.target.value.toUpperCase();
+            e.target.value = e.target.value.toUpperCase();
+            state.seed = e.target.value;
             if (state.realtime) synthesizeRecipes();
         });
 
