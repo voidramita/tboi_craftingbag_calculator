@@ -15,14 +15,14 @@
             --panel: #1a2028;
             --panel-2: #222b36;
             --border: #2f3a47;
-            --accent: #d4af37;
-            --accent-2: #f59e0b;
+            --accent: #3b82f6;
+            --accent-2: #60a5fa;
             --text: #e8eaed;
             --muted: #9aa4b2;
         }
         body {
-            background-color: var(--bg);
-            background-image: radial-gradient(1200px 600px at 50% -10%, rgba(212,175,55,0.08), transparent 60%);
+            background-color: #0a0a0a;
+            background-image: radial-gradient(1200px 600px at 50% -10%, rgba(59,130,246,0.12), transparent 60%);
             color: var(--text);
             color: #d4d4d4;
             font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
@@ -1369,6 +1369,12 @@ kbd {
             opacity: 0;
             transform: translateX(24px) scale(0.96);
         }
+
+        .recipes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 0.75rem;
+        }
     </style>
 </head>
 <body class="p-4 md:p-8 max-w-7xl mx-auto">
@@ -1380,7 +1386,7 @@ kbd {
     </header>
 
     <section class="mb-6">
-        <div class="bg-amber-900/40 border border-blue-700/60 rounded-t p-2 text-center text-amber-200 font-semibold text-sm">
+        <div class="bg-blue-950/40 border border-blue-700/60 rounded-t p-2 text-center text-blue-200 font-semibold text-sm">
             Semilla (Seed)
         </div>
         <div class="bg-slate-900 p-3 border-x border-b border-slate-700 rounded-b">
@@ -1390,7 +1396,7 @@ kbd {
                 title="Semilla del run. Formato: 4 caracteres, espacio, 4 caracteres (ej. JKD9 Z0C9)."
                 placeholder="ABCD EFG1" 
                 value="" 
-                class="w-full bg-white text-gray-900 font-bold text-center py-2 text-lg rounded tracking-widest border border-gray-300 focus:outline-none focus:ring-2 focus:ring-amber-500 uppercase" style="font-family:'JetBrains Mono',monospace;"
+                class="w-full bg-white text-gray-900 font-bold text-center py-2 text-lg rounded tracking-widest border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-600 uppercase" style="font-family:'JetBrains Mono',monospace;"
                 maxlength="9"
             />
         </div>
@@ -1404,23 +1410,23 @@ kbd {
     <section class="bg-slate-900 border border-slate-700 rounded p-4 mb-6 space-y-4">
         <div class="flex flex-wrap gap-2 items-center text-xs">
                 <div class="relative inline-block">
-  <button id="toggleRealtime" class="bg-amber-600 text-white px-3 py-1.5 rounded hover:bg-amber-500 transition font-medium">Habilitar la actualización en tiempo real</button>
+  <button id="toggleRealtime" class="bg-blue-600 text-white px-3 py-1.5 rounded hover:bg-blue-700 transition font-medium">Habilitar la actualización en tiempo real</button>
   <div class="info-card">Calcula automáticamente las recetas al cambiar los componentes o la semilla.</div>
 </div>
             <div class="relative inline-block">
-  <button id="toggleWasm" class="bg-amber-600 text-white px-3 py-1.5 rounded hover:bg-amber-500 transition font-medium">Activar la aceleración WASM</button>
+  <button id="toggleWasm" class="bg-blue-600 text-white px-3 py-1.5 rounded hover:bg-blue-700 transition font-medium">Activar la aceleración WASM</button>
   <div class="info-card">Utiliza WebAssembly para acelerar el procesamiento de combinación de recetas.</div>
 </div>
             <div class="relative inline-block">
-  <button id="toggleDisplayMode" class="bg-amber-600 text-white px-3 py-1.5 rounded hover:bg-amber-500 transition font-medium">Modo: Sintetizados (semilla)</button>
-  <div class="info-card">Alterna entre ítems realmente sintetizados con esta semilla y los teóricamente sintetizables.<br><button type="button" class="info-more-btn text-amber-400 hover:text-amber-300 underline text-xs mt-1" style="background:none;border:none;cursor:pointer;padding:0;">Más información</button></div>
+  <button id="toggleDisplayMode" class="bg-blue-600 text-white px-3 py-1.5 rounded hover:bg-blue-700 transition font-medium">Modo: Sintetizados (semilla)</button>
+  <div class="info-card">Alterna entre ítems realmente sintetizados con esta semilla y los teóricamente sintetizables.<br><button type="button" class="info-more-btn text-blue-400 hover:text-slate-200 underline text-xs mt-1" style="background:none;border:none;cursor:pointer;padding:0;">Más información</button></div>
 </div>
         </div>
         <!-- Modo de juego -->
         <div class="space-y-2">
             <div class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Modo de juego</div>
             <div class="flex flex-wrap gap-2">
-                <button type="button" data-runtype="Normal" class="runtype-btn px-3 py-1.5 rounded text-sm font-medium bg-amber-600 text-white">Normal</button>
+                <button type="button" data-runtype="Normal" class="runtype-btn px-3 py-1.5 rounded text-sm font-medium bg-blue-600 text-white">Normal</button>
                 <button type="button" data-runtype="Daily" class="runtype-btn px-3 py-1.5 rounded text-sm font-medium bg-slate-800 text-slate-300 hover:bg-slate-700">Daily</button>
                 <button type="button" data-runtype="Greed" class="runtype-btn px-3 py-1.5 rounded text-sm font-medium bg-slate-800 text-slate-300 hover:bg-slate-700">Greed</button>
                 <button type="button" data-runtype="Challenge" class="runtype-btn px-3 py-1.5 rounded text-sm font-medium bg-slate-800 text-slate-300 hover:bg-slate-700">Challenge</button>
@@ -1431,7 +1437,7 @@ kbd {
         <div class="space-y-2">
             <div class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Personaje</div>
             <div class="flex flex-wrap gap-2">
-                <button type="button" data-character="Other" class="char-btn px-3 py-1.5 rounded text-sm font-medium bg-amber-600 text-white">Other</button>
+                <button type="button" data-character="Other" class="char-btn px-3 py-1.5 rounded text-sm font-medium bg-blue-600 text-white">Other</button>
                 <button type="button" data-character="Keeper" class="char-btn px-3 py-1.5 rounded text-sm font-medium bg-slate-800 text-slate-300 hover:bg-slate-700">Keeper</button>
                 <button type="button" data-character="Lost" class="char-btn px-3 py-1.5 rounded text-sm font-medium bg-slate-800 text-slate-300 hover:bg-slate-700">Lost</button>
                 <button type="button" data-character="T. Lost" class="char-btn px-3 py-1.5 rounded text-sm font-medium bg-slate-800 text-slate-300 hover:bg-slate-700">T. Lost</button>
@@ -1443,11 +1449,11 @@ kbd {
             <div class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Excepciones</div>
             <div class="flex flex-col gap-2">
                 <button id="toggleSacredOrb" type="button" class="flex items-center gap-3 bg-slate-800 hover:bg-slate-700 rounded p-3 text-left transition">
-                    <a class="icons collectibles" id="collectibles_691" style="transform:scale(1.5);image-rendering:pixelated;"></a>
+                    <a class="icons collectibles" id="collectibles_691" style="transform:scale(1.625);image-rendering:pixelated;"></a>
                     <div class="flex-1">
                         <div class="flex items-center gap-2">
                             <span class="font-semibold text-sm text-slate-100">Sacred Orb</span>
-                            <span class="text-[10px] bg-amber-900 text-amber-200 px-1.5 py-0.5 rounded">DLC+</span>
+                            <span class="text-[10px] bg-blue-950 text-blue-200 px-1.5 py-0.5 rounded">DLC+</span>
                         </div>
                         <div class="text-xs text-slate-400">Destined for greatness</div>
                     </div>
@@ -1458,7 +1464,7 @@ kbd {
                     <div class="flex-1">
                         <div class="flex items-center gap-2">
                             <span class="font-semibold text-sm text-slate-100">NO!</span>
-                            <span class="text-[10px] bg-amber-900 text-amber-200 px-1.5 py-0.5 rounded">DLC+</span>
+                            <span class="text-[10px] bg-blue-950 text-blue-200 px-1.5 py-0.5 rounded">DLC+</span>
                         </div>
                         <div class="text-xs text-slate-400">Never again!</div>
                     </div>
@@ -1468,21 +1474,21 @@ kbd {
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
-            <button id="btnSynthesize" class="bg-amber-500 hover:bg-amber-400 text-white font-bold py-3 px-6 rounded text-center transition text-lg shadow-lg">Buscar recetas</button>
-            <button id="btnClear" class="bg-slate-800 hover:bg-gray-600 text-amber-300 font-semibold py-3 px-6 rounded text-center transition">Reiniciar</button>
+            <button id="btnSynthesize" class="bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 px-6 rounded text-center transition text-lg shadow-lg">Buscar recetas</button>
+            <button id="btnClear" class="bg-slate-800 hover:bg-gray-600 text-slate-200 font-semibold py-3 px-6 rounded text-center transition">Reiniciar</button>
         </div>
     </section>
 
     <section class="bg-slate-900 border border-slate-700 rounded p-4">
         <h2 class="text-base font-semibold text-slate-200 mb-4 flex items-center justify-between">
             <span>Recetas encontradas</span>
-            <span id="resultsCount" class="text-xs bg-amber-900 text-amber-200 px-2.5 py-1 rounded-full">0 Encontradas</span>
+            <span id="resultsCount" class="text-xs bg-blue-950 text-blue-200 px-2.5 py-1 rounded-full">0 Encontradas</span>
         </h2>
         <div class="mb-3">
-            <input type="text" id="searchInput" placeholder="Buscar por ID o nombre del objeto..." title="Filtra los resultados por ID o nombre del objeto." class="w-full bg-slate-950 text-white text-sm border border-slate-600 rounded px-3 py-1.5 focus:outline-none focus:border-amber-500" />
+            <input type="text" id="searchInput" placeholder="Buscar por ID o nombre del objeto..." title="Filtra los resultados por ID o nombre del objeto." class="w-full bg-slate-950 text-white text-sm border border-slate-600 rounded px-3 py-1.5 focus:outline-none focus:border-blue-500" />
         </div>
-        <div id="recipesContainer" class="space-y-3 max-h-[500px] overflow-y-auto pr-2">
-            <div class="text-center py-8 text-slate-500 text-sm">Selecciona pickups y presiona "Buscar recetas" para ver las recetas disponibles.</div>
+        <div id="recipesContainer" class="recipes-grid max-h-[500px] overflow-y-auto pr-2">
+            <div style="grid-column:1 / -1;width:100%;min-height:200px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px 20px;" class="text-slate-500 text-sm">Selecciona pickups y presiona "Buscar recetas" para ver las recetas disponibles.</div>
         </div>
 
     <!-- Modal: info recetas por semilla -->
@@ -2279,7 +2285,7 @@ onmessage = function(event){
                 card.innerHTML = `
                     <div class="mb-1 select-none flex justify-center" title="${pickup.name}"><img src="https://bindingofisaacrebirth.wiki.gg/images/Collectible_Bag_of_Crafting_component_${pickup.engineId}.png" alt="${pickup.name}" style="width:32px;height:32px;image-rendering:pixelated;transform:scale(1.5);" /></div>
                     <div class="text-[10px] text-slate-300 mb-1 truncate w-full text-center" title="${pickup.name}">${pickup.name}</div>
-                    <select data-id="${pickup.engineId}" class="pickup-select w-full bg-slate-950 text-white text-xs border border-slate-600 rounded px-1 py-0.5 text-center cursor-pointer focus:outline-none focus:border-amber-500">
+                    <select data-id="${pickup.engineId}" class="pickup-select w-full bg-slate-950 text-white text-xs border border-slate-600 rounded px-1 py-0.5 text-center cursor-pointer focus:outline-none focus:border-blue-500">
                         ${Array.from({ length: 9 }, (_, i) => `<option value="${i}" ${i === pickup.defaultQty ? 'selected' : ''}>${i}</option>`).join('')}
                     </select>
                 `;
@@ -2314,7 +2320,7 @@ onmessage = function(event){
         function renderResults(data) {
             state.lastResultData = data;
             const container = document.getElementById('recipesContainer');
-            const totalCountSpan = document.getElementById('countSynthesized'); // may be null (removed)
+            const totalCountSpan = document.getElementById('countSynthesized');
             const resultsCountSpan = document.getElementById('resultsCount');
             const items = data.items || {};
             const qualities = data.qualities || {};
@@ -2336,16 +2342,15 @@ onmessage = function(event){
                 if (resultsCountSpan) resultsCountSpan.textContent = filtered.length + ' Sintetizables';
                 container.innerHTML = '';
                 if (filtered.length === 0) {
-                    container.innerHTML = '<div class="text-center py-8 text-slate-500 text-sm">No hay items sintetizables con el inventario actual.</div>';
+                    container.innerHTML = '<div style="width:100%;min-height:200px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px 20px;" class="text-slate-500 text-sm">No hay items sintetizables con el inventario actual.</div>';
                     return;
                 }
                 filtered.forEach(function(id) {
                     const quality = qualities[id] != null ? qualities[id] : 0;
-                    const stars = '★'.repeat(Math.max(0, quality));
                     const row = document.createElement('div');
-                    row.className = 'recipe-row bg-slate-800/50 border border-slate-600/60 p-2.5 rounded flex items-center justify-between hover:bg-slate-800 transition';
+                    row.className = 'recipe-row bg-slate-800/50 border border-slate-600/60 p-4 rounded hover:bg-slate-800 transition';
                     const iconHtml = '<a class="icons collectibles" id="collectibles_' + String(id).padStart(3,'0') + '" style="transform:scale(1.5);image-rendering:pixelated;"></a>';
-                    row.innerHTML = '<div class="flex items-center space-x-3">' + iconHtml + '<div><div class="font-bold text-sm text-slate-100">' + (ITEM_NAMES[id] || ('Objeto ' + id)) + '</div><div class="text-xs text-slate-400"><span class="text-slate-500">(teorico, calidad variable)</span></div></div></div><div class="text-xs text-slate-500">Sintetizable</div>';
+                    row.innerHTML = '<div class="flex flex-col gap-2"><div class="flex justify-between items-center"><div class="font-bold text-sm text-slate-100">' + (ITEM_NAMES[id] || ('Objeto ' + id)) + '</div><div class="text-xs text-slate-500">(teorico)</div></div><div class="flex items-stretch gap-3"><div class="grid gap-3" style="grid-template-columns:repeat(4,1fr);"">' + '' + '</div><div class="border-l border-slate-600 pl-3 flex items-center justify-center">' + iconHtml + '</div></div></div>';
                     container.appendChild(row);
                 });
                 return;
@@ -2372,21 +2377,20 @@ onmessage = function(event){
                 for (let i = 0; i < craftable.length; i++) {
                     if (craftable[i]) craftableCount++;
                 }
-                container.innerHTML = '<div class="text-center py-8 text-slate-500 text-sm">No se encontraron recetas completas con el inventario actual. Items sintetizables: ' + craftableCount + '</div>';
+                container.innerHTML = '<div style="width:100%;min-height:200px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px 20px;" class="text-slate-500 text-sm">No se encontraron recetas completas con el inventario actual. Items sintetizables: ' + craftableCount + '</div>';
                 return;
             }
 
             filtered.forEach(function(r) {
                 const quality = qualities[r.id] != null ? qualities[r.id] : 0;
-                const stars = '★'.repeat(Math.max(0, quality));
                 const row = document.createElement('div');
-                row.className = 'bg-slate-800/50 border border-slate-600/60 p-2.5 rounded flex items-center justify-between hover:bg-slate-800 transition';
+                row.className = 'recipe-row bg-slate-800/50 border border-slate-600/60 p-2.5 rounded hover:bg-slate-800 transition';
                 const ingredientsIcons = r.ingredientsList[0].map(function(ingId) {
                     const p = getPickupById(ingId);
-                    return '<span class="bg-slate-950 border border-slate-600 px-1.5 py-0.5 rounded text-xs inline-flex items-center justify-center" title="' + (p ? p.name : ingId) + '"><img src="https://bindingofisaacrebirth.wiki.gg/images/Collectible_Bag_of_Crafting_component_' + ingId + '.png" style="width:16px;height:16px;image-rendering:pixelated;" /></span>';
-                }).join(' ');
+                    return '<div class="flex items-center justify-center" title="' + (p ? p.name : ingId) + '"><img src="https://bindingofisaacrebirth.wiki.gg/images/Collectible_Bag_of_Crafting_component_' + ingId + '.png" style="width:32px;height:32px;image-rendering:pixelated;" /></div>';
+                }).join('');
                 const iconHtml = '<a class="icons collectibles" id="collectibles_' + String(r.id).padStart(3,'0') + '" style="transform:scale(1.5);image-rendering:pixelated;"></a>';
-                row.innerHTML = '<div class="flex items-center space-x-3">' + iconHtml + '<div><div class="font-bold text-sm text-slate-100">' + (ITEM_NAMES[r.id] || ('Objeto ' + r.id)) + '</div><div class="text-xs text-yellow-400">QUALITY: ' + quality + '</div></div></div><div class="flex items-center space-x-2">' + ingredientsIcons + '<button class="btn-done ml-2 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold px-2 py-1 rounded transition">Hecho</button></div>';
+                row.innerHTML = '<div class="flex flex-col gap-2"><div class="flex justify-between items-center"><div class="font-bold text-sm text-slate-100">' + (ITEM_NAMES[r.id] || ('Objeto ' + r.id)) + '</div><div class="flex items-center gap-2"><div class="text-xs text-yellow-400">Q' + quality + '</div><button class="btn-done bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold px-2 py-1 rounded transition">Hecho</button></div></div><div class="flex items-stretch justify-between gap-3"><div class="grid gap-1" style="grid-template-columns:repeat(4,1fr);">' + ingredientsIcons + '</div><div class="border-l border-slate-600 pl-2 flex items-center justify-center">' + iconHtml + '</div></div></div>';
                 const btn = row.querySelector('.btn-done');
                 if (btn) {
                     btn.addEventListener('click', function() {
@@ -2396,7 +2400,7 @@ onmessage = function(event){
                             markDone(r.ingredientsList[0]);
                             b.textContent = 'Hecho ✓';
                             b.classList.remove('bg-emerald-600','hover:bg-emerald-500');
-                            b.classList.add('bg-amber-600');
+                            b.classList.add('bg-blue-600');
                             b.disabled = true;
                         }, 260);
                     });
@@ -2468,14 +2472,14 @@ function synthesizeRecipes() {
         document.getElementById('toggleRealtime').addEventListener('click', (e) => {
             state.realtime = !state.realtime;
             e.target.textContent = state.realtime ? 'Habilitar la actualización en tiempo real' : 'Deshabilitar la actualización en tiempo real';
-            e.target.classList.toggle('bg-amber-600', state.realtime);
+            e.target.classList.toggle('bg-blue-600', state.realtime);
             e.target.classList.toggle('bg-slate-800', !state.realtime);
         });
 
         document.getElementById('toggleWasm').addEventListener('click', (e) => {
             state.wasm = !state.wasm;
             e.target.textContent = state.wasm ? 'Activar la aceleración WASM' : 'Desactivar la aceleración WASM';
-            e.target.classList.toggle('bg-amber-600', state.wasm);
+            e.target.classList.toggle('bg-blue-600', state.wasm);
             e.target.classList.toggle('bg-slate-800', !state.wasm);
         });
 
@@ -2484,11 +2488,11 @@ function synthesizeRecipes() {
             btn.addEventListener('click', function() {
                 state.runType = btn.dataset.runtype;
                 document.querySelectorAll('.runtype-btn').forEach(function(b) {
-                    b.classList.remove('bg-amber-600','text-white');
+                    b.classList.remove('bg-blue-600','text-white');
                     b.classList.add('bg-slate-800','text-slate-300');
                 });
                 btn.classList.remove('bg-slate-800','text-slate-300');
-                btn.classList.add('bg-amber-600','text-white');
+                btn.classList.add('bg-blue-600','text-white');
                 if (state.realtime) synthesizeRecipes();
             });
         });
@@ -2498,11 +2502,11 @@ function synthesizeRecipes() {
             btn.addEventListener('click', function() {
                 state.character = btn.dataset.character;
                 document.querySelectorAll('.char-btn').forEach(function(b) {
-                    b.classList.remove('bg-amber-600','text-white');
+                    b.classList.remove('bg-blue-600','text-white');
                     b.classList.add('bg-slate-800','text-slate-300');
                 });
                 btn.classList.remove('bg-slate-800','text-slate-300');
-                btn.classList.add('bg-amber-600','text-white');
+                btn.classList.add('bg-blue-600','text-white');
                 if (state.realtime) synthesizeRecipes();
             });
         });
@@ -2514,11 +2518,11 @@ function synthesizeRecipes() {
                 state.hasSacredOrb = !state.hasSacredOrb;
                 const st = sacredBtn.querySelector('.orb-state');
                 if (state.hasSacredOrb) {
-                    sacredBtn.classList.add('ring-2','ring-amber-500');
-                    if (st) { st.textContent = 'ON'; st.classList.remove('text-slate-500'); st.classList.add('text-amber-400'); }
+                    sacredBtn.classList.add('ring-2','ring-blue-600');
+                    if (st) { st.textContent = 'ON'; st.classList.remove('text-slate-500'); st.classList.add('text-blue-400'); }
                 } else {
-                    sacredBtn.classList.remove('ring-2','ring-amber-500');
-                    if (st) { st.textContent = 'OFF'; st.classList.remove('text-amber-400'); st.classList.add('text-slate-500'); }
+                    sacredBtn.classList.remove('ring-2','ring-blue-600');
+                    if (st) { st.textContent = 'OFF'; st.classList.remove('text-blue-400'); st.classList.add('text-slate-500'); }
                 }
                 if (state.realtime) synthesizeRecipes();
             });
@@ -2531,11 +2535,11 @@ function synthesizeRecipes() {
                 state.hasNoTrinket = !state.hasNoTrinket;
                 const st = noTrinketBtn.querySelector('.trinket-state');
                 if (state.hasNoTrinket) {
-                    noTrinketBtn.classList.add('ring-2','ring-amber-500');
-                    if (st) { st.textContent = 'ON'; st.classList.remove('text-slate-500'); st.classList.add('text-amber-400'); }
+                    noTrinketBtn.classList.add('ring-2','ring-blue-600');
+                    if (st) { st.textContent = 'ON'; st.classList.remove('text-slate-500'); st.classList.add('text-blue-400'); }
                 } else {
-                    noTrinketBtn.classList.remove('ring-2','ring-amber-500');
-                    if (st) { st.textContent = 'OFF'; st.classList.remove('text-amber-400'); st.classList.add('text-slate-500'); }
+                    noTrinketBtn.classList.remove('ring-2','ring-blue-600');
+                    if (st) { st.textContent = 'OFF'; st.classList.remove('text-blue-400'); st.classList.add('text-slate-500'); }
                 }
                 if (state.realtime) synthesizeRecipes();
             });
@@ -2580,13 +2584,13 @@ function synthesizeRecipes() {
                 state.wasm = false;
                 const wb = document.getElementById('toggleWasm');
                 wb.textContent = 'Activar la aceleración WASM';
-                wb.classList.remove('bg-amber-600'); wb.classList.add('bg-slate-800');
+                wb.classList.remove('bg-blue-600'); wb.classList.add('bg-slate-800');
             }
             if (state.displayMode === 'crafted') {
                 state.wasm = true;
                 const wb = document.getElementById('toggleWasm');
                 wb.textContent = 'Activar la aceleración WASM';
-                wb.classList.remove('bg-slate-800'); wb.classList.add('bg-amber-600');
+                wb.classList.remove('bg-slate-800'); wb.classList.add('bg-blue-600');
             }
             if (state.realtime || state.lastResultData) synthesizeRecipes();
         });
