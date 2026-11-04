@@ -1,3 +1,4 @@
-### Calculadora Bag of Crafting TBOI Rep+
+# Calculadora Bag of Crafting TBOI Rep+
 
-# main code https://github.com/frto027/IsaacDecraftingHuijiGadget
+### uso de agentes de ia + implementación de skills
+main code https://github.com/frto027/IsaacDecraftingHuijiGadget
