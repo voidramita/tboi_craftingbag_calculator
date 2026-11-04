@@ -1396,6 +1396,68 @@ kbd {
             color: #ffffff !important;
         }
 
+
+        .recipe-row img, .recipe-row a.icons, .pickup-card img {
+            pointer-events: none;
+        }
+
+        .btn-done {
+            min-width: 52px;
+            min-height: 26px;
+            transition: background-color 0.15s ease, opacity 0.15s ease;
+            pointer-events: auto !important;
+            box-sizing: border-box;
+        }
+        .btn-done:hover {
+            transform: none !important;
+        }
+        .btn-done span, .btn-done * {
+            pointer-events: none;
+        }
+
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 1;
+            transition: opacity 0.25s ease;
+        }
+        .modal-overlay.closing {
+            opacity: 0;
+        }
+        .modal-content {
+            background: #1e1e24;
+            color: #e5e5e5;
+            border-radius: 12px;
+            max-width: 640px;
+            width: 92%;
+            max-height: 80vh;
+            padding: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+            border: 1px solid #2f3a47;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            opacity: 1;
+            transform: scale(1);
+            transition: opacity 0.25s ease, transform 0.25s ease;
+        }
+        .modal-content.closing {
+            opacity: 0;
+            transform: scale(0.95);
+        }
+        .recipe-card-done {
+            opacity: 0.5;
+            filter: grayscale(1);
+            cursor: not-allowed;
+        }
+        .recipe-row img {
+            pointer-events: none;
+        }
     </style>
 </head>
 <body class="p-4 md:p-8 max-w-7xl mx-auto">
@@ -1498,7 +1560,7 @@ kbd {
 
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
             <button id="btnSynthesize" class="bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 px-6 rounded text-center transition text-lg shadow-lg highlight-section" data-help="search">Buscar recetas</button>
-            <button id="btnClear" class="bg-slate-800 hover:bg-gray-600 text-slate-200 font-semibold py-3 px-6 rounded text-center transition">Reiniciar</button>
+            <button id="btnClear" class="bg-slate-800 hover:bg-gray-600 text-slate-200 font-semibold py-3 px-6 rounded text-center transition">Limpiar</button>
         </div>
     </section>
 
@@ -1583,12 +1645,15 @@ kbd {
             { id: 'poop', name: 'Poop', icon: '💩', engineId: 29, defaultQty: 0 }
         ];
 
+        const expandedItems = new Set();
+        const openedCardIds = new Set();
         const state = {
             seed: '',
             inventory: {},
             recipeLimit: 100,
             realtime: true,
             wasm: true,
+            doneRecipes: new Set(),
             runType: 'Normal',
             character: 'Other',
             hasSacredOrb: false,
@@ -2269,10 +2334,31 @@ onmessage = function(event){
 }
 `;
         let webWorker = null;
+        let renderTimer = null;
+        let lastRenderTime = 0;
         function handleWorkerMessage(data) {
             if (data.cmd === 'result' || data.cmd === 'report') {
                 if (data.cmd === 'result') state.worker_status = 'idle';
-                renderResults(data);
+                if (data) state.lastResultData = data; else data = state.lastResultData;
+                if (data.cmd === 'result') {
+                    if (renderTimer) { clearTimeout(renderTimer); renderTimer = null; }
+                    lastRenderTime = Date.now();
+                    renderResults(data);
+                } else {
+                    // throttle reports to max 1 per 400ms
+                    const now = Date.now();
+                    if (now - lastRenderTime >= 400) {
+                        lastRenderTime = now;
+                        renderResults(data);
+                    } else {
+                        if (renderTimer) clearTimeout(renderTimer);
+                        renderTimer = setTimeout(function() {
+                            lastRenderTime = Date.now();
+                            renderTimer = null;
+                            if (state.lastResultData) renderResults(state.lastResultData);
+                        }, 400 - (now - lastRenderTime));
+                    }
+                }
             }
         }
 
@@ -2339,6 +2425,9 @@ onmessage = function(event){
                 select.addEventListener('change', (e) => {
                     const id = parseInt(e.target.dataset.id, 10);
                     state.inventory[id] = parseInt(e.target.value, 10);
+                    if (state.lastResultData) {
+                        state.lastResultData._offset = 0;
+                    }
                     if (state.realtime) synthesizeRecipes();
                 });
             });
@@ -2357,11 +2446,11 @@ onmessage = function(event){
                 const id = parseInt(sel.dataset.id, 10);
                 sel.value = state.inventory[id];
             });
-            if (state.realtime) synthesizeRecipes();
-            else if (state.lastResultData) renderResults(state.lastResultData);
+            // NO immediate re-render; caller schedules it
         }
 
         function renderResults(data) {
+            state.worker_status = 'idle';
             state.lastResultData = data;
             const container = document.getElementById('recipesContainer');
             const totalCountSpan = document.getElementById('countSynthesized');
@@ -2372,7 +2461,7 @@ onmessage = function(event){
 
             const query = (document.getElementById('searchInput').value || '').toLowerCase().trim();
 
-            const RENDER_LIMIT = 40;
+            const RENDER_LIMIT = 30;
 
             if (state.displayMode === 'craftable') {
                 let ids = [];
@@ -2399,7 +2488,7 @@ onmessage = function(event){
                     const row = document.createElement('div');
                     row.className = 'recipe-row bg-slate-800/50 border border-slate-600/60 p-2.5 rounded hover:bg-slate-800 transition';
                     const iconHtml = '<div class="w-12 h-12 flex items-center justify-center overflow-hidden"><a class="icons collectibles" id="collectibles_' + String(id).padStart(3,'0') + '" style="transform:scale(1.5);image-rendering:pixelated;display:inline-block;margin:0;"></a></div>';
-                    row.innerHTML = '<div class="flex flex-col gap-2"><div class="flex justify-between items-center"><div class="font-bold text-sm text-slate-100">' + (ITEM_NAMES[id] || ('Objeto ' + id)) + '</div><div class="text-xs text-slate-500">(teorico)</div></div><div class="flex items-center justify-between gap-2 pt-1"><div class="grid gap-1.5 shrink-0" style="grid-template-columns: repeat(4, 32px); grid-template-rows: repeat(2, 32px);"></div><div class="border-l border-slate-700 pl-3 flex items-center justify-center shrink-0 min-w-[56px] h-[68px]">' + iconHtml + '</div></div></div>';
+                    row.innerHTML = '<div class="flex flex-col gap-2"><div class="flex justify-between items-center"><div class="font-bold text-sm text-slate-100">' + (ITEM_NAMES[id] || ('Objeto ' + id)) + '</div><div class="text-xs text-slate-500">(teorico)</div></div><div class="flex items-stretch gap-3"><div class="border-l border-slate-600 pl-3 flex items-center justify-center">' + iconHtml + '</div></div></div>';
                     fragment.appendChild(row);
                 }
                 container.appendChild(fragment);
@@ -2449,38 +2538,47 @@ onmessage = function(event){
             }
 
             const isNewData = (state.lastResultData !== data);
-            state.lastResultData = data;
-            if (isNewData) data._offset = 0;
+            if (!data._offset || isNewData) {
+                data._offset = 0;
+            }
             const offset = (data._offset) ? data._offset : 0;
+            state.lastResultData = data;
             const startIdx = 0;
-            const endIdx = Math.min(filtered.length, 40 + offset);
+            const endIdx = Math.min(filtered.length, 30 + offset);
 
             const fragment = document.createDocumentFragment();
             for (let i = startIdx; i < endIdx; i++) {
                 const r = filtered[i];
                 const quality = qualities[r.id] != null ? qualities[r.id] : 0;
                 const row = document.createElement('div');
-                row.className = 'recipe-row bg-slate-800/50 border border-slate-600/60 p-2.5 rounded hover:bg-slate-800 transition';
-                const ingredientsIcons = r.ingredientsList[0].map(function(ingId) {
+                const firstRecipe = r.ingredientsList[0];
+                const recipeKey = JSON.stringify((firstRecipe || []).slice().sort((a,b)=>(a-b)));
+                const isDone = state.doneRecipes && state.doneRecipes.has(recipeKey);
+                row.className = 'recipe-row bg-slate-800/50 border border-slate-600/60 p-2.5 rounded hover:bg-slate-800 transition' + (isDone ? ' recipe-card-done' : '');
+                if (isDone) row.style.opacity = '0.5';
+                const iconHtml = '<div class="w-12 h-12 flex items-center justify-center overflow-hidden"><a class="icons collectibles" id="collectibles_' + String(r.id).padStart(3,'0') + '" style="transform:scale(1.5);image-rendering:pixelated;display:inline-block;margin:0;"></a></div>';
+
+                const ingIcons = firstRecipe.map(function(ingId) {
                     const p = getPickupById(ingId);
                     return '<div class="flex items-center justify-center" title="' + (p ? p.name : ingId) + '"><img src="https://bindingofisaacrebirth.wiki.gg/images/Collectible_Bag_of_Crafting_component_' + ingId + '.png" style="width:32px;height:32px;image-rendering:pixelated;" /></div>';
                 }).join('');
-                const iconHtml = '<div class="w-12 h-12 flex items-center justify-center overflow-hidden"><a class="icons collectibles" id="collectibles_' + String(r.id).padStart(3,'0') + '" style="transform:scale(1.5);image-rendering:pixelated;display:inline-block;margin:0;"></a></div>';
-                row.innerHTML = '     <div class="flex flex-col gap-2">       <div class="flex justify-between items-center">         <div class="font-bold text-sm text-slate-100">' + (ITEM_NAMES[r.id] || ('Objeto ' + r.id)) + '</div>         <div class="flex items-center gap-2">           <div class="text-xs text-yellow-400 font-bold">Q' + quality + '</div>           <button class="btn-done bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold px-2 py-1 rounded transition">Hecho</button>         </div>       </div>       <div class="flex items-center justify-between gap-2 pt-1">         <div class="grid gap-1.5 shrink-0" style="grid-template-columns: repeat(4, 32px); grid-template-rows: repeat(2, 32px);">           ' + ingredientsIcons + '         </div>         <div class="border-l border-slate-700 pl-3 flex items-center justify-center shrink-0 min-w-[56px] h-[68px]">           ' + iconHtml + '         </div>       </div>     </div>   ';
-                const btn = row.querySelector('.btn-done');
-                if (btn) {
-                    btn.addEventListener('click', function() {
-                        var b = this;
-                        row.classList.add('done-out');
-                        setTimeout(function() {
-                            markDone(r.ingredientsList[0]);
-                            b.textContent = 'Hecho ✓';
-                            b.classList.remove('bg-emerald-600','hover:bg-emerald-500');
-                            b.classList.add('bg-amber-600');
-                            b.disabled = true;
-                        }, 260);
-                    });
-                }
+
+                const ingredientsJson = JSON.stringify(r.ingredientsList[0] || []);
+                row.innerHTML = '<div class="flex flex-col gap-2">' +
+                    '<div class="flex justify-between items-center">' +
+                        '<div class="font-bold text-sm text-slate-100">' + (ITEM_NAMES[r.id] || ('Objeto ' + r.id)) + '</div>' +
+                        '<div class="flex items-center gap-2">' +
+                            '<div class="text-xs text-yellow-400 font-bold">Q' + quality + '</div>' +
+                            (isDone ? '<button type="button" class="btn-done bg-amber-600 text-white text-xs font-bold px-2 py-1 rounded cursor-not-allowed opacity-80" disabled data-ingredients=\'' + ingredientsJson + '\'>Hecho \u2713</button>' : '<button type="button" class="btn-done bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold px-2 py-1 rounded transition relative z-10" data-ingredients=\'' + ingredientsJson + '\'>Hecho</button>') +
+                        '</div>' +
+                    '</div>' +
+                    '<div class="flex items-stretch gap-3">' +
+                        '<div class="grid gap-1.5 shrink-0" style="grid-template-columns: repeat(4, 32px); grid-template-rows: repeat(2, 32px);">' + ingIcons + '</div>' +
+                        '<div class="border-l border-slate-700 pl-3 flex items-center justify-center shrink-0 min-w-[56px] h-[68px]">' + iconHtml + '</div>' +
+                    '</div>' +
+                    (r.ingredientsList.length > 1 ? '<div class="text-center pt-1"><button class="btn-show-more-modal text-blue-400 hover:text-blue-300 text-xs font-semibold pt-1 bg-transparent border-none cursor-pointer" data-item-id="' + r.id + '" data-total="' + r.ingredientsList.length + '">Ver más recetas (' + r.ingredientsList.length + ')</button></div>' : '') +
+                '</div>';
+
                 fragment.appendChild(row);
             }
             container.appendChild(fragment);
@@ -2503,6 +2601,148 @@ onmessage = function(event){
                 container.appendChild(more);
             }
         }
+
+// Global delegated click handler for .btn-done
+document.addEventListener('click', function(e) {
+    const btn = e.target.closest('.btn-done');
+    if (!btn || btn.disabled) return;
+
+    e.preventDefault();
+    e.stopPropagation();
+
+    try {
+        const rawData = btn.getAttribute('data-ingredients');
+        const ingredients = JSON.parse(rawData || '[]');
+        const recipeKey = JSON.stringify(ingredients.slice().sort((a,b)=>(a-b)));
+
+        if (ingredients && ingredients.length > 0) {
+            // Mark this recipe as done
+            if (state.doneRecipes) {
+                state.doneRecipes.add(recipeKey);
+            }
+            // Restar cada ingrediente del inventario/pickups disponibles
+            ingredients.forEach(pickupId => {
+                const input = document.querySelector('.pickup-select[data-id="' + pickupId + '"]');
+                if (input && parseInt(input.value) > 0) {
+                    input.value = parseInt(input.value) - 1;
+                    state.inventory[pickupId] = parseInt(input.value, 10);
+                }
+            });
+
+            if (state.lastResultData) {
+                state.lastResultData._offset = 0;
+            }
+            
+            // Ejecutar la síntesis de recetas para recalcular y refrescar la vista
+            synthesizeRecipes();
+
+            // Cambiar estado visual del botón
+            btn.disabled = true;
+            btn.textContent = 'Hecho \u2713';
+            btn.className = 'btn-done bg-amber-600 text-white text-xs font-bold px-2 py-1 rounded cursor-not-allowed opacity-80';
+            
+            // Update all done recipes in the current view
+            if (state.lastResultData) {
+                setTimeout(() => {
+                    if (typeof renderResults === 'function') {
+                        renderResults(state.lastResultData);
+                    }
+                }, 10);
+            }
+
+            // If the Hecho button is inside the recipes modal, close it with animation
+            const modalBackdrop = document.getElementById('recipesModalBackdrop');
+            if (modalBackdrop && btn.closest('#recipesModalBackdrop')) {
+                modalBackdrop.classList.add('closing');
+                const modalContent = modalBackdrop.querySelector('.modal-content');
+                if (modalContent) modalContent.classList.add('closing');
+                setTimeout(() => {
+                    modalBackdrop.remove();
+                }, 250);
+            }
+        }
+    } catch (err) {
+        console.error('Error al procesar la receta hecha:', err);
+    }
+});
+
+// Modal opener for "Ver más recetas"
+document.addEventListener('click', (e) => {
+    const btn = e.target.closest('.btn-show-more-modal');
+    if (!btn) return;
+    e.stopPropagation();
+    e.preventDefault();
+    const itemId = parseInt(btn.dataset.itemId, 10);
+    const data = state.lastResultData;
+    if (!data || !data.items || !data.items[itemId]) return;
+    const recipes = data.items[itemId];
+    const quality = data.qualities ? data.qualities[itemId] : 0;
+    openRecipesModal(itemId, recipes, quality);
+});
+
+function openRecipesModal(itemId, recipes, quality) {
+    const existing = document.getElementById('recipesModalBackdrop');
+    if (existing) existing.remove();
+
+    const backdrop = document.createElement('div');
+    backdrop.id = 'recipesModalBackdrop';
+    backdrop.className = 'modal-overlay';
+
+    const modal = document.createElement('div');
+    modal.className = 'modal-content';
+
+    function closeModalAnimated() {
+        backdrop.classList.add('closing');
+        modal.classList.add('closing');
+        setTimeout(() => {
+            backdrop.remove();
+        }, 250);
+    }
+
+    const closeBtn = document.createElement('button');
+    closeBtn.style.cssText = 'position:absolute;top:10px;right:14px;background:none;border:none;color:#9aa4b2;font-size:22px;cursor:pointer;line-height:1;';
+    closeBtn.textContent = '\u2715';
+    closeBtn.addEventListener('click', closeModalAnimated);
+
+    const header = document.createElement('div');
+    header.style.cssText = 'margin-bottom:12px;padding-right:32px;';
+    header.innerHTML = '<h2 style="font-size:1.1rem;margin:0 0 4px 0;color:#d4af37;">' + (ITEM_NAMES[itemId] || ('Objeto ' + itemId)) + '</h2><div style="font-size:0.8rem;color:#9aa4b2;">Quality ' + quality + ' \u00b7 ' + recipes.length + ' recetas</div>';
+
+    const list = document.createElement('div');
+    list.style.cssText = 'overflow-y:auto;flex:1;display:flex;flex-direction:column;gap:10px;';
+
+    recipes.forEach(function(recipe, idx) {
+        const row = document.createElement('div');
+        const recipeKey = JSON.stringify((recipe || []).slice().sort((a,b)=>(a-b)));
+        const isDone = state.doneRecipes && state.doneRecipes.has(recipeKey);
+        row.style.cssText = 'display:flex;align-items:center;justify-content:space-between;gap:12px;padding:8px;border:1px solid #2f3a47;border-radius:8px;' + (isDone ? 'opacity:0.5;' : '');
+        const ingIcons = recipe.map(function(ingId) {
+            const p = getPickupById(ingId);
+            return '<div style="display:inline-flex;align-items:center;justify-content:center;" title="' + (p ? p.name : ingId) + '"><img src="https://bindingofisaacrebirth.wiki.gg/images/Collectible_Bag_of_Crafting_component_' + ingId + '.png" style="width:28px;height:28px;image-rendering:pixelated;" /></div>';
+        }).join('');
+        const iconHtml = '<a class="icons collectibles" id="collectibles_' + String(itemId).padStart(3,'0') + '" style="transform:scale(1.3);image-rendering:pixelated;display:inline-block;"></a>';
+        const ingredientsJsonModal = JSON.stringify(recipe);
+        row.innerHTML = '<div style="display:grid;grid-template-columns:repeat(4,28px);gap:4px;">' + ingIcons + '</div>' +
+            '<div style="display:flex;align-items:center;gap:8px;">' +
+                '<div style="border-left:1px solid #2f3a47;padding-left:12px;">' + iconHtml + '</div>' +
+                (isDone ? '<button type="button" class="btn-done bg-amber-600 text-white text-xs font-bold px-2 py-1 rounded cursor-not-allowed opacity-80" disabled data-ingredients=\'' + ingredientsJsonModal + '\'>Hecho \u2713</button>' : '<button type="button" class="btn-done bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold px-2 py-1 rounded transition relative z-10" data-ingredients=\'' + ingredientsJsonModal + '\'>Hecho</button>') +
+            '</div>';
+        list.appendChild(row);
+    });
+
+    modal.appendChild(closeBtn);
+    modal.appendChild(header);
+    modal.appendChild(list);
+    backdrop.appendChild(modal);
+    document.body.appendChild(backdrop);
+
+    backdrop.addEventListener('click', function(e) {
+        if (e.target === backdrop) closeModalAnimated();
+    });
+    document.addEventListener('keydown', function escHandler(e) {
+        if (e.key === 'Escape') { closeModalAnimated(); document.removeEventListener('keydown', escHandler); }
+    });
+}
 
 function synthesizeRecipes() {
             const check_seed_reg = new RegExp("^[A-Z0-9]{4} [A-Z0-9]{4}$", "g");
@@ -2665,6 +2905,9 @@ function synthesizeRecipes() {
         document.getElementById('seedInput').addEventListener('input', (e) => {
             e.target.value = e.target.value.toUpperCase();
             state.seed = e.target.value;
+            if (state.lastResultData) {
+                state.lastResultData._offset = 0;
+            }
             if (state.realtime) synthesizeRecipes();
         });
 
@@ -2691,16 +2934,78 @@ function synthesizeRecipes() {
         });
 
         document.getElementById('btnExample').addEventListener('click', () => {
-            const seedInput = document.getElementById('seedInput');
-            seedInput.value = 'M2M0 LLFV';
-            state.seed = 'M2M0 LLFV';
-            document.querySelectorAll('.pickup-select').forEach(sel => {
-                sel.value = '8';
-                state.inventory[parseInt(sel.dataset.id, 10)] = 8;
+    // 1. Establecer una semilla 100% válida para el motor de Isaac Repentance+
+    const validExampleSeed = 'JKD9 Z0C9';
+    const seedInput = document.getElementById('seedInput');
+    seedInput.value = validExampleSeed;
+    state.seed = validExampleSeed;
+
+    // 2. Reiniciar el estado de recetas hechas y caché anterior
+    state.lastResultData = null;
+    if (state.doneRecipes) {
+        state.doneRecipes.clear();
+    }
+
+    // 3. Asignar pickups de ejemplo tanto en la interfaz como en la memoria
+    const examplePickups = {
+        1: 8,  // Red Heart
+        8: 8,  // Penny
+        12: 8, // Key
+        15: 8  // Bomb
+    };
+
+    document.querySelectorAll('.pickup-select').forEach(sel => {
+        const id = parseInt(sel.dataset.id, 10);
+        const qty = examplePickups[id] || 0;
+        sel.value = String(qty);
+        state.inventory[id] = qty;
+    });
+
+    // 4. Limpiar el contenedor de recetas previas
+    const recipesContainer = document.getElementById('recipesContainer');
+    if (recipesContainer) {
+        recipesContainer.innerHTML = '<div style="grid-column:1 / -1;width:100%;min-height:200px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px 20px;" class="text-slate-400 text-sm">Calculando recetas de ejemplo...</div>';
+    }
+
+    // 5. Reiniciar el estado del worker y ejecutar el cálculo de recetas
+    state.worker_status = 'idle';
+    synthesizeRecipes();
+});
+
+        const btnClearEl = document.getElementById('btnClear');
+        if (btnClearEl) {
+            btnClearEl.addEventListener('click', () => {
+                document.querySelectorAll('.pickup-select').forEach(sel => {
+                    sel.value = '0';
+                    const id = parseInt(sel.dataset.id, 10);
+                    if (!isNaN(id)) state.inventory[id] = 0;
+                });
+                const recipesContainer = document.getElementById('recipesContainer');
+                if (recipesContainer) {
+                    recipesContainer.innerHTML = '';
+                }
+                const searchInput = document.getElementById('searchInput');
+                if (searchInput) searchInput.value = '';
+                const resultsCountSpan = document.getElementById('resultsCount');
+                if (resultsCountSpan) resultsCountSpan.textContent = '0 Encontrados';
+                const countSynthesized = document.getElementById('countSynthesized');
+                if (countSynthesized) countSynthesized.textContent = '0';
+                if (state.doneRecipes) {
+                    state.doneRecipes = new Set();
+                }
+                if (typeof state.worker_status !== 'undefined') state.worker_status = 'idle';
+                state.lastResultData = null;
             });
-            if (state.realtime) synthesizeRecipes();
-            else if (state.lastResultData) renderResults(state.lastResultData);
-        });
+        }
+
+        const btnSynthesizeEl = document.getElementById('btnSynthesize');
+        if (btnSynthesizeEl) {
+            btnSynthesizeEl.addEventListener('click', () => {
+                if (typeof synthesizeRecipes === 'function') {
+                    synthesizeRecipes();
+                }
+            });
+        }
 
 
         // Tour guiado paso a paso (Spotlight nítido)
